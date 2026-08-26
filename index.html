@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEON STORE - Where Style Meets the Future</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">DEON STORE</div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#products" class="nav-link">Products</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#testimonials" class="nav-link">Reviews</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="neon-grid"></div>
+            <div class="particles"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-logo">DEON STORE</h1>
+            <p class="hero-motto">Where Style Meets the Future</p>
+            <button class="cta-button" onclick="scrollToSection('products')">
+                <span>Shop Now</span>
+                <div class="button-glow"></div>
+            </button>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.28.55_fb49f972.jpg', 'Neon Street Hoodie', 'Premium cyberpunk hoodie with neon accents. Perfect for night rides and urban adventures.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.28.55_fb49f972.jpg" alt="Neon Street Hoodie" loading="lazy">
+                    </div>
+                    <h3>Neon Street Hoodie</h3>
+                    <p class="price">$89.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.00_7c708092.jpg', 'LED Runner Sneakers', 'Light-up sneakers with customizable LED patterns. Stand out in any crowd.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.00_7c708092.jpg" alt="LED Runner Sneakers" loading="lazy">
+                    </div>
+                    <h3>LED Runner Sneakers</h3>
+                    <p class="price">$129.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.01_e6cbb5f8.jpg', 'Tech Armor Jacket', 'Futuristic jacket with built-in tech features and weather-resistant materials.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.01_e6cbb5f8.jpg" alt="Tech Armor Jacket" loading="lazy">
+                    </div>
+                    <h3>Tech Armor Jacket</h3>
+                    <p class="price">$199.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.01_f3cc5299.jpg', 'Cyber Visor Cap', 'Holographic visor cap with UV protection and cyberpunk styling.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.01_f3cc5299.jpg" alt="Cyber Visor Cap" loading="lazy">
+                    </div>
+                    <h3>Cyber Visor Cap</h3>
+                    <p class="price">$49.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.02_3df1b078.jpg', 'Neon Combat Boots', 'Heavy-duty boots with neon trim and reinforced steel toes.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.02_3df1b078.jpg" alt="Neon Combat Boots" loading="lazy">
+                    </div>
+                    <h3>Neon Combat Boots</h3>
+                    <p class="price">$159.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.02_bd041185.jpg', 'Tech Utility Vest', 'Multi-pocket vest with charging ports and reflective strips.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.02_bd041185.jpg" alt="Tech Utility Vest" loading="lazy">
+                    </div>
+                    <h3>Tech Utility Vest</h3>
+                    <p class="price">$119.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.11_04594340.jpg', 'Holographic Backpack', 'Shimmering backpack with holographic panels and laptop compartment.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.11_04594340.jpg" alt="Holographic Backpack" loading="lazy">
+                    </div>
+                    <h3>Holographic Backpack</h3>
+                    <p class="price">$79.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.11_48059066.jpg', 'Neon Face Mask', 'LED face mask with breathing effects and customizable patterns.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.11_48059066.jpg" alt="Neon Face Mask" loading="lazy">
+                    </div>
+                    <h3>Neon Face Mask</h3>
+                    <p class="price">$29.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.13_5b6c40fe.jpg', 'Cyber Gloves', 'Touchscreen-compatible gloves with neon knuckle protection.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.13_5b6c40fe.jpg" alt="Cyber Gloves" loading="lazy">
+                    </div>
+                    <h3>Cyber Gloves</h3>
+                    <p class="price">$69.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.13_5b9db99a.jpg', 'Tech Cargo Pants', 'Water-resistant pants with multiple tech pockets and neon piping.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.13_5b9db99a.jpg" alt="Tech Cargo Pants" loading="lazy">
+                    </div>
+                    <h3>Tech Cargo Pants</h3>
+                    <p class="price">$99.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.13_06afcc57.jpg', 'Neon Windbreaker', 'Lightweight windbreaker with reflective neon details and hood.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.13_06afcc57.jpg" alt="Neon Windbreaker" loading="lazy">
+                    </div>
+                    <h3>Neon Windbreaker</h3> 
+                    <p class="price">$139.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.14_d9098019.jpg', 'LED Belt', 'Programmable LED belt with multiple color modes and patterns.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.14_d9098019.jpg" alt="LED Belt" loading="lazy">
+                    </div>
+                    <h3>LED Belt</h3>
+                    <p class="price">$39.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.15_bfc87f7a.jpg', 'Cyber Sunglasses', 'Futuristic sunglasses with UV protection and neon frames.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.15_bfc87f7a.jpg" alt="Cyber Sunglasses" loading="lazy">
+                    </div>
+                    <h3>Cyber Sunglasses</h3>
+                    <p class="price">$89.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.16_d5eb5d03.jpg', 'Neon Wristbands', 'Set of glowing wristbands with adjustable brightness.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.16_d5eb5d03.jpg" alt="Neon Wristbands" loading="lazy">
+                    </div>
+                    <h3>Neon Wristbands</h3>
+                    <p class="price">$19.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.17_5d452680.jpg', 'Tech Sneakers', 'High-tech sneakers with memory foam and neon accents.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.17_5d452680.jpg" alt="Tech Sneakers" loading="lazy">
+                    </div>
+                    <h3>Tech Sneakers</h3>
+                    <p class="price">$149.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.18_bd5cf0e1.jpg', 'Holographic Jacket', 'Iridescent jacket that changes color in different lighting.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.18_bd5cf0e1.jpg" alt="Holographic Jacket" loading="lazy">
+                    </div>
+                    <h3>Holographic Jacket</h3>
+                    <p class="price">$179.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+
+                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.18_f52ed881.jpg', 'Neon Tech Hoodie', 'Advanced hoodie with integrated LED strips and smart fabric.')">
+                    <div class="product-image">
+                        <img src="WhatsApp Image 2025-08-17 at 20.29.18_f52ed881.jpg" alt="Neon Tech Hoodie" loading="lazy">
+                    </div>
+                    <h3>Neon Tech Hoodie</h3>
+                    <p class="price">$159.99</p>
+                    <button class="quick-view">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neon Modal -->
+    <div id="neon-modal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal()">
+                <span class="close-x">×</span>
+            </button>
+            <div class="modal-image-container">
+                <img id="modal-image" src="" alt="Product Image">
+            </div>
+            <div class="modal-content">
+                <h2 id="modal-title" class="modal-title">Product Name</h2>
+                <p id="modal-description" class="modal-description">Product description will appear here</p>
+                <button class="add-to-cart-btn">View Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-content">
+                <p class="about-text">
+                    Step into the future of fashion with DEON STORE. We curate cutting-edge streetwear 
+                    that blends cyberpunk aesthetics with premium quality. Each piece is designed to make 
+                    you stand out in the neon-lit world of tomorrow.
+                </p>
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">🛍️</div>
+                        <h3>Premium Quality</h3>
+                        <p>Handpicked materials with futuristic designs</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Fast Delivery</h3>
+                        <p>Lightning-fast shipping across the globe</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure Shopping</h3>
+                        <p>Encrypted payments and data protection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Customer Reviews</h2>
+            <div class="testimonials-carousel">
+                <div class="testimonial-card active">
+                    <div class="testimonial-avatar">👤</div>
+                    <p>"The quality is insane! My neon hoodie glows perfectly under UV lights. DEON STORE is the future!"</p>
+                    <h4>@CyberPunk2077</h4>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">👤</div>
+                    <p>"Fastest delivery ever! Ordered yesterday, arrived today. The LED sneakers are absolutely fire!"</p>
+                    <h4>@NeonQueen</h4>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">👤</div>
+                    <p>"Customer service is top-notch. They helped me find the perfect size and the jacket fits like a dream."</p>
+                    <h4>@TechFashionista</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call-to-Action Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Step Into the Neon Future of Shopping</h2>
+            <button class="cta-button-large" onclick="scrollToSection('products')">
+                <span>Explore Collection</span>
+                <div class="button-glow"></div>
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DEON STORE</h3>
+                    <p>Where Style Meets the Future</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📱</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                        <a href="#" class="social-icon">📺</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DEON STORE. All rights reserved. | Powered by Cybervid</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
