@@ -61,6 +61,8 @@ function createFloatingParticles() {
             box-shadow: 0 0 10px var(--neon-blue);
             left: ${Math.random() * 100}%;
             top: ${Math.random() * 100}%;
+            z-index: 0;
+            pointer-events: none;
             animation: floatParticle ${10 + Math.random() * 10}s infinite linear;
             animation-delay: ${Math.random() * 5}s;
         `;
@@ -73,19 +75,19 @@ const style = document.createElement('style');
 style.textContent = `
     @keyframes floatParticle {
         0% {
-            transform: translateY(100vh) translateX(0) scale(0);
+            transform: translateY(60px) translateX(0) scale(0);
             opacity: 0;
         }
         10% {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(60px) scale(1);
         }
         90% {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(-60px) scale(1);
         }
         100% {
-            transform: translateY(-100vh) translateX(${Math.random() * 100 - 50}px) scale(0);
+            transform: translateY(-80px) translateX(30px) scale(0);
             opacity: 0;
         }
     }
@@ -376,19 +378,49 @@ function createProductCards() {
 }
 
 // Modal functionality
-function openModal(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
+// Accepts either openModal(imageSrc, name, description) from inline HTML
+// or openModal(productId) from dynamically generated cards
+function openModal(imageOrId, name, description) {
+    let image, title, desc, price;
+
+    if (name !== undefined) {
+        // Called from inline HTML: openModal(imageSrc, name, description)
+        image = imageOrId;
+        title = name;
+        desc = description;
+        // Look up price from products array by name
+        const match = products.find(p => p.name === name);
+        price = match ? match.price : '';
+    } else {
+        // Called from dynamically generated card: openModal(id)
+        const product = products.find(p => p.id === imageOrId);
+        if (!product) return;
+        image = product.image;
+        title = product.name;
+        desc = product.description;
+        price = product.price;
+    }
 
     const modal = document.getElementById('neon-modal');
     const modalImage = document.getElementById('modal-image');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
+    const cartBtn = modal.querySelector('.add-to-cart-btn');
 
-    modalImage.src = product.image;
-    modalImage.alt = product.name;
-    modalTitle.textContent = product.name;
-    modalDescription.textContent = product.description;
+    modalImage.src = image;
+    modalImage.alt = title;
+    modalTitle.textContent = title;
+    modalDescription.textContent = desc;
+
+    // Update the modal cart button to add this specific product
+    if (cartBtn && price) {
+        const priceNum = parseFloat(String(price).replace('$', ''));
+        cartBtn.textContent = `🛒 Add to Cart — ${price}`;
+        cartBtn.onclick = () => {
+            addToCart(title, priceNum);
+            closeModal();
+        };
+    }
 
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -453,3 +485,123 @@ function createScrollProgress() {
 
 createScrollProgress();
 
+
+// =============================================
+// Cart System
+// =============================================
+
+let cart = [];
+
+function addToCart(name, price) {
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name, price, qty: 1 });
+    }
+    updateCartCount();
+    showCartToast(name);
+}
+
+function updateCartCount() {
+    const total = cart.reduce((sum, item) => sum + item.qty, 0);
+    const countEl = document.getElementById('cart-count');
+    if (!countEl) return;
+    countEl.textContent = total;
+
+    // Bump animation
+    countEl.classList.remove('cart-count-bump');
+    // Force reflow so the animation re-triggers
+    void countEl.offsetWidth;
+    countEl.classList.add('cart-count-bump');
+}
+
+function showCartToast(name) {
+    // Remove any existing toast
+    const old = document.querySelector('.cart-toast');
+    if (old) old.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'cart-toast';
+    toast.textContent = `✓ ${name} added to cart`;
+    document.body.appendChild(toast);
+
+    // Trigger show on next frame
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => toast.classList.add('show'));
+    });
+
+    // Auto-dismiss after 2.5 s
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}
+
+function openCart() {
+    if (cart.length === 0) {
+        showCartToast('Your cart is empty');
+        return;
+    }
+
+    const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    const lines = cart.map(i => `• ${i.name} x${i.qty}  —  $${(i.price * i.qty).toFixed(2)}`).join('\n');
+    alert(`🛒 YOUR CART\n\n${lines}\n\n──────────────\nTotal: $${total.toFixed(2)}`);
+}
+
+// =============================================
+// Navigation Dropdown Menus
+// =============================================
+
+function toggleDropdown(id) {
+    // Close any other open dropdowns first
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        if (menu.id !== id) {
+            menu.classList.remove('show');
+            // Reset arrow on the sibling button
+            const btn = menu.previousElementSibling;
+            if (btn) btn.classList.remove('open');
+        }
+    });
+
+    const targetMenu = document.getElementById(id);
+    if (!targetMenu) return;
+
+    const isOpen = targetMenu.classList.toggle('show');
+
+    // Rotate the arrow on the trigger button
+    const triggerBtn = targetMenu.previousElementSibling;
+    if (triggerBtn) triggerBtn.classList.toggle('open', isOpen);
+}
+
+// Close all dropdowns when clicking outside any .nav-dropdown
+window.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.classList.remove('show');
+        });
+        document.querySelectorAll('.nav-dropdown-btn').forEach(btn => {
+            btn.classList.remove('open');
+        });
+    }
+});
+
+// =============================================
+// Mobile Navigation Toggle
+// =============================================
+
+function toggleMobileMenu() {
+    const navMenu = document.getElementById('nav-menu');
+    if (!navMenu) return;
+    navMenu.classList.toggle('mobile-open');
+}
+
+// Close mobile menu when a nav link is clicked
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            const navMenu = document.getElementById('nav-menu');
+            if (navMenu) navMenu.classList.remove('mobile-open');
+        });
+    });
+});

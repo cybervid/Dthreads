@@ -10,16 +10,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <!-- Floating Background Clothes Images -->
+    <div class="floating-clothes-bg">
+        <img src="source/clothes/photo_1_2026-08-26_16-36-25.jpg" class="float-item pos-1" alt="Floating Outfit">
+        <img src="source/clothes/photo_6_2026-08-26_16-36-25.jpg" class="float-item pos-2" alt="Floating Outfit">
+        <img src="source/clothes/photo_11_2026-08-26_16-36-25.jpg" class="float-item pos-3" alt="Floating Outfit">
+        <img src="source/clothes/photo_16_2026-08-26_16-36-25.jpg" class="float-item pos-4" alt="Floating Outfit">
+        <img src="source/clothes/photo_21_2026-08-26_16-36-26.jpg" class="float-item pos-5" alt="Floating Outfit">
+        <img src="source/clothes/photo_26_2026-08-26_16-36-26.jpg" class="float-item pos-6" alt="Floating Outfit">
+        <img src="source/clothes/photo_31_2026-08-26_16-36-26.jpg" class="float-item pos-7" alt="Floating Outfit">
+        <img src="source/clothes/photo_36_2026-08-26_16-36-26.jpg" class="float-item pos-8" alt="Floating Outfit">
+        <img src="source/clothes/photo_41_2026-08-26_16-36-26.jpg" class="float-item pos-9" alt="Floating Outfit">
+        <img src="source/clothes/photo_46_2026-08-26_16-36-26.jpg" class="float-item pos-10" alt="Floating Outfit">
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">DEON STORE</div>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#products" class="nav-link">Products</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#testimonials" class="nav-link">Reviews</a></li>
             </ul>
+            <div class="nav-actions">
+                <!-- Account Dropdown Menu -->
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-btn" onclick="toggleDropdown('account-dropdown')">
+                        👤 Account <span class="arrow">▾</span>
+                    </button>
+                    <div id="account-dropdown" class="dropdown-menu">
+                        <a href="#orders" class="dropdown-item">📦 My Orders</a>
+                        <a href="#profile" class="dropdown-item">⚙️ Profile Settings</a>
+                        <a href="admin.html" class="dropdown-item">🔐 Store Admin</a>
+                    </div>
+                </div>
+
+                <!-- Help Dropdown Menu -->
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-btn" onclick="toggleDropdown('help-dropdown')">
+                        ❓ Help <span class="arrow">▾</span>
+                    </button>
+                    <div id="help-dropdown" class="dropdown-menu">
+                        <a href="#faq" class="dropdown-item">💬 FAQs</a>
+                        <a href="#shipping" class="dropdown-item">🚚 Shipping Policy</a>
+                        <a href="#contact" class="dropdown-item">📞 Contact Support</a>
+                    </div>
+                </div>
+
+                <!-- Cart Button -->
+                <button class="cart-indicator-btn" onclick="openCart()">
+                    🛒 Cart <span id="cart-count">0</span>
+                </button>
+
+                <!-- Mobile Hamburger Toggle -->
+                <button class="hamburger-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
         </div>
     </nav>
 
@@ -44,157 +92,225 @@
         <div class="container">
             <h2 class="section-title">Featured Products</h2>
             <div class="products-grid">
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.28.55_fb49f972.jpg', 'Neon Street Hoodie', 'Premium cyberpunk hoodie with neon accents. Perfect for night rides and urban adventures.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_1_2026-08-26_16-36-25.jpg', 'Neon Street Hoodie', 'Premium cyberpunk hoodie with neon accents. Perfect for night rides and urban adventures.')">
+                    <div class="product-badge">NEW</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.28.55_fb49f972.jpg" alt="Neon Street Hoodie" loading="lazy">
+                        <img src="source/clothes/photo_1_2026-08-26_16-36-25.jpg" alt="Neon Street Hoodie" loading="lazy">
                     </div>
                     <h3>Neon Street Hoodie</h3>
                     <p class="price">$89.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Street Hoodie', 89.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.00_7c708092.jpg', 'LED Runner Sneakers', 'Light-up sneakers with customizable LED patterns. Stand out in any crowd.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_2_2026-08-26_16-36-25.jpg', 'LED Runner Sneakers', 'Light-up sneakers with customizable LED patterns. Stand out in any crowd.')">
+                    <div class="product-badge badge-hot">HOT</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.00_7c708092.jpg" alt="LED Runner Sneakers" loading="lazy">
+                        <img src="source/clothes/photo_2_2026-08-26_16-36-25.jpg" alt="LED Runner Sneakers" loading="lazy">
                     </div>
                     <h3>LED Runner Sneakers</h3>
                     <p class="price">$129.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('LED Runner Sneakers', 129.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.01_e6cbb5f8.jpg', 'Tech Armor Jacket', 'Futuristic jacket with built-in tech features and weather-resistant materials.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_3_2026-08-26_16-36-25.jpg', 'Tech Armor Jacket', 'Futuristic jacket with built-in tech features and weather-resistant materials.')">
+                    <div class="product-badge badge-limited">LIMITED</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.01_e6cbb5f8.jpg" alt="Tech Armor Jacket" loading="lazy">
+                        <img src="source/clothes/photo_3_2026-08-26_16-36-25.jpg" alt="Tech Armor Jacket" loading="lazy">
                     </div>
                     <h3>Tech Armor Jacket</h3>
                     <p class="price">$199.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Tech Armor Jacket', 199.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.01_f3cc5299.jpg', 'Cyber Visor Cap', 'Holographic visor cap with UV protection and cyberpunk styling.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_4_2026-08-26_16-36-25.jpg', 'Cyber Visor Cap', 'Holographic visor cap with UV protection and cyberpunk styling.')">
+                    <div class="product-badge">NEW</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.01_f3cc5299.jpg" alt="Cyber Visor Cap" loading="lazy">
+                        <img src="source/clothes/photo_4_2026-08-26_16-36-25.jpg" alt="Cyber Visor Cap" loading="lazy">
                     </div>
                     <h3>Cyber Visor Cap</h3>
                     <p class="price">$49.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Cyber Visor Cap', 49.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.02_3df1b078.jpg', 'Neon Combat Boots', 'Heavy-duty boots with neon trim and reinforced steel toes.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_5_2026-08-26_16-36-25.jpg', 'Neon Combat Boots', 'Heavy-duty boots with neon trim and reinforced steel toes.')">
+                    <div class="product-badge badge-hot">HOT</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.02_3df1b078.jpg" alt="Neon Combat Boots" loading="lazy">
+                        <img src="source/clothes/photo_5_2026-08-26_16-36-25.jpg" alt="Neon Combat Boots" loading="lazy">
                     </div>
                     <h3>Neon Combat Boots</h3>
                     <p class="price">$159.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Combat Boots', 159.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.02_bd041185.jpg', 'Tech Utility Vest', 'Multi-pocket vest with charging ports and reflective strips.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_6_2026-08-26_16-36-25.jpg', 'Tech Utility Vest', 'Multi-pocket vest with charging ports and reflective strips.')">
+                    <div class="product-badge badge-stock">IN STOCK</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.02_bd041185.jpg" alt="Tech Utility Vest" loading="lazy">
+                        <img src="source/clothes/photo_6_2026-08-26_16-36-25.jpg" alt="Tech Utility Vest" loading="lazy">
                     </div>
                     <h3>Tech Utility Vest</h3>
                     <p class="price">$119.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Tech Utility Vest', 119.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.11_04594340.jpg', 'Holographic Backpack', 'Shimmering backpack with holographic panels and laptop compartment.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_7_2026-08-26_16-36-25.jpg', 'Holographic Backpack', 'Shimmering backpack with holographic panels and laptop compartment.')">
+                    <div class="product-badge">NEW</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.11_04594340.jpg" alt="Holographic Backpack" loading="lazy">
+                        <img src="source/clothes/photo_7_2026-08-26_16-36-25.jpg" alt="Holographic Backpack" loading="lazy">
                     </div>
                     <h3>Holographic Backpack</h3>
                     <p class="price">$79.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Holographic Backpack', 79.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.11_48059066.jpg', 'Neon Face Mask', 'LED face mask with breathing effects and customizable patterns.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_8_2026-08-26_16-36-25.jpg', 'Neon Face Mask', 'LED face mask with breathing effects and customizable patterns.')">
+                    <div class="product-badge badge-stock">IN STOCK</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.11_48059066.jpg" alt="Neon Face Mask" loading="lazy">
+                        <img src="source/clothes/photo_8_2026-08-26_16-36-25.jpg" alt="Neon Face Mask" loading="lazy">
                     </div>
                     <h3>Neon Face Mask</h3>
                     <p class="price">$29.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Face Mask', 29.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.13_5b6c40fe.jpg', 'Cyber Gloves', 'Touchscreen-compatible gloves with neon knuckle protection.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_9_2026-08-26_16-36-25.jpg', 'Cyber Gloves', 'Touchscreen-compatible gloves with neon knuckle protection.')">
+                    <div class="product-badge badge-limited">LIMITED</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.13_5b6c40fe.jpg" alt="Cyber Gloves" loading="lazy">
+                        <img src="source/clothes/photo_9_2026-08-26_16-36-25.jpg" alt="Cyber Gloves" loading="lazy">
                     </div>
                     <h3>Cyber Gloves</h3>
                     <p class="price">$69.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Cyber Gloves', 69.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.13_5b9db99a.jpg', 'Tech Cargo Pants', 'Water-resistant pants with multiple tech pockets and neon piping.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_10_2026-08-26_16-36-25.jpg', 'Tech Cargo Pants', 'Water-resistant pants with multiple tech pockets and neon piping.')">
+                    <div class="product-badge badge-stock">IN STOCK</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.13_5b9db99a.jpg" alt="Tech Cargo Pants" loading="lazy">
+                        <img src="source/clothes/photo_10_2026-08-26_16-36-25.jpg" alt="Tech Cargo Pants" loading="lazy">
                     </div>
                     <h3>Tech Cargo Pants</h3>
                     <p class="price">$99.99</p>
-                    <button class="quick-view">View Details</button>
-                </div>
-
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.13_06afcc57.jpg', 'Neon Windbreaker', 'Lightweight windbreaker with reflective neon details and hood.')">
-                    <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.13_06afcc57.jpg" alt="Neon Windbreaker" loading="lazy">
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Tech Cargo Pants', 99.99)">🛒</button>
                     </div>
-                    <h3>Neon Windbreaker</h3> 
-                    <p class="price">$139.99</p>
-                    <button class="quick-view">View Details</button>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.14_d9098019.jpg', 'LED Belt', 'Programmable LED belt with multiple color modes and patterns.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_11_2026-08-26_16-36-25.jpg', 'Neon Windbreaker', 'Lightweight windbreaker with reflective neon details and hood.')">
+                    <div class="product-badge">NEW</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.14_d9098019.jpg" alt="LED Belt" loading="lazy">
+                        <img src="source/clothes/photo_11_2026-08-26_16-36-25.jpg" alt="Neon Windbreaker" loading="lazy">
+                    </div>
+                    <h3>Neon Windbreaker</h3>
+                    <p class="price">$139.99</p>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Windbreaker', 139.99)">🛒</button>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="openModal('source/clothes/photo_12_2026-08-26_16-36-25.jpg', 'LED Belt', 'Programmable LED belt with multiple color modes and patterns.')">
+                    <div class="product-badge badge-hot">HOT</div>
+                    <div class="product-image">
+                        <img src="source/clothes/photo_12_2026-08-26_16-36-25.jpg" alt="LED Belt" loading="lazy">
                     </div>
                     <h3>LED Belt</h3>
                     <p class="price">$39.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('LED Belt', 39.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.15_bfc87f7a.jpg', 'Cyber Sunglasses', 'Futuristic sunglasses with UV protection and neon frames.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_13_2026-08-26_16-36-25.jpg', 'Cyber Sunglasses', 'Futuristic sunglasses with UV protection and neon frames.')">
+                    <div class="product-badge badge-stock">IN STOCK</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.15_bfc87f7a.jpg" alt="Cyber Sunglasses" loading="lazy">
+                        <img src="source/clothes/photo_13_2026-08-26_16-36-25.jpg" alt="Cyber Sunglasses" loading="lazy">
                     </div>
                     <h3>Cyber Sunglasses</h3>
                     <p class="price">$89.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Cyber Sunglasses', 89.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.16_d5eb5d03.jpg', 'Neon Wristbands', 'Set of glowing wristbands with adjustable brightness.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_14_2026-08-26_16-36-25.jpg', 'Neon Wristbands', 'Set of glowing wristbands with adjustable brightness.')">
+                    <div class="product-badge badge-limited">LIMITED</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.16_d5eb5d03.jpg" alt="Neon Wristbands" loading="lazy">
+                        <img src="source/clothes/photo_14_2026-08-26_16-36-25.jpg" alt="Neon Wristbands" loading="lazy">
                     </div>
                     <h3>Neon Wristbands</h3>
                     <p class="price">$19.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Wristbands', 19.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.17_5d452680.jpg', 'Tech Sneakers', 'High-tech sneakers with memory foam and neon accents.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_15_2026-08-26_16-36-25.jpg', 'Tech Sneakers', 'High-tech sneakers with memory foam and neon accents.')">
+                    <div class="product-badge badge-hot">HOT</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.17_5d452680.jpg" alt="Tech Sneakers" loading="lazy">
+                        <img src="source/clothes/photo_15_2026-08-26_16-36-25.jpg" alt="Tech Sneakers" loading="lazy">
                     </div>
                     <h3>Tech Sneakers</h3>
                     <p class="price">$149.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Tech Sneakers', 149.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.18_bd5cf0e1.jpg', 'Holographic Jacket', 'Iridescent jacket that changes color in different lighting.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_16_2026-08-26_16-36-25.jpg', 'Holographic Jacket', 'Iridescent jacket that changes color in different lighting.')">
+                    <div class="product-badge badge-limited">LIMITED</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.18_bd5cf0e1.jpg" alt="Holographic Jacket" loading="lazy">
+                        <img src="source/clothes/photo_16_2026-08-26_16-36-25.jpg" alt="Holographic Jacket" loading="lazy">
                     </div>
                     <h3>Holographic Jacket</h3>
                     <p class="price">$179.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Holographic Jacket', 179.99)">🛒</button>
+                    </div>
                 </div>
 
-                <div class="product-card" onclick="openModal('WhatsApp Image 2025-08-17 at 20.29.18_f52ed881.jpg', 'Neon Tech Hoodie', 'Advanced hoodie with integrated LED strips and smart fabric.')">
+                <div class="product-card" onclick="openModal('source/clothes/photo_17_2026-08-26_16-36-25.jpg', 'Neon Tech Hoodie', 'Advanced hoodie with integrated LED strips and smart fabric.')">
+                    <div class="product-badge">NEW</div>
                     <div class="product-image">
-                        <img src="WhatsApp Image 2025-08-17 at 20.29.18_f52ed881.jpg" alt="Neon Tech Hoodie" loading="lazy">
+                        <img src="source/clothes/photo_17_2026-08-26_16-36-25.jpg" alt="Neon Tech Hoodie" loading="lazy">
                     </div>
                     <h3>Neon Tech Hoodie</h3>
                     <p class="price">$159.99</p>
-                    <button class="quick-view">View Details</button>
+                    <div class="card-actions">
+                        <button class="quick-view">View Details</button>
+                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Tech Hoodie', 159.99)">🛒</button>
+                    </div>
                 </div>
             </div>
         </div>

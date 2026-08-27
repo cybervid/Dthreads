@@ -106,6 +106,8 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-navy) 50%, var(--dark-purple) 100%);
+    z-index: 0;
+    pointer-events: none;
 }
 
 .neon-grid {
@@ -119,6 +121,8 @@ body {
         linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
     background-size: 50px 50px;
     animation: gridMove 20s linear infinite;
+    z-index: 0;
+    pointer-events: none;
 }
 
 @keyframes gridMove {
@@ -133,6 +137,14 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Individual JS-injected particle dots — stay inside hero, never cover floating bg */
+.floating-particle {
+    pointer-events: none !important;
+    z-index: 0 !important;
 }
 
 .particles::before,
@@ -777,4 +789,469 @@ section {
     .modal-title {
         font-size: 1.5rem;
     }
+}
+
+/* =============================================
+   UI ENHANCEMENTS - Badges, Cart, Nav Actions
+   ============================================= */
+
+/* Product Badges */
+.product-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--neon-pink);
+    color: #ffffff;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--neon-pink);
+    z-index: 5;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.product-badge.badge-hot {
+    background: var(--neon-magenta);
+    box-shadow: 0 0 10px var(--neon-magenta);
+}
+
+.product-badge.badge-limited {
+    background: transparent;
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+.product-badge.badge-stock {
+    background: transparent;
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    box-shadow: 0 0 8px var(--neon-green);
+}
+
+/* Card Action Layout */
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+/* Override quick-view to flex inside card-actions */
+.card-actions .quick-view {
+    flex: 1;
+    margin-top: 0;
+}
+
+.cart-btn-icon {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--neon-magenta);
+    color: var(--neon-magenta);
+    padding: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.cart-btn-icon:hover {
+    background: var(--neon-magenta);
+    color: #ffffff;
+    box-shadow: 0 0 15px var(--neon-magenta);
+    transform: scale(1.1);
+}
+
+/* Nav Cart Button */
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+.cart-indicator-btn {
+    background: transparent;
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.cart-indicator-btn:hover {
+    background: var(--neon-cyan);
+    color: var(--dark-bg);
+    box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+#cart-count {
+    background: var(--neon-pink);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 2px 7px;
+    border-radius: 50%;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 0 8px var(--neon-pink);
+    transition: transform 0.2s ease;
+}
+
+/* Cart count bump animation on add */
+@keyframes cartBump {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+
+.cart-count-bump {
+    animation: cartBump 0.3s ease;
+}
+
+/* Cart Notification Toast */
+.cart-toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgba(10, 10, 26, 0.95);
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    z-index: 20000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.cart-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive adjustments for nav actions */
+@media (max-width: 768px) {
+    .cart-indicator-btn {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.7rem;
+    }
+
+    .card-actions {
+        flex-wrap: wrap;
+    }
+
+    .cart-btn-icon {
+        padding: 0.6rem;
+    }
+}
+
+/* =============================================
+   Navigation Dropdown Menus
+   ============================================= */
+
+.nav-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-dropdown-btn {
+    background: transparent;
+    border: 1px solid rgba(0, 243, 255, 0.4);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+.nav-dropdown-btn:hover {
+    color: var(--neon-cyan);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+}
+
+.nav-dropdown-btn .arrow {
+    font-size: 0.8rem;
+    color: var(--neon-cyan);
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+/* Rotate arrow when dropdown is open */
+.nav-dropdown-btn.open .arrow {
+    transform: rotate(180deg);
+}
+
+/* Cyberpunk Dropdown Menu Box */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 190px;
+    background: rgba(10, 10, 26, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--neon-cyan);
+    border-radius: 12px;
+    padding: 0.5rem 0;
+    box-shadow:
+        0 0 20px rgba(0, 243, 255, 0.3),
+        inset 0 0 10px rgba(0, 243, 255, 0.1);
+    z-index: 2000;
+}
+
+.dropdown-menu.show {
+    display: block;
+    animation: dropdownFade 0.25s ease-out forwards;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Menu Items */
+.dropdown-item {
+    display: block;
+    padding: 0.7rem 1.2rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 0, 85, 0.15);
+    color: var(--neon-pink);
+    padding-left: 1.5rem;
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+/* Responsive: stack nav-actions on mobile */
+@media (max-width: 768px) {
+    .nav-actions {
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .nav-dropdown-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.7rem;
+    }
+
+    .dropdown-menu {
+        right: auto;
+        left: 0;
+        min-width: 160px;
+    }
+}
+
+/* =============================================
+   Floating Background Clothes Images
+   ============================================= */
+
+.floating-clothes-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.float-item {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 12px;
+    opacity: 0.12;
+    filter: blur(1.5px) grayscale(20%);
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    animation: moveRightToLeft 18s linear infinite;
+}
+
+@keyframes moveRightToLeft {
+    0%   { transform: translateX(105vw) rotate(0deg);   }
+    100% { transform: translateX(-20vw) rotate(360deg); }
+}
+
+/* Staggered vertical positions, speeds, and pre-distributed delays */
+.pos-1  { top: 5%;  animation-duration: 16s; animation-delay: 0s;   }
+.pos-2  { top: 18%; animation-duration: 22s; animation-delay: -3s;  }
+.pos-3  { top: 28%; animation-duration: 19s; animation-delay: -8s;  }
+.pos-4  { top: 40%; animation-duration: 25s; animation-delay: -2s;  }
+.pos-5  { top: 52%; animation-duration: 17s; animation-delay: -11s; }
+.pos-6  { top: 62%; animation-duration: 21s; animation-delay: -5s;  }
+.pos-7  { top: 73%; animation-duration: 24s; animation-delay: -14s; }
+.pos-8  { top: 83%; animation-duration: 18s; animation-delay: -7s;  }
+.pos-9  { top: 12%; animation-duration: 20s; animation-delay: -12s; }
+.pos-10 { top: 46%; animation-duration: 23s; animation-delay: -9s;  }
+
+/* =============================================
+   Hamburger Button
+   ============================================= */
+
+.hamburger-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+    background: var(--neon-cyan);
+    color: var(--dark-bg);
+    box-shadow: 0 0 12px var(--neon-cyan);
+}
+
+/* =============================================
+   Mobile Responsiveness
+   ============================================= */
+
+@media (max-width: 900px) {
+    .hamburger-btn {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 10, 26, 0.98);
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1rem;
+        border-bottom: 2px solid var(--neon-cyan);
+        box-shadow: 0 10px 20px rgba(0, 243, 255, 0.3);
+        z-index: 999;
+    }
+
+    .nav-menu.mobile-open {
+        display: flex;
+        animation: dropdownFade 0.25s ease-out forwards;
+    }
+
+    .nav-actions {
+        gap: 0.5rem;
+    }
+
+    .nav-dropdown-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .cart-indicator-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.7rem;
+    }
+
+    .float-item {
+        width: 85px;
+        height: 85px;
+        opacity: 0.08;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =============================================
+   Z-index Stacking Hierarchy (Layers)
+   ============================================= */
+
+/* Layer -1: Floating background (behind EVERYTHING) */
+.floating-clothes-bg {
+    z-index: -1;
+}
+
+/* Layer 0: Hero background, grid, particles (visible but don't block clicks) */
+.hero-background,
+.neon-grid,
+.particles,
+.floating-particle {
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Layer 1: Main page sections */
+.navbar,
+.hero,
+.products,
+.about,
+.testimonials,
+.cta-section,
+.footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* Layer 10: Hero content (text, buttons) sits above background elements */
+.hero-content {
+    position: relative;
+    z-index: 10;
+}
+
+/* Layer 999: Mobile menu dropdown */
+.nav-menu.mobile-open {
+    z-index: 999;
+}
+
+/* Layer 2000: Dropdown menus */
+.dropdown-menu {
+    z-index: 2000;
+}
+
+/* Layer 10000+: Modal & overlays */
+.modal-overlay {
+    z-index: 10000;
+}
+
+.modal-close {
+    z-index: 10001;
+}
+
+/* Layer 20000: Toast notifications (above all) */
+.cart-toast {
+    z-index: 20000;
 }
