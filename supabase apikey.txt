@@ -1,3 +1,0 @@
-Secret keys = sb_secret_iS8DKq5RDMsJgAOqNrQVrQ_KtSRIX9y
-anon Key = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJib2V6dWhzdG5lYW5nanFpZnpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxMDE0MDgsImV4cCI6MjEwMTY3NzQwOH0.QgG-8BfvKJkSVyvQN8vmX22TvpNEkhmdEiVJLjmV9_I
-supabase url = https://bboezuhstneangjqifzr.supabase.co

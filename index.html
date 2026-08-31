@@ -1,428 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEON STORE - Where Style Meets the Future</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D Threads — Where Style Meets the Future</title>
+
+  <!-- Google Fonts: Orbitron (headers/logo) + Poppins (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-    <!-- Floating Background Clothes Images -->
-    <div class="floating-clothes-bg">
-        <img src="source/clothes/photo_1_2026-08-26_16-36-25.jpg" class="float-item pos-1" alt="Floating Outfit">
-        <img src="source/clothes/photo_6_2026-08-26_16-36-25.jpg" class="float-item pos-2" alt="Floating Outfit">
-        <img src="source/clothes/photo_11_2026-08-26_16-36-25.jpg" class="float-item pos-3" alt="Floating Outfit">
-        <img src="source/clothes/photo_16_2026-08-26_16-36-25.jpg" class="float-item pos-4" alt="Floating Outfit">
-        <img src="source/clothes/photo_21_2026-08-26_16-36-26.jpg" class="float-item pos-5" alt="Floating Outfit">
-        <img src="source/clothes/photo_26_2026-08-26_16-36-26.jpg" class="float-item pos-6" alt="Floating Outfit">
-        <img src="source/clothes/photo_31_2026-08-26_16-36-26.jpg" class="float-item pos-7" alt="Floating Outfit">
-        <img src="source/clothes/photo_36_2026-08-26_16-36-26.jpg" class="float-item pos-8" alt="Floating Outfit">
-        <img src="source/clothes/photo_41_2026-08-26_16-36-26.jpg" class="float-item pos-9" alt="Floating Outfit">
-        <img src="source/clothes/photo_46_2026-08-26_16-36-26.jpg" class="float-item pos-10" alt="Floating Outfit">
+  <!-- ============================================================
+       BACKGROUND LAYERS (fixed, pointer-events:none, z-index:-1)
+  ============================================================ -->
+
+  <!-- Animated dot/grid background -->
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <!-- Floating clothing images that drift right-to-left -->
+  <div class="floating-clothes-bg" aria-hidden="true">
+    <img class="float-img" src="source/clothes/1.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/2.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/3.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/4.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/5.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/6.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/7.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/8.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/9.jpg"  alt="" />
+    <img class="float-img" src="source/clothes/10.jpg" alt="" />
+  </div>
+
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+
+      <!-- Logo -->
+      <a href="#home" class="logo" aria-label="D Threads Home">D&nbsp;threads</a>
+
+      <!-- Desktop nav links -->
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="#home"     class="nav-link">Home</a></li>
+        <li><a href="#products" class="nav-link">Products</a></li>
+        <li><a href="#about"    class="nav-link">About</a></li>
+        <li><a href="#reviews"  class="nav-link">Reviews</a></li>
+      </ul>
+
+      <!-- Right-side action buttons -->
+      <div class="nav-actions">
+
+        <!-- Account dropdown -->
+        <div class="dropdown" id="accountDropdown">
+          <button class="action-btn" id="accountBtn" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+            👤 Account
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-label="Account options">
+            <li role="menuitem"><a href="#orders"><span>📦</span> My Orders</a></li>
+            <li role="menuitem"><a href="#profile"><span>⚙️</span> Profile Settings</a></li>
+          </ul>
+        </div>
+
+        <!-- Help dropdown -->
+        <div class="dropdown" id="helpDropdown">
+          <button class="action-btn" id="helpBtn" aria-haspopup="true" aria-expanded="false" aria-label="Help menu">
+            ❓ Help
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-label="Help options">
+            <li role="menuitem"><a href="#faq"><span>💬</span> FAQs</a></li>
+            <li role="menuitem"><a href="#shipping"><span>🚚</span> Shipping Policy</a></li>
+            <li role="menuitem"><a href="#contact"><span>📞</span> Contact Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Cart button with badge -->
+        <button class="cart-btn" id="cartBtn" aria-label="Open cart" aria-haspopup="dialog">
+          🛒 Cart
+          <span class="cart-badge" id="cartBadge" aria-live="polite">0</span>
+        </button>
+
+        <!-- Hamburger (mobile only) -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="navLinks">
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+        </button>
+
+      </div><!-- /nav-actions -->
+    </div><!-- /nav-inner -->
+  </nav><!-- /navbar -->
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================ -->
+  <main id="main-content">
+
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <section class="hero" id="home" aria-label="Hero section">
+      <div class="hero-content">
+        <p class="hero-eyebrow">NEW COLLECTION 2026</p>
+        <h1 class="hero-headline">
+          Where Style Meets<br />
+          <span class="headline-accent">the Future.</span>
+        </h1>
+        <p class="hero-sub">
+          Cyberpunk-inspired streetwear engineered for those<br class="br-desktop" />
+          who refuse to blend in. Limited drops. Zero compromises.
+        </p>
+        <div class="hero-cta-row">
+          <a href="#products" class="btn btn-primary">Shop Now</a>
+          <a href="#about"    class="btn btn-ghost">Our Story</a>
+        </div>
+        <!-- Stat chips -->
+        <div class="hero-stats" aria-label="Brand statistics">
+          <div class="stat-chip"><strong>10K+</strong><span>Happy Customers</span></div>
+          <div class="stat-chip"><strong>500+</strong><span>Unique Pieces</span></div>
+          <div class="stat-chip"><strong>Free</strong><span>Returns Always</span></div>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-img-wrap">
+          <img src="source/clothes/11.jpg" alt="Featured D Threads outfit" class="hero-img" loading="eager" />
+          <div class="hero-img-glow"></div>
+        </div>
+      </div>
+    </section><!-- /hero -->
+
+
+    <!-- ── FEATURED PRODUCTS ──────────────────────────────── -->
+    <section class="products" id="products" aria-label="Featured products">
+      <div class="section-header">
+        <p class="section-eyebrow">// FEATURED DROPS</p>
+        <h2 class="section-title">Latest <span class="accent-cyan">Collection</span></h2>
+        <p class="section-sub">Hand-picked pieces from the newest drop. Quantities strictly limited.</p>
+      </div>
+
+      <!-- Product grid — populated by JS -->
+      <div class="products-grid" id="productsGrid" role="list" aria-label="Product grid"></div>
+
+      <div class="products-footer">
+        <button class="btn btn-ghost" id="loadMoreBtn">Load More Drops</button>
+      </div>
+    </section><!-- /products -->
+
+
+    <!-- ── ABOUT ─────────────────────────────────────────── -->
+    <section class="about" id="about" aria-label="About D Threads">
+      <div class="about-inner">
+        <div class="about-text">
+          <p class="section-eyebrow">// OUR STORY</p>
+          <h2 class="section-title">Born in the <span class="accent-pink">Underground</span></h2>
+          <p class="about-body">
+            D Threads started as a one-person studio in a basement surrounded by soldering irons
+            and sewing machines. We believe fashion should be a statement — not a uniform.
+            Every piece we release is designed to disrupt, to glow, and to last.
+          </p>
+          <p class="about-body">
+            We source ethically, manufacture locally, and ship globally. No fast fashion.
+            No corner cutting. Just raw, unapologetic style built for the next generation.
+          </p>
+          <div class="about-badges">
+            <span class="badge-pill">🌍 Ethically Sourced</span>
+            <span class="badge-pill">♻️ Sustainable Packaging</span>
+            <span class="badge-pill">🏭 Local Manufacturing</span>
+          </div>
+        </div>
+        <div class="about-visual" aria-hidden="true">
+          <div class="about-img-stack">
+            <img src="source/clothes/12.jpg" alt="" class="about-img about-img-back"  loading="lazy" />
+            <img src="source/clothes/13.jpg" alt="" class="about-img about-img-front" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section><!-- /about -->
+
+
+    <!-- ── REVIEWS ───────────────────────────────────────── -->
+    <section class="reviews" id="reviews" aria-label="Customer reviews">
+      <div class="section-header">
+        <p class="section-eyebrow">// SOCIAL PROOF</p>
+        <h2 class="section-title">What the <span class="accent-cyan">Community</span> Says</h2>
+      </div>
+      <div class="reviews-grid" role="list">
+
+        <article class="review-card" role="listitem">
+          <div class="review-stars" aria-label="5 stars">★★★★★</div>
+          <p class="review-text">"The neon hoodie is everything. Gets compliments every single time I wear it. Quality is genuinely insane for the price."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar" aria-hidden="true">AK</div>
+            <div>
+              <strong>Aisha K.</strong>
+              <span>Lagos, NG</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <div class="review-stars" aria-label="5 stars">★★★★★</div>
+          <p class="review-text">"Ordered the Tech Armor Jacket. Shipping was fast, packaging was fire, and the jacket itself? I'm never taking it off."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar" aria-hidden="true">MJ</div>
+            <div>
+              <strong>Marcus J.</strong>
+              <span>London, UK</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <div class="review-stars" aria-label="4 stars">★★★★☆</div>
+          <p class="review-text">"Sizing runs true and the material feels premium. The cyber gloves are a statement piece. Highly recommend D Threads."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar" aria-hidden="true">SL</div>
+            <div>
+              <strong>Selena L.</strong>
+              <span>Toronto, CA</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <div class="review-stars" aria-label="5 stars">★★★★★</div>
+          <p class="review-text">"Finally a brand that gets it. Everything is exactly as shown — no catfishing. The LED sneakers light up a whole room."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar" aria-hidden="true">DR</div>
+            <div>
+              <strong>Dev R.</strong>
+              <span>Berlin, DE</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section><!-- /reviews -->
+
+  </main><!-- /main-content -->
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo">D&nbsp;threads</span>
+        <p>The future of fashion.<br />Worn today.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="#products">New Arrivals</a></li>
+          <li><a href="#products">Best Sellers</a></li>
+          <li><a href="#products">Sale</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-links" aria-label="Company information">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Careers</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-links" aria-label="Support links">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#faq">FAQs</a></li>
+          <li><a href="#shipping">Shipping Policy</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </nav>
     </div>
-
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">DEON STORE</div>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#products" class="nav-link">Products</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#testimonials" class="nav-link">Reviews</a></li>
-            </ul>
-            <div class="nav-actions">
-                <!-- Account Dropdown Menu -->
-                <div class="nav-dropdown">
-                    <button class="nav-dropdown-btn" onclick="toggleDropdown('account-dropdown')">
-                        👤 Account <span class="arrow">▾</span>
-                    </button>
-                    <div id="account-dropdown" class="dropdown-menu">
-                        <a href="#orders" class="dropdown-item">📦 My Orders</a>
-                        <a href="#profile" class="dropdown-item">⚙️ Profile Settings</a>
-                        <a href="admin.html" class="dropdown-item">🔐 Store Admin</a>
-                    </div>
-                </div>
-
-                <!-- Help Dropdown Menu -->
-                <div class="nav-dropdown">
-                    <button class="nav-dropdown-btn" onclick="toggleDropdown('help-dropdown')">
-                        ❓ Help <span class="arrow">▾</span>
-                    </button>
-                    <div id="help-dropdown" class="dropdown-menu">
-                        <a href="#faq" class="dropdown-item">💬 FAQs</a>
-                        <a href="#shipping" class="dropdown-item">🚚 Shipping Policy</a>
-                        <a href="#contact" class="dropdown-item">📞 Contact Support</a>
-                    </div>
-                </div>
-
-                <!-- Cart Button -->
-                <button class="cart-indicator-btn" onclick="openCart()">
-                    🛒 Cart <span id="cart-count">0</span>
-                </button>
-
-                <!-- Mobile Hamburger Toggle -->
-                <button class="hamburger-btn" onclick="toggleMobileMenu()">☰</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="neon-grid"></div>
-            <div class="particles"></div>
-        </div>
-        <div class="hero-content">
-            <h1 class="hero-logo">DEON STORE</h1>
-            <p class="hero-motto">Where Style Meets the Future</p>
-            <button class="cta-button" onclick="scrollToSection('products')">
-                <span>Shop Now</span>
-                <div class="button-glow"></div>
-            </button>
-        </div>
-    </section>
-
-    <!-- Featured Products Section -->
-    <section id="products" class="products">
-        <div class="container">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="products-grid">
-                <div class="product-card" onclick="openModal('source/clothes/photo_1_2026-08-26_16-36-25.jpg', 'Neon Street Hoodie', 'Premium cyberpunk hoodie with neon accents. Perfect for night rides and urban adventures.')">
-                    <div class="product-badge">NEW</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_1_2026-08-26_16-36-25.jpg" alt="Neon Street Hoodie" loading="lazy">
-                    </div>
-                    <h3>Neon Street Hoodie</h3>
-                    <p class="price">$89.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Street Hoodie', 89.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_2_2026-08-26_16-36-25.jpg', 'LED Runner Sneakers', 'Light-up sneakers with customizable LED patterns. Stand out in any crowd.')">
-                    <div class="product-badge badge-hot">HOT</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_2_2026-08-26_16-36-25.jpg" alt="LED Runner Sneakers" loading="lazy">
-                    </div>
-                    <h3>LED Runner Sneakers</h3>
-                    <p class="price">$129.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('LED Runner Sneakers', 129.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_3_2026-08-26_16-36-25.jpg', 'Tech Armor Jacket', 'Futuristic jacket with built-in tech features and weather-resistant materials.')">
-                    <div class="product-badge badge-limited">LIMITED</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_3_2026-08-26_16-36-25.jpg" alt="Tech Armor Jacket" loading="lazy">
-                    </div>
-                    <h3>Tech Armor Jacket</h3>
-                    <p class="price">$199.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Tech Armor Jacket', 199.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_4_2026-08-26_16-36-25.jpg', 'Cyber Visor Cap', 'Holographic visor cap with UV protection and cyberpunk styling.')">
-                    <div class="product-badge">NEW</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_4_2026-08-26_16-36-25.jpg" alt="Cyber Visor Cap" loading="lazy">
-                    </div>
-                    <h3>Cyber Visor Cap</h3>
-                    <p class="price">$49.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Cyber Visor Cap', 49.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_5_2026-08-26_16-36-25.jpg', 'Neon Combat Boots', 'Heavy-duty boots with neon trim and reinforced steel toes.')">
-                    <div class="product-badge badge-hot">HOT</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_5_2026-08-26_16-36-25.jpg" alt="Neon Combat Boots" loading="lazy">
-                    </div>
-                    <h3>Neon Combat Boots</h3>
-                    <p class="price">$159.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Combat Boots', 159.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_6_2026-08-26_16-36-25.jpg', 'Tech Utility Vest', 'Multi-pocket vest with charging ports and reflective strips.')">
-                    <div class="product-badge badge-stock">IN STOCK</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_6_2026-08-26_16-36-25.jpg" alt="Tech Utility Vest" loading="lazy">
-                    </div>
-                    <h3>Tech Utility Vest</h3>
-                    <p class="price">$119.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Tech Utility Vest', 119.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_7_2026-08-26_16-36-25.jpg', 'Holographic Backpack', 'Shimmering backpack with holographic panels and laptop compartment.')">
-                    <div class="product-badge">NEW</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_7_2026-08-26_16-36-25.jpg" alt="Holographic Backpack" loading="lazy">
-                    </div>
-                    <h3>Holographic Backpack</h3>
-                    <p class="price">$79.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Holographic Backpack', 79.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_8_2026-08-26_16-36-25.jpg', 'Neon Face Mask', 'LED face mask with breathing effects and customizable patterns.')">
-                    <div class="product-badge badge-stock">IN STOCK</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_8_2026-08-26_16-36-25.jpg" alt="Neon Face Mask" loading="lazy">
-                    </div>
-                    <h3>Neon Face Mask</h3>
-                    <p class="price">$29.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Face Mask', 29.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_9_2026-08-26_16-36-25.jpg', 'Cyber Gloves', 'Touchscreen-compatible gloves with neon knuckle protection.')">
-                    <div class="product-badge badge-limited">LIMITED</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_9_2026-08-26_16-36-25.jpg" alt="Cyber Gloves" loading="lazy">
-                    </div>
-                    <h3>Cyber Gloves</h3>
-                    <p class="price">$69.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Cyber Gloves', 69.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_10_2026-08-26_16-36-25.jpg', 'Tech Cargo Pants', 'Water-resistant pants with multiple tech pockets and neon piping.')">
-                    <div class="product-badge badge-stock">IN STOCK</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_10_2026-08-26_16-36-25.jpg" alt="Tech Cargo Pants" loading="lazy">
-                    </div>
-                    <h3>Tech Cargo Pants</h3>
-                    <p class="price">$99.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Tech Cargo Pants', 99.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_11_2026-08-26_16-36-25.jpg', 'Neon Windbreaker', 'Lightweight windbreaker with reflective neon details and hood.')">
-                    <div class="product-badge">NEW</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_11_2026-08-26_16-36-25.jpg" alt="Neon Windbreaker" loading="lazy">
-                    </div>
-                    <h3>Neon Windbreaker</h3>
-                    <p class="price">$139.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Windbreaker', 139.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_12_2026-08-26_16-36-25.jpg', 'LED Belt', 'Programmable LED belt with multiple color modes and patterns.')">
-                    <div class="product-badge badge-hot">HOT</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_12_2026-08-26_16-36-25.jpg" alt="LED Belt" loading="lazy">
-                    </div>
-                    <h3>LED Belt</h3>
-                    <p class="price">$39.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('LED Belt', 39.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_13_2026-08-26_16-36-25.jpg', 'Cyber Sunglasses', 'Futuristic sunglasses with UV protection and neon frames.')">
-                    <div class="product-badge badge-stock">IN STOCK</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_13_2026-08-26_16-36-25.jpg" alt="Cyber Sunglasses" loading="lazy">
-                    </div>
-                    <h3>Cyber Sunglasses</h3>
-                    <p class="price">$89.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Cyber Sunglasses', 89.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_14_2026-08-26_16-36-25.jpg', 'Neon Wristbands', 'Set of glowing wristbands with adjustable brightness.')">
-                    <div class="product-badge badge-limited">LIMITED</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_14_2026-08-26_16-36-25.jpg" alt="Neon Wristbands" loading="lazy">
-                    </div>
-                    <h3>Neon Wristbands</h3>
-                    <p class="price">$19.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Wristbands', 19.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_15_2026-08-26_16-36-25.jpg', 'Tech Sneakers', 'High-tech sneakers with memory foam and neon accents.')">
-                    <div class="product-badge badge-hot">HOT</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_15_2026-08-26_16-36-25.jpg" alt="Tech Sneakers" loading="lazy">
-                    </div>
-                    <h3>Tech Sneakers</h3>
-                    <p class="price">$149.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Tech Sneakers', 149.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_16_2026-08-26_16-36-25.jpg', 'Holographic Jacket', 'Iridescent jacket that changes color in different lighting.')">
-                    <div class="product-badge badge-limited">LIMITED</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_16_2026-08-26_16-36-25.jpg" alt="Holographic Jacket" loading="lazy">
-                    </div>
-                    <h3>Holographic Jacket</h3>
-                    <p class="price">$179.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Holographic Jacket', 179.99)">🛒</button>
-                    </div>
-                </div>
-
-                <div class="product-card" onclick="openModal('source/clothes/photo_17_2026-08-26_16-36-25.jpg', 'Neon Tech Hoodie', 'Advanced hoodie with integrated LED strips and smart fabric.')">
-                    <div class="product-badge">NEW</div>
-                    <div class="product-image">
-                        <img src="source/clothes/photo_17_2026-08-26_16-36-25.jpg" alt="Neon Tech Hoodie" loading="lazy">
-                    </div>
-                    <h3>Neon Tech Hoodie</h3>
-                    <p class="price">$159.99</p>
-                    <div class="card-actions">
-                        <button class="quick-view">View Details</button>
-                        <button class="cart-btn-icon" onclick="event.stopPropagation(); addToCart('Neon Tech Hoodie', 159.99)">🛒</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Neon Modal -->
-    <div id="neon-modal" class="modal-overlay">
-        <div class="modal-card">
-            <button class="modal-close" onclick="closeModal()">
-                <span class="close-x">×</span>
-            </button>
-            <div class="modal-image-container">
-                <img id="modal-image" src="" alt="Product Image">
-            </div>
-            <div class="modal-content">
-                <h2 id="modal-title" class="modal-title">Product Name</h2>
-                <p id="modal-description" class="modal-description">Product description will appear here</p>
-                <button class="add-to-cart-btn">View Details</button>
-            </div>
-        </div>
+    <div class="footer-bottom">
+      <p>© 2026 D Threads. All rights reserved. Built for the future.</p>
     </div>
+  </footer>
 
-    <!-- About Us Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Us</h2>
-            <div class="about-content">
-                <p class="about-text">
-                    Step into the future of fashion with DEON STORE. We curate cutting-edge streetwear 
-                    that blends cyberpunk aesthetics with premium quality. Each piece is designed to make 
-                    you stand out in the neon-lit world of tomorrow.
-                </p>
-                <div class="features">
-                    <div class="feature">
-                        <div class="feature-icon">🛍️</div>
-                        <h3>Premium Quality</h3>
-                        <p>Handpicked materials with futuristic designs</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Fast Delivery</h3>
-                        <p>Lightning-fast shipping across the globe</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">🔒</div>
-                        <h3>Secure Shopping</h3>
-                        <p>Encrypted payments and data protection</p>
-                    </div>
-                </div>
-            </div>
+
+  <!-- ============================================================
+       CART DRAWER (slide-in from right)
+  ============================================================ -->
+  <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+
+  <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Shopping cart" aria-modal="true" aria-hidden="true">
+    <div class="cart-drawer-header">
+      <h2>Your Cart 🛒</h2>
+      <button class="close-btn" id="cartCloseBtn" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-items-list" id="cartItemsList" role="list">
+      <!-- Dynamically populated by JS -->
+    </div>
+    <div class="cart-empty-state" id="cartEmpty">
+      <div class="empty-icon" aria-hidden="true">🛒</div>
+      <p>Your cart is empty.</p>
+      <a href="#products" class="btn btn-primary" id="cartShopLink">Start Shopping</a>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-total-row">
+        <span>Subtotal</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <p class="cart-shipping-note">Free shipping on orders over $100</p>
+      <button class="btn btn-primary btn-full" id="checkoutBtn">Checkout →</button>
+      <button class="btn btn-ghost  btn-full" id="clearCartBtn">Clear Cart</button>
+    </div>
+  </aside>
+
+
+  <!-- ============================================================
+       PRODUCT QUICK-VIEW MODAL
+  ============================================================ -->
+  <div class="modal-overlay" id="modalOverlay" aria-hidden="true"></div>
+
+  <div class="product-modal" id="productModal" role="dialog" aria-label="Product details" aria-modal="true" aria-hidden="true">
+    <button class="close-btn modal-close" id="modalCloseBtn" aria-label="Close product details">✕</button>
+    <div class="modal-inner">
+      <div class="modal-img-wrap">
+        <img src="" alt="" id="modalImg" class="modal-img" loading="lazy" />
+        <span class="modal-badge" id="modalBadge"></span>
+      </div>
+      <div class="modal-details">
+        <p class="modal-category" id="modalCategory"></p>
+        <h2 class="modal-title"   id="modalTitle"></h2>
+        <div class="modal-stars"  id="modalStars"></div>
+        <p class="modal-desc"     id="modalDesc"></p>
+        <div class="modal-meta">
+          <div class="modal-size-row">
+            <span class="meta-label">Size:</span>
+            <div class="size-options" id="modalSizes" role="group" aria-label="Select size"></div>
+          </div>
         </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <h2 class="section-title">Customer Reviews</h2>
-            <div class="testimonials-carousel">
-                <div class="testimonial-card active">
-                    <div class="testimonial-avatar">👤</div>
-                    <p>"The quality is insane! My neon hoodie glows perfectly under UV lights. DEON STORE is the future!"</p>
-                    <h4>@CyberPunk2077</h4>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar">👤</div>
-                    <p>"Fastest delivery ever! Ordered yesterday, arrived today. The LED sneakers are absolutely fire!"</p>
-                    <h4>@NeonQueen</h4>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar">👤</div>
-                    <p>"Customer service is top-notch. They helped me find the perfect size and the jacket fits like a dream."</p>
-                    <h4>@TechFashionista</h4>
-                </div>
-            </div>
+        <div class="modal-price-row">
+          <span class="modal-price" id="modalPrice"></span>
+          <span class="modal-stock" id="modalStock"></span>
         </div>
-    </section>
+        <button class="btn btn-primary btn-full modal-add-btn" id="modalAddToCart">
+          Add to Cart 🛒
+        </button>
+      </div>
+    </div>
+  </div>
 
-    <!-- Call-to-Action Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2>Step Into the Neon Future of Shopping</h2>
-            <button class="cta-button-large" onclick="scrollToSection('products')">
-                <span>Explore Collection</span>
-                <div class="button-glow"></div>
-            </button>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>DEON STORE</h3>
-                    <p>Where Style Meets the Future</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Follow Us</h4>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon">📱</a>
-                        <a href="#" class="social-icon">📸</a>
-                        <a href="#" class="social-icon">🐦</a>
-                        <a href="#" class="social-icon">📺</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 DEON STORE. All rights reserved. | Powered by Cybervid</p>
-            </div>
-        </div>
-    </footer>
+  <!-- ============================================================
+       TOAST NOTIFICATION
+  ============================================================ -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
-    <script src="script.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
