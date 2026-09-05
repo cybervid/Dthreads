@@ -232,6 +232,7 @@ const toast = $('#toast');
  */
 let toastTimer;
 function showToast(msg, color = 'cyan') {
+  if (!toast) return;
   clearTimeout(toastTimer);
   toast.textContent = msg;
   toast.style.borderColor = color === 'pink' ? 'var(--border-pink)' : 'var(--border-cyan)';
@@ -252,6 +253,7 @@ function renderStars(n) {
  * Bump the cart badge with a small scale animation.
  */
 function bumpBadge() {
+  if (!cartBadge) return;
   cartBadge.classList.remove('bump');
   // Force reflow to restart animation
   void cartBadge.offsetWidth;
@@ -263,18 +265,20 @@ function bumpBadge() {
 /* ── 5. NAVBAR ───────────────────────────────────────────────── */
 
 // Hamburger toggle (existing button #hamburgerBtn → controls #navLinks)
-hamburgerBtn.addEventListener('click', () => {
-  const isOpen = navLinks.classList.toggle('open');
-  hamburgerBtn.classList.toggle('open', isOpen);
-  hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
-});
+if (hamburgerBtn && navLinks) {
+  hamburgerBtn.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburgerBtn.classList.toggle('open', isOpen);
+    hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
+  });
+}
 
 /**
  * toggleMobileMenu — alias wired to the hamburger for any inline onclick
  * usage in future HTML additions; delegates to the existing hamburgerBtn handler.
  */
 function toggleMobileMenu() {
-  hamburgerBtn.click();
+  if (hamburgerBtn) hamburgerBtn.click();
 }
 
 // Highlight active nav link on scroll
@@ -288,8 +292,9 @@ function updateActiveNav() {
     if (el && el.offsetTop <= scrollY) current = id;
   });
   $$('.nav-link').forEach(link => {
-    const href = link.getAttribute('href').replace('#', '');
-    link.classList.toggle('active', href === current);
+    const href = link.getAttribute('href') || '';
+    const hash = href.includes('#') ? href.split('#').pop() : href.replace('#', '');
+    link.classList.toggle('active', hash === current);
   });
 }
 
@@ -297,13 +302,15 @@ window.addEventListener('scroll', updateActiveNav, { passive: true });
 updateActiveNav();
 
 // Close hamburger menu when a link is clicked
-navLinks.addEventListener('click', (e) => {
-  if (e.target.matches('.nav-link')) {
-    navLinks.classList.remove('open');
-    hamburgerBtn.classList.remove('open');
-    hamburgerBtn.setAttribute('aria-expanded', 'false');
-  }
-});
+if (navLinks && hamburgerBtn) {
+  navLinks.addEventListener('click', (e) => {
+    if (e.target.matches('.nav-link')) {
+      navLinks.classList.remove('open');
+      hamburgerBtn.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
 
 
 /* ── 6. DROPDOWN MENUS ───────────────────────────────────────── */
@@ -322,23 +329,27 @@ function toggleDropdown(btn, menu) {
  * Close all dropdowns.
  */
 function closeAllDropdowns() {
-  [accountMenu, helpMenu].forEach(m => m.classList.remove('open'));
-  [accountBtn, helpBtn].forEach(b => b.setAttribute('aria-expanded', 'false'));
+  [accountMenu, helpMenu].forEach(m => m && m.classList.remove('open'));
+  [accountBtn, helpBtn].forEach(b => b && b.setAttribute('aria-expanded', 'false'));
 }
 
-accountBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  helpMenu.classList.remove('open');
-  helpBtn.setAttribute('aria-expanded', 'false');
-  toggleDropdown(accountBtn, accountMenu);
-});
+if (accountBtn && accountMenu) {
+  accountBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (helpMenu) helpMenu.classList.remove('open');
+    if (helpBtn) helpBtn.setAttribute('aria-expanded', 'false');
+    toggleDropdown(accountBtn, accountMenu);
+  });
+}
 
-helpBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  accountMenu.classList.remove('open');
-  accountBtn.setAttribute('aria-expanded', 'false');
-  toggleDropdown(helpBtn, helpMenu);
-});
+if (helpBtn && helpMenu) {
+  helpBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (accountMenu) accountMenu.classList.remove('open');
+    if (accountBtn) accountBtn.setAttribute('aria-expanded', 'false');
+    toggleDropdown(helpBtn, helpMenu);
+  });
+}
 
 // Click outside → close dropdowns
 document.addEventListener('click', (e) => {
@@ -425,6 +436,7 @@ function createProductCard(product) {
  * Render products into the grid up to `productsShown`.
  */
 function renderProducts() {
+  if (!productsGrid) return;
   productsGrid.innerHTML = '';
   const slice = PRODUCTS.slice(0, productsShown);
   const frag = document.createDocumentFragment();
@@ -435,14 +447,18 @@ function renderProducts() {
   setTimeout(checkReveal, 50);
 
   // Hide "Load More" if all products are shown
-  loadMoreBtn.style.display = productsShown >= PRODUCTS.length ? 'none' : 'inline-flex';
+  if (loadMoreBtn) {
+    loadMoreBtn.style.display = productsShown >= PRODUCTS.length ? 'none' : 'inline-flex';
+  }
 }
 
 // Load More
-loadMoreBtn.addEventListener('click', () => {
-  productsShown = Math.min(productsShown + 4, PRODUCTS.length);
-  renderProducts();
-});
+if (loadMoreBtn) {
+  loadMoreBtn.addEventListener('click', () => {
+    productsShown = Math.min(productsShown + 4, PRODUCTS.length);
+    renderProducts();
+  });
+}
 
 // Initial render
 renderProducts();
@@ -535,7 +551,8 @@ function updateCartUI() {
   const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
 
   // Badge
-  cartBadge.textContent = totalItems;
+  if (cartBadge) cartBadge.textContent = totalItems;
+  if (!cartItemsList) return;
 
   if (cart.length === 0) {
     cartItemsList.innerHTML = '';
@@ -590,42 +607,52 @@ function updateCartUI() {
 
 /** Open the cart drawer */
 function openCart() {
+  if (!cartDrawer) return;
   cartDrawer.classList.add('open');
-  cartOverlay.classList.add('open');
+  if (cartOverlay) {
+    cartOverlay.classList.add('open');
+    cartOverlay.setAttribute('aria-hidden', 'false');
+  }
   cartDrawer.setAttribute('aria-hidden', 'false');
-  cartOverlay.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-  cartCloseBtn.focus();
+  if (cartCloseBtn) cartCloseBtn.focus();
 }
 
 /** Close the cart drawer */
 function closeCart() {
+  if (!cartDrawer) return;
   cartDrawer.classList.remove('open');
-  cartOverlay.classList.remove('open');
+  if (cartOverlay) {
+    cartOverlay.classList.remove('open');
+    cartOverlay.setAttribute('aria-hidden', 'true');
+  }
   cartDrawer.setAttribute('aria-hidden', 'true');
-  cartOverlay.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
 }
 
-cartBtn.addEventListener('click', openCart);
-cartCloseBtn.addEventListener('click', closeCart);
-cartOverlay.addEventListener('click', closeCart);
+if (cartBtn) cartBtn.addEventListener('click', openCart);
+if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
+if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
 // Close cart if user clicks the "Start Shopping" link inside empty state
-cartShopLink.addEventListener('click', closeCart);
+if (cartShopLink) cartShopLink.addEventListener('click', closeCart);
 
 // Clear cart button
-clearCartBtn.addEventListener('click', () => {
-  cart = [];
-  saveCart(cart);
-  updateCartUI();
-  showToast('🗑️ Cart cleared.', 'pink');
-});
+if (clearCartBtn) {
+  clearCartBtn.addEventListener('click', () => {
+    cart = [];
+    saveCart(cart);
+    updateCartUI();
+    showToast('🗑️ Cart cleared.', 'pink');
+  });
+}
 
 // Checkout (stub — just a toast in a static demo)
-checkoutBtn.addEventListener('click', () => {
-  showToast('🚀 Checkout coming soon!');
-});
+if (checkoutBtn) {
+  checkoutBtn.addEventListener('click', () => {
+    showToast('🚀 Checkout coming soon!');
+  });
+}
 
 // Initial cart render
 updateCartUI();
@@ -643,6 +670,7 @@ let selectedSize = null;
  * @param {number} productId
  */
 function openModal(productId) {
+  if (!productModal) return;
   const product = PRODUCTS.find(p => p.id === productId);
   if (!product) return;
 
@@ -695,37 +723,42 @@ function openModal(productId) {
 
 /** Close the product modal */
 function closeModal() {
+  if (!productModal) return;
   productModal.classList.remove('open');
-  modalOverlay.classList.remove('open');
+  if (modalOverlay) modalOverlay.classList.remove('open');
   productModal.setAttribute('aria-hidden', 'true');
-  modalOverlay.setAttribute('aria-hidden', 'true');
+  if (modalOverlay) modalOverlay.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
   activeProductId = null;
 }
 
-modalCloseBtn.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', closeModal);
+if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
 
 // Modal "Add to Cart" button
-modalAddBtn.addEventListener('click', () => {
-  if (!activeProductId) return;
-  addToCart(activeProductId, selectedSize);
-  const product = PRODUCTS.find(p => p.id === activeProductId);
-  showToast(`✅ ${product.name} (${selectedSize}) added to cart!`);
-  closeModal();
-  // Small delay then open cart
-  setTimeout(openCart, 300);
-});
+if (modalAddBtn) {
+  modalAddBtn.addEventListener('click', () => {
+    if (!activeProductId) return;
+    addToCart(activeProductId, selectedSize);
+    const product = PRODUCTS.find(p => p.id === activeProductId);
+    showToast(`✅ ${product.name} (${selectedSize}) added to cart!`);
+    closeModal();
+    // Small delay then open cart
+    setTimeout(openCart, 300);
+  });
+}
 
 
 /* ── 11. NAVBAR SCROLL BEHAVIOUR ─────────────────────────────── */
 // Add a subtle border glow once user scrolls
 const navbar = document.querySelector('.navbar');
-window.addEventListener('scroll', () => {
-  navbar.style.borderBottomColor = window.scrollY > 20
-    ? 'rgba(0,243,255,0.2)'
-    : 'var(--border)';
-}, { passive: true });
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    navbar.style.borderBottomColor = window.scrollY > 20
+      ? 'rgba(0,243,255,0.2)'
+      : 'var(--border)';
+  }, { passive: true });
+}
 
 
 /* ── 12. FOCUS TRAP FOR OVERLAYS ─────────────────────────────── */
@@ -752,8 +785,8 @@ function trapFocus(e, container) {
 }
 
 document.addEventListener('keydown', (e) => {
-  if (productModal.classList.contains('open')) trapFocus(e, productModal);
-  else if (cartDrawer.classList.contains('open'))  trapFocus(e, cartDrawer);
+  if (productModal && productModal.classList.contains('open')) trapFocus(e, productModal);
+  else if (cartDrawer && cartDrawer.classList.contains('open'))  trapFocus(e, cartDrawer);
 });
 
 
@@ -789,3 +822,320 @@ console.log('%cD THREADS', [
   'font-weight: 900',
 ].join(';'));
 console.log('%cWhere Style Meets the Future.', 'color: #ff0055; font-family: monospace;');
+
+
+/* ================================================================
+   16. CONTACT & SUPPORT SECTION
+   ================================================================ */
+
+/* ── DOM refs ─────────────────────────────────────────────────── */
+const contactForm      = $('#contactForm');
+const contactSubmitBtn = $('#contactSubmitBtn');
+const submitBtnText    = contactSubmitBtn
+                           ? contactSubmitBtn.querySelector('.submit-btn-text')
+                           : null;
+
+const trackOrderBtn    = $('#trackOrderBtn');
+const trackOrderId     = $('#trackOrderId');
+const trackResult      = $('#trackResult');
+
+const calendlyOpenBtn  = $('#calendlyOpenBtn');
+const calendlyModal    = $('#calendlyModal');
+const calendlyOverlay  = $('#calendlyOverlay');
+const calendlyCloseBtn = $('#calendlyCloseBtn');
+
+
+/* ── 16a. CONTACT FORM ────────────────────────────────────────── */
+
+/**
+ * Validate a single form field.
+ * Returns true if valid, false + sets error message if not.
+ * @param {HTMLElement} input
+ * @param {HTMLElement} errEl
+ * @returns {boolean}
+ */
+function validateField(input, errEl) {
+  const val = input.value.trim();
+  let msg = '';
+
+  if (input.required && !val) {
+    msg = 'This field is required.';
+  } else if (input.type === 'email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+    msg = 'Please enter a valid email address.';
+  }
+
+  errEl.textContent = msg;
+  input.classList.toggle('invalid', !!msg);
+  return !msg;
+}
+
+if (contactForm) {
+  /* Live validation — clear errors as soon as the user fixes a field */
+  contactForm.querySelectorAll('.form-input').forEach(input => {
+    const errId  = input.id + '-err';
+    const errEl  = document.getElementById(errId);
+    if (!errEl) return;
+
+    input.addEventListener('input', () => {
+      if (input.classList.contains('invalid')) validateField(input, errEl);
+    });
+
+    input.addEventListener('blur', () => validateField(input, errEl));
+  });
+
+  /* Submit handler */
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    /* Validate all required fields */
+    const fields = [
+      { input: $('#cf-name'),    err: $('#cf-name-err') },
+      { input: $('#cf-email'),   err: $('#cf-email-err') },
+      { input: $('#cf-subject'), err: $('#cf-subject-err') },
+      { input: $('#cf-message'), err: $('#cf-message-err') },
+    ];
+
+    const allValid = fields.every(({ input, err }) => validateField(input, err));
+    if (!allValid) {
+      /* Focus the first invalid field */
+      const firstInvalid = contactForm.querySelector('.form-input.invalid');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    /* ── Sending state ── */
+    contactSubmitBtn.classList.add('sending');
+    if (submitBtnText) submitBtnText.textContent = 'Sending…';
+
+    /*
+      In a real implementation you would POST to your backend / EmailJS here.
+      We simulate a short async delay then show success feedback.
+    */
+    setTimeout(() => {
+      /* ── Success state ── */
+      contactSubmitBtn.classList.remove('sending');
+      contactSubmitBtn.classList.add('sent');
+      if (submitBtnText) submitBtnText.textContent = '✅ Message Sent!';
+
+      showToast('✅ Your message has been sent! We\'ll reply within 24 hrs.', 'cyan');
+
+      /* Reset the form after a moment so the user sees the success state */
+      setTimeout(() => {
+        contactForm.reset();
+        contactSubmitBtn.classList.remove('sent');
+        if (submitBtnText) submitBtnText.textContent = 'Send Message 🚀';
+        /* Clear any leftover validation states */
+        contactForm.querySelectorAll('.form-input').forEach(el => el.classList.remove('invalid'));
+        contactForm.querySelectorAll('.form-error').forEach(el => { el.textContent = ''; });
+      }, 3000);
+    }, 1200);
+  });
+}
+
+
+/* ── 16b. ORDER TRACKER (demo / stub) ────────────────────────── */
+
+/**
+ * Simulated order-status map.
+ * Replace with a real API call in production.
+ * @type {Record<string, {status: string, detail: string}>}
+ */
+const DEMO_ORDERS = {
+  'DT-00001': { status: '📦 Shipped',       detail: 'Your order is on its way — estimated delivery in 3 days.' },
+  'DT-00412': { status: '🚚 Out for Delivery', detail: 'Your order is with the courier and will arrive today.' },
+  'DT-00099': { status: '✅ Delivered',      detail: 'Your order was delivered on Aug 28, 2026.' },
+  'DT-00500': { status: '🔄 Processing',     detail: 'Your order is being prepared and will ship within 24 hours.' },
+};
+
+if (trackOrderBtn) {
+  /* Trigger on button click */
+  trackOrderBtn.addEventListener('click', runTrackOrder);
+
+  /* Also allow Enter key inside the input */
+  trackOrderId.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); runTrackOrder(); }
+  });
+}
+
+function runTrackOrder() {
+  const rawId   = trackOrderId.value.trim().toUpperCase();
+
+  /* Clear previous result */
+  trackResult.removeAttribute('hidden');
+  trackResult.classList.remove('error');
+
+  if (!rawId) {
+    trackResult.innerHTML = '<strong>Please enter an order ID.</strong>';
+    trackResult.classList.add('error');
+    return;
+  }
+
+  /* Simulate network delay */
+  trackResult.innerHTML = '<em style="color:var(--text-muted)">Searching…</em>';
+
+  setTimeout(() => {
+    const order = DEMO_ORDERS[rawId];
+    if (order) {
+      trackResult.innerHTML = `
+        <strong style="color:var(--cyan);font-family:var(--font-head);font-size:0.82rem;">
+          ${rawId}
+        </strong><br/>
+        <span style="color:var(--text)">${order.status}</span><br/>
+        <span style="color:var(--text-muted);font-size:0.82rem;">${order.detail}</span>
+      `;
+    } else {
+      trackResult.innerHTML = `
+        <strong style="color:var(--pink)">Order not found.</strong><br/>
+        <span style="color:var(--text-muted);font-size:0.82rem;">
+          Double-check your order ID or <a href="mailto:support@dthreads.com"
+          style="color:var(--cyan);text-decoration:underline">contact support</a>.
+        </span>
+      `;
+      trackResult.classList.add('error');
+    }
+  }, 700);
+}
+
+
+/* ── 16c. FAQ ACCORDION ──────────────────────────────────────── */
+
+/**
+ * Open one FAQ item; optionally close others (single-open mode).
+ * @param {HTMLButtonElement} trigger
+ * @param {boolean} [closeOthers=true]
+ */
+function openFaqItem(trigger, closeOthers = true) {
+  const body      = document.getElementById(trigger.getAttribute('aria-controls'));
+  const isOpen    = trigger.getAttribute('aria-expanded') === 'true';
+  const allItems  = $$('.faq-trigger');
+
+  if (closeOthers) {
+    /* Close every other open item first */
+    allItems.forEach(t => {
+      if (t !== trigger && t.getAttribute('aria-expanded') === 'true') {
+        closeFaqItem(t);
+      }
+    });
+  }
+
+  if (isOpen) {
+    closeFaqItem(trigger);
+  } else {
+    /* Open */
+    body.removeAttribute('hidden');
+    /* Allow the browser to register the element before animating */
+    requestAnimationFrame(() => {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.classList.add('open');
+    });
+    trigger.setAttribute('aria-expanded', 'true');
+  }
+}
+
+/**
+ * Close one FAQ item.
+ * @param {HTMLButtonElement} trigger
+ */
+function closeFaqItem(trigger) {
+  const body = document.getElementById(trigger.getAttribute('aria-controls'));
+  body.style.maxHeight = '0';
+  body.classList.remove('open');
+  trigger.setAttribute('aria-expanded', 'false');
+
+  /* Re-hide from accessibility tree after animation */
+  body.addEventListener('transitionend', () => {
+    if (!body.classList.contains('open')) body.setAttribute('hidden', '');
+  }, { once: true });
+}
+
+/* Wire all FAQ triggers */
+$$('.faq-trigger').forEach(trigger => {
+  trigger.addEventListener('click', () => openFaqItem(trigger));
+});
+
+
+/* ── 16d. CALENDLY MODAL ─────────────────────────────────────── */
+
+/** Open the Calendly booking modal */
+function openCalendlyModal() {
+  calendlyModal.classList.add('open');
+  calendlyOverlay.classList.add('open');
+  calendlyModal.setAttribute('aria-hidden', 'false');
+  calendlyOverlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  /* Move focus to the close button for keyboard users */
+  if (calendlyCloseBtn) calendlyCloseBtn.focus();
+}
+
+/** Close the Calendly booking modal */
+function closeCalendlyModal() {
+  calendlyModal.classList.remove('open');
+  calendlyOverlay.classList.remove('open');
+  calendlyModal.setAttribute('aria-hidden', 'true');
+  calendlyOverlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  /* Return focus to the button that opened the modal */
+  if (calendlyOpenBtn) calendlyOpenBtn.focus();
+}
+
+if (calendlyOpenBtn)  calendlyOpenBtn.addEventListener('click', openCalendlyModal);
+if (calendlyCloseBtn) calendlyCloseBtn.addEventListener('click', closeCalendlyModal);
+if (calendlyOverlay)  calendlyOverlay.addEventListener('click', closeCalendlyModal);
+
+/* Extend the existing Escape-key handler to also close Calendly modal */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && calendlyModal && calendlyModal.classList.contains('open')) {
+    closeCalendlyModal();
+  }
+});
+
+/* Extend the existing focus-trap to cover the Calendly modal */
+document.addEventListener('keydown', (e) => {
+  if (calendlyModal && calendlyModal.classList.contains('open')) {
+    trapFocus(e, calendlyModal);
+  }
+});
+
+
+/* ── 16e. SCROLL REVEAL — contact section elements ───────────── */
+
+/**
+ * Register any `.reveal` elements inside #contact-support with
+ * the already-running revealObserver.
+ * We call this once after DOM is ready (script runs at end of body).
+ */
+(function observeContactSection() {
+  const section = $('#contact-support');
+  if (!section) return;
+
+  section.querySelectorAll('.reveal').forEach(el => {
+    if (!el.classList.contains('visible')) {
+      revealObserver.observe(el);
+    }
+  });
+})();
+
+/* Observe remaining .reveal elements (policy page, etc.) */
+checkReveal();
+
+
+/* ── 16f. NAV ACTIVE-LINK — include contact-support section ──── */
+
+/*
+  The existing updateActiveNav() reads from `sectionIds`.
+  We push 'contact-support' into that array so the "Contact"
+  nav link lights up when the user scrolls into the section.
+*/
+sectionIds.push('contact-support');
+/* Re-run immediately so the active state is correct on load */
+updateActiveNav();
+
+
+/* ── LOGOUT BUTTON ────────────────────────────────────────────── */
+const logoutBtn = $('#logoutBtn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    showToast('👋 Logged out successfully.', 'cyan');
+    /* In a real app you would clear session/token here */
+  });
+}

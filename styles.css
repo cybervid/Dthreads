@@ -2099,3 +2099,1357 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   /* Seamless blending into the dark background */
   mix-blend-mode: screen;
 }
+
+
+/* ================================================================
+   16. CONTACT & SUPPORT SECTION
+   ================================================================ */
+
+/* ── Section wrapper ──────────────────────────────────────────── */
+.contact-support {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem 7rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Subtle gradient separator from the reviews section */
+.contact-support::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-cyan) 30%,
+    var(--border-pink) 70%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+
+/* ── Dual-column grid ─────────────────────────────────────────── */
+.cs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.cs-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+
+/* ── Base glass card ──────────────────────────────────────────── */
+.cs-card {
+  position: relative;
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem;
+  transition: border-color var(--transition), box-shadow var(--transition),
+              transform var(--transition);
+  overflow: hidden;
+  /* sits above the fixed background layers */
+  z-index: 1;
+}
+
+.cs-card:hover {
+  border-color: var(--border-cyan);
+  box-shadow: 0 0 0 1px var(--border-cyan),
+              0 20px 60px rgba(0, 243, 255, 0.07),
+              0 8px 28px rgba(0, 0, 0, 0.45);
+  transform: translateY(-4px);
+}
+
+/* Pink-accented variant (Calendly) */
+.cs-card--calendly:hover {
+  border-color: var(--border-pink);
+  box-shadow: 0 0 0 1px var(--border-pink),
+              0 20px 60px rgba(255, 0, 85, 0.08),
+              0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ── Card header row ──────────────────────────────────────────── */
+.cs-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.cs-card-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+  /* subtle neon drop-shadow on the emoji */
+  filter: drop-shadow(0 0 6px var(--cyan));
+}
+
+.cs-card-icon--pink {
+  filter: drop-shadow(0 0 6px var(--pink));
+}
+
+.cs-card-title {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  text-shadow:
+    0 0 6px  rgba(0, 243, 255, 0.25),
+    0 0 18px rgba(0, 243, 255, 0.12);
+  margin-bottom: 0.2rem;
+}
+
+.cs-card-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+
+/* ── Contact form ─────────────────────────────────────────────── */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Two-column row inside the form */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.form-required {
+  color: var(--pink);
+  margin-left: 2px;
+}
+
+/* Shared input / select / textarea base */
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  transition: border-color var(--transition), box-shadow var(--transition),
+              background var(--transition);
+  /* Kill browser default styling on selects */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.form-input:hover {
+  border-color: rgba(0, 243, 255, 0.25);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--cyan);
+  background: rgba(0, 243, 255, 0.04);
+  box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.12),
+              inset 0 0 12px rgba(0, 243, 255, 0.03);
+}
+
+/* Invalid state */
+.form-input.invalid {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(255, 0, 85, 0.12);
+}
+
+/* Select chevron */
+.form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7d8f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.form-select option {
+  background: #0f0f18;
+  color: var(--text);
+}
+
+/* Textarea */
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Inline validation error */
+.form-error {
+  font-size: 0.7rem;
+  color: var(--pink);
+  min-height: 1em;
+  letter-spacing: 0.02em;
+}
+
+/* Submit button */
+.cs-submit-btn {
+  margin-top: 0.25rem;
+  gap: 10px;
+  font-family: var(--font-head);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
+/* "Sent!" success state applied via JS */
+.cs-submit-btn.sent {
+  background: linear-gradient(135deg, #00ff88, #00cc66);
+  box-shadow: 0 0 8px #00ff88, 0 0 24px rgba(0, 255, 136, 0.4);
+  pointer-events: none;
+}
+
+.cs-submit-btn.sending {
+  opacity: 0.7;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+
+/* ── Direct channel buttons ───────────────────────────────────── */
+.cs-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cs-channels-label {
+  font-family: var(--font-head);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+/* Shared channel button */
+.cs-channel-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  transition: all var(--transition);
+  z-index: 1;
+  position: relative;
+}
+
+.cs-channel-btn:hover {
+  transform: translateY(-3px);
+}
+
+/* Email channel — cyan glow */
+.cs-channel-btn--email {
+  border-color: var(--border-cyan);
+}
+
+.cs-channel-btn--email:hover {
+  background: rgba(0, 243, 255, 0.06);
+  box-shadow: 0 0 0 1px var(--border-cyan), var(--cyan-glow),
+              0 12px 36px rgba(0, 243, 255, 0.1);
+}
+
+.cs-channel-btn--email .ch-icon { color: var(--cyan); }
+
+/* WhatsApp channel — neon green / cyan blend */
+.cs-channel-btn--whatsapp {
+  border-color: rgba(0, 230, 118, 0.35);
+}
+
+.cs-channel-btn--whatsapp:hover {
+  background: rgba(0, 230, 118, 0.06);
+  box-shadow: 0 0 0 1px rgba(0, 230, 118, 0.5),
+              0 0 8px #00e676, 0 0 24px rgba(0, 230, 118, 0.35),
+              0 12px 36px rgba(0, 230, 118, 0.1);
+}
+
+.cs-channel-btn--whatsapp .ch-icon { color: #00e676; }
+
+/* Icon wrapper */
+.ch-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ch-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Text block */
+.ch-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ch-text strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ch-text small {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Arrow chevron */
+.ch-arrow {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  transition: transform var(--transition), color var(--transition);
+}
+
+.cs-channel-btn:hover .ch-arrow {
+  transform: translateX(4px);
+  color: var(--cyan);
+}
+
+.cs-channel-btn--whatsapp:hover .ch-arrow {
+  color: #00e676;
+}
+
+
+/* ── Order tracking ───────────────────────────────────────────── */
+.track-form-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.track-form-row .form-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.track-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding: 10px 18px;
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+/* Result panel */
+.track-result {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  background: rgba(0, 243, 255, 0.05);
+  border: 1px solid var(--border-cyan);
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.6;
+  animation: fadeInUp 0.3s ease;
+}
+
+.track-result.error {
+  background: rgba(255, 0, 85, 0.05);
+  border-color: var(--border-pink);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ── FAQ accordion ────────────────────────────────────────────── */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition);
+  font-family: var(--font-body);
+}
+
+.faq-trigger:hover,
+.faq-trigger[aria-expanded="true"] {
+  color: var(--cyan);
+}
+
+/* Rotating chevron */
+.faq-chevron {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  line-height: 1;
+  transition: transform 0.3s ease, color var(--transition);
+  flex-shrink: 0;
+}
+
+.faq-trigger[aria-expanded="true"] .faq-chevron {
+  transform: rotate(90deg);
+  color: var(--cyan);
+}
+
+/* Accordion body — hidden by default, animated on open */
+.faq-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease,
+              padding 0.3s ease;
+  opacity: 0;
+  padding-bottom: 0;
+}
+
+/* JS will remove [hidden] and set max-height via inline style */
+.faq-body.open {
+  opacity: 1;
+  padding-bottom: 1rem;
+}
+
+.faq-body p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  padding-top: 0.2rem;
+}
+
+
+/* ── Calendly card perks list ─────────────────────────────────── */
+.calendly-perks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-bottom: 1.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.calendly-perks li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.perk-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: var(--pink-glow);
+  flex-shrink: 0;
+}
+
+/* Calendly open button */
+.calendly-open-btn {
+  font-family: var(--font-head);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
+
+/* ── Social media grid ────────────────────────────────────────── */
+.social-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.social-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.1rem 0.75rem;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover: neon pink glow + lift */
+.social-chip:hover {
+  border-color: var(--border-pink);
+  color: var(--text);
+  background: rgba(255, 0, 85, 0.07);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow:
+    0 0 0 1px var(--border-pink),
+    var(--pink-glow),
+    0 16px 40px rgba(255, 0, 85, 0.12);
+}
+
+/* Sweeping shimmer on hover */
+.social-chip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 30%,
+    rgba(255, 0, 85, 0.06) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.social-chip:hover::after {
+  transform: translateX(100%);
+}
+
+/* Icon circle */
+.social-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.social-icon svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.social-chip:hover .social-icon {
+  background: rgba(255, 0, 85, 0.12);
+  border-color: var(--border-pink);
+}
+
+.social-chip:hover .social-icon svg {
+  transform: scale(1.15);
+}
+
+.social-label {
+  font-family: var(--font-head);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition: color var(--transition);
+}
+
+.social-chip:hover .social-label {
+  color: var(--pink);
+  text-shadow: var(--pink-glow);
+}
+
+.social-handle {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+
+/* ── Calendly modal ───────────────────────────────────────────── */
+.calendly-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.calendly-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.calendly-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 600;
+  transform: translate(-50%, -50%) scale(0.92);
+  width: min(780px, 95vw);
+  max-height: 90vh;
+  border-radius: var(--radius-lg);
+  background: rgba(10, 10, 18, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-pink);
+  box-shadow: var(--pink-glow), 0 40px 120px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendly-modal.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.calendly-modal-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 90vh;
+}
+
+/* Modal header */
+.calendly-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.8rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.calendly-modal-title {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.calendly-modal-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.calendly-close-btn {
+  flex-shrink: 0;
+}
+
+/* Embed wrapper */
+.calendly-embed-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 480px;
+}
+
+.calendly-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  display: block;
+  border: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* Fallback panel (shown when iframe has no real Calendly URL) */
+.calendly-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 2rem;
+  text-align: center;
+  background: var(--bg);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.calendly-fallback-icon {
+  font-size: 3rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 12px var(--pink));
+}
+
+.calendly-fallback-title {
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.calendly-fallback-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 380px;
+}
+
+.calendly-fallback-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+
+/* ── Responsive — contact section ────────────────────────────── */
+
+/* Tablet: stack to single column at 1000px */
+@media (max-width: 1000px) {
+  .cs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-col--right {
+    /* On tablet, put it under the left column */
+    order: 1;
+  }
+}
+
+/* Wide tablet / phablet */
+@media (max-width: 768px) {
+  .contact-support {
+    padding: 4rem 1.4rem 5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .track-form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .track-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .social-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .social-chip {
+    padding: 0.9rem 0.5rem;
+  }
+
+  .social-label,
+  .social-handle {
+    display: none; /* icon-only on small screens */
+  }
+
+  .social-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .calendly-modal {
+    width: 100vw;
+    max-height: 100dvh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: translateY(100%);
+  }
+
+  .calendly-modal.open {
+    transform: translateY(0);
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .contact-support {
+    padding: 3rem 1rem 4rem;
+  }
+
+  .cs-card {
+    padding: 1.3rem;
+  }
+
+  .cs-card-header {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .cs-card-icon {
+    font-size: 1.35rem;
+  }
+
+  .social-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .calendly-modal-header {
+    padding: 1.1rem 1.2rem;
+  }
+
+  .calendly-modal-title {
+    font-size: 0.95rem;
+  }
+
+  .calendly-fallback-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 260px;
+  }
+}
+
+
+/* ================================================================
+   17. SHIPPING POLICY PAGE
+   ================================================================ */
+
+.policy-page {
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--navbar-h) + 3.5rem) 2rem 4rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.policy-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.policy-hero .section-sub {
+  max-width: 640px;
+}
+
+.policy-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1px solid var(--border-cyan);
+  background: var(--cyan-dim);
+  font-family: var(--font-head);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.policy-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.policy-toc {
+  position: sticky;
+  top: calc(var(--navbar-h) + 1.25rem);
+  padding: 1.4rem 1.2rem;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+}
+
+.policy-toc ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  list-style: none;
+}
+
+.policy-toc a {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding: 6px 8px;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+  transition: all var(--transition);
+}
+
+.policy-toc a:hover {
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border-left-color: var(--cyan);
+}
+
+.policy-article {
+  position: relative;
+  margin-bottom: 1.25rem;
+  padding: 1.8rem;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  scroll-margin-top: calc(var(--navbar-h) + 1.25rem);
+}
+
+.policy-article:hover {
+  border-color: var(--border-cyan);
+  box-shadow: 0 0 0 1px var(--border-cyan),
+              0 16px 48px rgba(0, 243, 255, 0.07);
+}
+
+.policy-article h2 {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.policy-kicker {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: var(--pink);
+  text-shadow: var(--pink-glow);
+  margin-bottom: 0.4rem;
+}
+
+.policy-article p,
+.policy-article li {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.policy-article p + p {
+  margin-top: 0.75rem;
+}
+
+.policy-article ul,
+.policy-article ol {
+  margin: 0.75rem 0 0 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.policy-article ul { list-style: disc; }
+.policy-article ol { list-style: decimal; }
+
+.policy-article li::marker {
+  color: var(--cyan);
+}
+
+.policy-subhead {
+  font-family: var(--font-head);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--cyan);
+  margin: 1.2rem 0 0.5rem;
+}
+
+.policy-table-wrap {
+  margin-top: 1rem;
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.policy-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 480px;
+}
+
+.policy-table th,
+.policy-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-size: 0.82rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.policy-table th {
+  font-family: var(--font-head);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: rgba(0, 243, 255, 0.06);
+}
+
+.policy-table td {
+  color: var(--text-muted);
+}
+
+.policy-table tr:last-child td {
+  border-bottom: none;
+}
+
+.policy-note {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-pink);
+  background: rgba(255, 0, 85, 0.06);
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.policy-close {
+  text-align: center;
+  margin-top: 0.5rem;
+  padding: 1.8rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-cyan);
+  background: rgba(0, 243, 255, 0.04);
+}
+
+.policy-close p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.policy-close strong {
+  font-family: var(--font-head);
+  color: var(--cyan);
+  text-shadow: var(--cyan-glow);
+}
+
+/* ── TOC active link highlight (set by JS on scroll) ─────────── */
+.policy-toc a.toc-active {
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border-left-color: var(--cyan);
+}
+
+/* ── TOC heading: visible on desktop, hidden when toggle is shown */
+.toc-heading {
+  font-family: var(--font-head);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 0.9rem;
+}
+
+/* ── TOC collapse toggle (mobile) ────────────────────────────── */
+.toc-toggle {
+  display: none; /* hidden on desktop */
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-head);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 0.2rem 0 0.85rem;
+  text-align: left;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toc-toggle-chevron {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.toc-toggle[aria-expanded="true"] .toc-toggle-chevron {
+  transform: rotate(90deg);
+}
+
+/* ── Table: stacked card layout on narrow screens ────────────── */
+/* Applied via JS at ≤480px; each row becomes a mini-card */
+.policy-table.table-stacked {
+  min-width: unset;
+}
+
+.policy-table.table-stacked thead {
+  display: none; /* hide header row — labels injected via data-label */
+}
+
+.policy-table.table-stacked tbody,
+.policy-table.table-stacked tr {
+  display: block;
+}
+
+.policy-table.table-stacked tr {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  padding: 0.1rem 0;
+  background: rgba(255,255,255,0.025);
+}
+
+.policy-table.table-stacked tr:last-child {
+  margin-bottom: 0;
+}
+
+.policy-table.table-stacked td {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.82rem;
+}
+
+.policy-table.table-stacked td:last-child {
+  border-bottom: none;
+}
+
+/* Injected column label */
+.policy-table.table-stacked td::before {
+  content: attr(data-label);
+  font-family: var(--font-head);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+
+/* ── 900px — sidebar collapses to top bar ─────────────────────── */
+@media (max-width: 900px) {
+  .policy-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .policy-toc {
+    position: static;
+  }
+
+  /* Two-column grid for TOC links */
+  .policy-toc ol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem 1rem;
+  }
+}
+
+
+/* ── 768px ───────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .policy-page {
+    padding: calc(var(--navbar-h) + 2rem) 1.4rem 3rem;
+  }
+
+  .policy-article {
+    padding: 1.3rem 1.2rem;
+  }
+
+  /* Hero title sizing */
+  .policy-hero .section-title {
+    font-size: clamp(1.7rem, 6vw, 2.2rem);
+  }
+
+  /* Slightly tighter gap */
+  .policy-layout {
+    gap: 1.5rem;
+  }
+
+  /* Policy note full width */
+  .policy-note {
+    font-size: 0.82rem;
+  }
+}
+
+
+/* ── 600px — enable TOC collapse toggle ──────────────────────── */
+@media (max-width: 600px) {
+  .toc-toggle {
+    display: flex;
+  }
+
+  /* When collapsed the ol is hidden */
+  .policy-toc ol.toc-collapsed {
+    display: none;
+  }
+
+  /* When open, single column */
+  .policy-toc ol {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+    margin-top: 0.5rem;
+  }
+
+  .policy-toc {
+    padding: 1rem;
+  }
+}
+
+
+/* ── 480px ───────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .policy-page {
+    padding: calc(var(--navbar-h) + 1.5rem) 1rem 2.5rem;
+  }
+
+  .policy-toc ol {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tighter article cards */
+  .policy-article {
+    padding: 1.1rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .policy-article h2 {
+    font-size: 0.92rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .policy-article p,
+  .policy-article li {
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .policy-kicker {
+    font-size: 0.58rem;
+  }
+
+  .policy-subhead {
+    font-size: 0.78rem;
+  }
+
+  /* Table: switch to stacked card view (JS adds .table-stacked) */
+  .policy-table-wrap {
+    border: none;
+    overflow-x: visible;
+  }
+
+  /* Close blurb */
+  .policy-close {
+    padding: 1.2rem 1rem;
+  }
+
+  .policy-close p {
+    font-size: 0.85rem;
+  }
+}
+
+
+/* ── 380px ───────────────────────────────────────────────────── */
+@media (max-width: 380px) {
+  .policy-page {
+    padding: calc(var(--navbar-h) + 1.2rem) 0.85rem 2rem;
+  }
+
+  .policy-article {
+    padding: 1rem 0.9rem;
+    border-radius: var(--radius);
+  }
+
+  .policy-article h2 {
+    font-size: 0.88rem;
+  }
+
+  .policy-meta {
+    font-size: 0.62rem;
+    padding: 6px 12px;
+  }
+}
+
+
+/* ── LOGOUT ICON BUTTON ───────────────────────────────────────── */
+.logout-icon-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 0, 85, 0.4);
+  color: var(--pink);
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 0, 85, 0.2);
+  flex-shrink: 0;
+}
+
+.logout-icon-btn:hover {
+  background: var(--pink);
+  color: #000;
+  box-shadow: 0 0 15px var(--pink);
+  border-color: var(--pink);
+}

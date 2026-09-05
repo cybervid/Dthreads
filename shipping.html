@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>D Threads — Where Style Meets the Future</title>
+  <title>D THREADS — Shipping Policy</title>
 
-  <!-- Google Fonts: Orbitron (headers/logo) + Poppins (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -14,14 +13,8 @@
 </head>
 <body>
 
-  <!-- ============================================================
-       BACKGROUND LAYERS (fixed, pointer-events:none, z-index:-1)
-  ============================================================ -->
-
-  <!-- Animated dot/grid background -->
   <div class="grid-bg" aria-hidden="true"></div>
 
-  <!-- Floating clothing images that drift right-to-left -->
   <div class="floating-clothes-bg" aria-hidden="true">
     <img class="float-img" src="source/clothes/1.jpg"  alt="" />
     <img class="float-img" src="source/clothes/2.jpg"  alt="" />
@@ -36,28 +29,37 @@
   </div>
 
 
-  <!-- ============================================================
-       NAVIGATION
-  ============================================================ -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
 
-      <!-- Logo -->
-      <a href="#home" class="logo" aria-label="D Threads Home">D&nbsp;threads</a>
+      <a href="index.html" class="nav-logo-link" aria-label="D Threads Home">
+        <div class="nav-logo-svg-wrap" aria-hidden="true">
+          <svg class="nav-logo-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="svg-d-curve" d="M20 15 L20 65 Q55 65 60 40 Q55 15 20 15 Z" stroke="#00f3ff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="svg-d-inner" d="M27 25 Q48 25 50 40 Q48 55 27 55 Z" stroke="#00f3ff" stroke-width="1.5" fill="none"/>
+            <g class="svg-needle-group">
+              <line x1="55" y1="10" x2="55" y2="35" stroke="#ff0055" stroke-width="2.5" stroke-linecap="round"/>
+              <polygon points="53,35 57,35 55,42" fill="#ff0055"/>
+              <ellipse class="svg-needle-eye" cx="55" cy="14" rx="3" ry="2" stroke="#00f3ff" stroke-width="1.5" fill="none"/>
+            </g>
+            <path class="svg-thread" d="M55 14 Q70 30 50 40 Q35 48 20 55" stroke="#00f3ff" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <circle class="svg-orbit-dot-1" cx="40" cy="40" r="2.5" fill="#ff0055" opacity="0.8"/>
+            <circle class="svg-orbit-dot-2" cx="60" cy="60" r="1.8" fill="#00f3ff" opacity="0.6"/>
+          </svg>
+        </div>
+        <span class="nav-logo-text">D&nbsp;threads</span>
+      </a>
 
-      <!-- Desktop nav links -->
       <ul class="nav-links" id="navLinks" role="list">
-        <li><a href="#home"            class="nav-link">Home</a></li>
-        <li><a href="#products"       class="nav-link">Products</a></li>
-        <li><a href="#about"          class="nav-link">About</a></li>
-        <li><a href="#reviews"        class="nav-link">Reviews</a></li>
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="index.html#products" class="nav-link">Products</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+        <li><a href="index.html#reviews" class="nav-link">Reviews</a></li>
         <li><a href="#contact-support" class="nav-link">Contact</a></li>
       </ul>
 
-      <!-- Right-side action buttons -->
       <div class="nav-actions">
 
-        <!-- Account dropdown -->
         <div class="dropdown" id="accountDropdown">
           <button class="action-btn" id="accountBtn" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
             <span class="btn-icon" aria-hidden="true">👤</span><span class="btn-label"> Account</span>
@@ -68,7 +70,6 @@
           </ul>
         </div>
 
-        <!-- Help dropdown -->
         <div class="dropdown" id="helpDropdown">
           <button class="action-btn" id="helpBtn" aria-haspopup="true" aria-expanded="false" aria-label="Help menu">
             <span class="btn-icon" aria-hidden="true">❓</span><span class="btn-label"> Help</span>
@@ -80,221 +81,276 @@
           </ul>
         </div>
 
-        <!-- Logout button -->
-        <button class="logout-icon-btn" id="logoutBtn" title="Logout" aria-label="Logout">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-        </button>
-
-        <!-- Cart button with badge -->
         <button class="cart-btn" id="cartBtn" aria-label="Open cart" aria-haspopup="dialog">
           🛒 Cart
           <span class="cart-badge" id="cartBadge" aria-live="polite">0</span>
         </button>
 
-        <!-- Hamburger (mobile only) -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="navLinks">
           <span class="ham-line"></span>
           <span class="ham-line"></span>
           <span class="ham-line"></span>
         </button>
 
-      </div><!-- /nav-actions -->
-    </div><!-- /nav-inner -->
-  </nav><!-- /navbar -->
+      </div>
+    </div>
+  </nav>
 
 
-  <!-- ============================================================
-       MAIN CONTENT
-  ============================================================ -->
   <main id="main-content">
 
-    <!-- ── HERO ─────────────────────────────────────────────── -->
-    <section class="hero" id="home" aria-label="Hero section">
-      <div class="hero-content">
-        <p class="hero-eyebrow">NEW COLLECTION 2026</p>
-        <h1 class="hero-headline">
-          <span class="headline-line"></span>Where Style Meets</span>
-          <span class="headline-accent">the Future.</span>
-        </h1>
-        <p class="hero-sub">
-          Cyberpunk-inspired streetwear engineered for those<br class="br-desktop" />
-          who refuse to blend in. Limited drops. Zero compromises.
+    <section class="policy-page" id="shipping-policy" aria-label="Shipping policy">
+
+      <div class="policy-hero reveal">
+        <p class="section-eyebrow">// SHIPPING &amp; DELIVERY</p>
+        <h1 class="section-title">Shipping <span class="accent-cyan">Policy</span></h1>
+        <p class="section-sub">
+          Thank you for shopping with D THREADS. This policy covers how we process, ship, and deliver your orders.
         </p>
-        <div class="hero-cta-row">
-          <a href="#products" class="btn btn-primary">Shop Now</a>
-          <a href="#about"    class="btn btn-ghost">Our Story</a>
-        </div>
-        <!-- Stat chips -->
-        <div class="hero-stats" aria-label="Brand statistics">
-          <div class="stat-chip"><strong>10K+</strong><span>Happy Customers</span></div>
-          <div class="stat-chip"><strong>500+</strong><span>Unique Pieces</span></div>
-          <div class="stat-chip"><strong>Free</strong><span>Returns Always</span></div>
-        </div>
+        <p class="policy-meta">Effective Date: September 5, 2026</p>
       </div>
 
-      <!-- ── RIGHT SIDE: Animated video logo ── -->
-      <div class="hero-visual">
-        <div class="hero-logo-card" aria-label="D Threads brand logo">
-          <!-- Corner accent lines -->
-          <span class="card-corner card-corner--tl" aria-hidden="true"></span>
-          <span class="card-corner card-corner--tr" aria-hidden="true"></span>
-          <span class="card-corner card-corner--bl" aria-hidden="true"></span>
-          <span class="card-corner card-corner--br" aria-hidden="true"></span>
+      <div class="policy-layout">
 
-          <!-- ANIMATED VIDEO LOGO -->
-          <div class="video-logo-wrapper">
-            <video
-              src="source/DThreads_dark_neon_6s.mp4"
-              class="neon-video-logo"
-              width="1088"
-              height="1088"
-              autoplay
-              loop
-              muted
-              playsinline
-              aria-label="D Threads Animated Logo">
-            </video>
-          </div>
+        <aside class="policy-toc reveal" aria-label="Policy sections">
+          <button class="toc-toggle" id="tocToggle" aria-expanded="false" aria-controls="tocList">
+            On this page
+            <span class="toc-toggle-chevron" aria-hidden="true">›</span>
+          </button>
+          <h2 class="toc-heading" aria-hidden="true">On this page</h2>
+          <ol id="tocList">
+            <li><a href="#sp-processing">1. Order Processing</a></li>
+            <li><a href="#sp-methods">2. Methods &amp; Carriers</a></li>
+            <li><a href="#sp-costs">3. Shipping Costs</a></li>
+            <li><a href="#sp-times">4. Delivery Times</a></li>
+            <li><a href="#sp-international">5. International</a></li>
+            <li><a href="#sp-tracking">6. Order Tracking</a></li>
+            <li><a href="#sp-address">7. Address Issues</a></li>
+            <li><a href="#sp-damage">8. Lost or Damaged</a></li>
+            <li><a href="#sp-delays">9. Delays</a></li>
+            <li><a href="#contact-support">10. Contact Us</a></li>
+          </ol>
+        </aside>
 
-          <!-- Ambient glow behind the card -->
-          <div class="hero-logo-glow" aria-hidden="true"></div>
-        </div>
-      </div>
-    </section><!-- /hero -->
+        <div class="policy-body">
 
+          <article class="policy-article reveal" id="sp-processing">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">01</p>
+            <h2>Order Processing Time</h2>
+            <p>All orders are processed within <strong>1–3 business days</strong> (Monday–Friday, excluding public holidays) after payment confirmation.</p>
+            <ul>
+              <li>You will receive an order confirmation email immediately after placing your order.</li>
+              <li>Once your order is dispatched, you will receive a shipping confirmation email with a tracking number.</li>
+              <li>During peak seasons, sales events, or holidays, processing times may be slightly extended — we will notify you if significant delays occur.</li>
+            </ul>
+          </article>
 
-    <!-- ── FEATURED PRODUCTS ──────────────────────────────── -->
-    <section class="products" id="products" aria-label="Featured products">
-      <div class="section-header">
-        <p class="section-eyebrow">// FEATURED DROPS</p>
-        <h2 class="section-title">Latest <span class="accent-cyan">Collection</span></h2>
-        <p class="section-sub">Hand-picked pieces from the newest drop. Quantities strictly limited.</p>
-      </div>
+          <article class="policy-article reveal" id="sp-methods">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">02</p>
+            <h2>Shipping Methods &amp; Carriers</h2>
+            <p>We partner with trusted carriers such as <strong>DHL, FedEx, and UPS</strong> to ensure reliable and timely delivery.</p>
+            <p>At checkout, you may choose from the following options:</p>
+            <ul>
+              <li>Standard Shipping</li>
+              <li>Express / Expedited Shipping</li>
+              <li>International Priority Shipping (where available)</li>
+            </ul>
+            <p class="policy-note">We do not ship to P.O. Boxes, APO/FPO addresses, or restricted regions unless explicitly stated at checkout.</p>
+          </article>
 
-      <!-- Product grid — populated by JS -->
-      <div class="products-grid" id="productsGrid" role="list" aria-label="Product grid"></div>
-
-      <div class="products-footer">
-        <button class="btn btn-ghost" id="loadMoreBtn">Load More Drops</button>
-      </div>
-    </section><!-- /products -->
-
-
-    <!-- ── ABOUT ─────────────────────────────────────────── -->
-    <section class="about" id="about" aria-label="About D Threads">
-      <div class="about-inner">
-        <div class="about-text">
-          <p class="section-eyebrow">// OUR STORY</p>
-          <h2 class="section-title">Born in the <span class="accent-pink">Underground</span></h2>
-          <p class="about-body">
-            D Threads started as a one-person studio in a basement surrounded by soldering irons
-            and sewing machines. We believe fashion should be a statement — not a uniform.
-            Every piece we release is designed to disrupt, to glow, and to last.
-          </p>
-          <p class="about-body">
-            We source ethically, manufacture locally, and ship globally. No fast fashion.
-            No corner cutting. Just raw, unapologetic style built for the next generation.
-          </p>
-          <div class="about-badges">
-            <span class="badge-pill">🌍 Ethically Sourced</span>
-            <span class="badge-pill">♻️ Sustainable Packaging</span>
-            <span class="badge-pill">🏭 Local Manufacturing</span>
-          </div>
-        </div>
-        <div class="about-visual" aria-hidden="true">
-          <div class="about-img-stack">
-            <img src="source/clothes/12.jpg" alt="" class="about-img about-img-back"  loading="lazy" />
-            <img src="source/clothes/13.jpg" alt="" class="about-img about-img-front" loading="lazy" />
-          </div>
-        </div>
-      </div>
-    </section><!-- /about -->
-
-
-    <!-- ── REVIEWS ───────────────────────────────────────── -->
-    <section class="reviews" id="reviews" aria-label="Customer reviews">
-      <div class="section-header">
-        <p class="section-eyebrow">// SOCIAL PROOF</p>
-        <h2 class="section-title">What the <span class="accent-cyan">Community</span> Says</h2>
-      </div>
-      <div class="reviews-grid" role="list">
-
-        <article class="review-card" role="listitem">
-          <div class="review-stars" aria-label="5 stars">★★★★★</div>
-          <p class="review-text">"The neon hoodie is everything. Gets compliments every single time I wear it. Quality is genuinely insane for the price."</p>
-          <div class="reviewer">
-            <div class="reviewer-avatar" aria-hidden="true">AK</div>
-            <div>
-              <strong>Aisha K.</strong>
-              <span>Lagos, NG</span>
+          <article class="policy-article reveal" id="sp-costs">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">03</p>
+            <h2>Shipping Costs</h2>
+            <p>Shipping fees are calculated at checkout based on package weight and dimensions, destination, and the shipping method you select.</p>
+            <div class="policy-table-wrap">
+              <table class="policy-table">
+                <caption class="sr-only">Shipping cost overview</caption>
+                <thead>
+                  <tr>
+                    <th>Order Value</th>
+                    <th>Shipping Method</th>
+                    <th>Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Over $100</td>
+                    <td>Standard Shipping</td>
+                    <td>Free</td>
+                  </tr>
+                  <tr>
+                    <td>Under $100</td>
+                    <td>Standard Shipping</td>
+                    <td>Calculated at checkout</td>
+                  </tr>
+                  <tr>
+                    <td>Any amount</td>
+                    <td>Express Shipping</td>
+                    <td>Calculated at checkout</td>
+                  </tr>
+                  <tr>
+                    <td>International</td>
+                    <td>Standard / Express</td>
+                    <td>Calculated at checkout</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
-        </article>
+            <p>Free shipping promotions, when available, will be clearly advertised on our website and at checkout.</p>
+          </article>
 
-        <article class="review-card" role="listitem">
-          <div class="review-stars" aria-label="5 stars">★★★★★</div>
-          <p class="review-text">"Ordered the Tech Armor Jacket. Shipping was fast, packaging was fire, and the jacket itself? I'm never taking it off."</p>
-          <div class="reviewer">
-            <div class="reviewer-avatar" aria-hidden="true">MJ</div>
-            <div>
-              <strong>Marcus J.</strong>
-              <span>London, UK</span>
+          <article class="policy-article reveal" id="sp-times">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">04</p>
+            <h2>Estimated Delivery Times</h2>
+            <p>Delivery times are estimates only, counted from the shipping date (not the order date).</p>
+            <div class="policy-table-wrap">
+              <table class="policy-table">
+                <caption class="sr-only">Estimated delivery times</caption>
+                <thead>
+                  <tr>
+                    <th>Shipping Method</th>
+                    <th>Destination</th>
+                    <th>Estimated Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Standard Shipping</td>
+                    <td>Domestic</td>
+                    <td>3–7 business days</td>
+                  </tr>
+                  <tr>
+                    <td>Express Shipping</td>
+                    <td>Domestic</td>
+                    <td>1–3 business days</td>
+                  </tr>
+                  <tr>
+                    <td>Standard Shipping</td>
+                    <td>International</td>
+                    <td>7–21 business days</td>
+                  </tr>
+                  <tr>
+                    <td>Express Shipping</td>
+                    <td>International</td>
+                    <td>3–7 business days</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
-        </article>
+            <p>Actual delivery may vary due to customs clearance, carrier delays, weather conditions, or other factors beyond our control. We do not guarantee delivery dates and are not liable for delays caused by third parties.</p>
+          </article>
 
-        <article class="review-card" role="listitem">
-          <div class="review-stars" aria-label="4 stars">★★★★☆</div>
-          <p class="review-text">"Sizing runs true and the material feels premium. The cyber gloves are a statement piece. Highly recommend D Threads."</p>
-          <div class="reviewer">
-            <div class="reviewer-avatar" aria-hidden="true">SL</div>
-            <div>
-              <strong>Selena L.</strong>
-              <span>Toronto, CA</span>
-            </div>
-          </div>
-        </article>
+          <article class="policy-article reveal" id="sp-international">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">05</p>
+            <h2>International Shipping — Customs, Duties &amp; Taxes</h2>
+            <p>For international orders, please be aware of the following:</p>
+            <ul>
+              <li>Your destination country may impose customs duties, import taxes, VAT, or other fees.</li>
+              <li>These charges are not included in the product price or shipping cost and are the sole responsibility of the buyer.</li>
+              <li>The amount is determined by local customs authorities and must be paid by you upon delivery (or before release).</li>
+              <li>If you refuse to pay customs fees and the package is returned, abandoned, or destroyed, D THREADS is not responsible and the order amount (including shipping) will not be refunded.</li>
+            </ul>
+            <p>We recommend contacting your local customs office for more information before placing an international order.</p>
+          </article>
 
-        <article class="review-card" role="listitem">
-          <div class="review-stars" aria-label="5 stars">★★★★★</div>
-          <p class="review-text">"Finally a brand that gets it. Everything is exactly as shown — no catfishing. The LED sneakers light up a whole room."</p>
-          <div class="reviewer">
-            <div class="reviewer-avatar" aria-hidden="true">DR</div>
-            <div>
-              <strong>Dev R.</strong>
-              <span>Berlin, DE</span>
-            </div>
-          </div>
-        </article>
+          <article class="policy-article reveal" id="sp-tracking">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">06</p>
+            <h2>Order Tracking</h2>
+            <p>Once your order ships, you will receive a shipment confirmation email containing:</p>
+            <ul>
+              <li>A unique tracking number</li>
+              <li>A link to track your package in real time</li>
+            </ul>
+            <p>Please allow 24–72 hours for tracking information to update after dispatch.</p>
+          </article>
 
+          <article class="policy-article reveal" id="sp-address">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">07</p>
+            <h2>Incorrect Address &amp; Unclaimed Packages</h2>
+            <p>You are responsible for providing a complete and accurate shipping address.</p>
+            <p>If your order is returned to us due to an incorrect or incomplete address, an unclaimed package, or refusal of customs fees, we will:</p>
+            <ul>
+              <li>Contact you to confirm the correct address</li>
+              <li>Charge you for re-shipping costs before we send it out again</li>
+              <li>If you choose not to re-ship, refund the product amount minus the original shipping costs</li>
+            </ul>
+            <p>If you need to change your shipping address, please contact us within 24 hours of placing your order. Once dispatched, no changes or cancellations can be made.</p>
+          </article>
+
+          <article class="policy-article reveal" id="sp-damage">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">08</p>
+            <h2>Lost, Stolen, or Damaged Packages</h2>
+
+            <h3 class="policy-subhead">8.1 Damage During Transit</h3>
+            <p>If your package arrives visibly damaged:</p>
+            <ul>
+              <li>Contact us within 48 hours of delivery.</li>
+              <li>Provide clear photos of the outer packaging and the damaged item(s).</li>
+              <li>After review, we will arrange a replacement or refund (at our discretion).</li>
+            </ul>
+
+            <h3 class="policy-subhead">8.2 Lost or Stolen Packages</h3>
+            <p>If the carrier marks your package as “Delivered” but you have not received it, responsibility shifts to you.</p>
+            <ul>
+              <li>Please contact the carrier and your local post office immediately to file a claim.</li>
+              <li>We do not guarantee refunds for packages marked “Delivered” that are later reported lost or stolen.</li>
+              <li>For high-value orders, contact us before purchase to arrange additional shipping insurance (at an extra cost).</li>
+            </ul>
+          </article>
+
+          <article class="policy-article reveal" id="sp-delays">
+            <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+            <span class="card-corner card-corner--br" aria-hidden="true"></span>
+            <p class="policy-kicker">09</p>
+            <h2>Delays &amp; Force Majeure</h2>
+            <p>D THREADS is not liable for shipping delays caused by:</p>
+            <ul>
+              <li>Customs clearance backlogs</li>
+              <li>Carrier strikes, operational issues, or system failures</li>
+              <li>Severe weather or natural disasters</li>
+              <li>Political unrest, war, or other force majeure events</li>
+            </ul>
+            <p>We will do our best to communicate any known delays and work with carriers to resolve issues promptly.</p>
+          </article>
+
+          <div class="policy-close reveal">
+            <p><strong>D THREADS</strong> — Where Style Meets Quality.</p>
+          </div>
+
+        </div>
       </div>
-    </section><!-- /reviews -->
+    </section>
 
 
-
-    <!-- ── CONTACT & SUPPORT ─────────────────────────────────── -->
     <section class="contact-support" id="contact-support" aria-label="Contact us and customer support">
 
       <div class="section-header reveal">
         <p class="section-eyebrow">// REACH OUT</p>
         <h2 class="section-title">Contact Us &amp; <span class="accent-pink">Support Hub</span></h2>
-        <p class="section-sub">We're human, we're fast, and we actually care. Pick your channel.</p>
+        <p class="section-sub">Questions about shipping, delivery, or a specific order? Include your order number for faster help.</p>
       </div>
 
       <div class="cs-grid">
 
-        <!-- ══════════════════════════════════════════════════════
-             COLUMN 1 — Contact Us & Direct Channels
-        ═══════════════════════════════════════════════════════ -->
         <div class="cs-col cs-col--left">
 
-          <!-- ── Contact Form ─────────────────────────────────── -->
           <div class="cs-card reveal" id="contactFormCard">
-            <!-- Decorative corner accents (reuse hero pattern) -->
             <span class="card-corner card-corner--tl" aria-hidden="true"></span>
             <span class="card-corner card-corner--tr" aria-hidden="true"></span>
             <span class="card-corner card-corner--bl" aria-hidden="true"></span>
@@ -312,30 +368,12 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="cf-name" class="form-label">Name <span class="form-required" aria-hidden="true">*</span></label>
-                  <input
-                    type="text"
-                    id="cf-name"
-                    name="name"
-                    class="form-input"
-                    placeholder="Your full name"
-                    autocomplete="name"
-                    required
-                    aria-required="true"
-                  />
+                  <input type="text" id="cf-name" name="name" class="form-input" placeholder="Your full name" autocomplete="name" required aria-required="true" />
                   <span class="form-error" id="cf-name-err" role="alert" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
                   <label for="cf-email" class="form-label">Email <span class="form-required" aria-hidden="true">*</span></label>
-                  <input
-                    type="email"
-                    id="cf-email"
-                    name="email"
-                    class="form-input"
-                    placeholder="you@example.com"
-                    autocomplete="email"
-                    required
-                    aria-required="true"
-                  />
+                  <input type="email" id="cf-email" name="email" class="form-input" placeholder="you@example.com" autocomplete="email" required aria-required="true" />
                   <span class="form-error" id="cf-email-err" role="alert" aria-live="polite"></span>
                 </div>
               </div>
@@ -355,15 +393,7 @@
 
               <div class="form-group">
                 <label for="cf-message" class="form-label">Message <span class="form-required" aria-hidden="true">*</span></label>
-                <textarea
-                  id="cf-message"
-                  name="message"
-                  class="form-input form-textarea"
-                  placeholder="Tell us what's on your mind…"
-                  rows="5"
-                  required
-                  aria-required="true"
-                ></textarea>
+                <textarea id="cf-message" name="message" class="form-input form-textarea" placeholder="Tell us what's on your mind…" rows="5" required aria-required="true"></textarea>
                 <span class="form-error" id="cf-message-err" role="alert" aria-live="polite"></span>
               </div>
 
@@ -371,16 +401,13 @@
                 <span class="submit-btn-text">Send Message 🚀</span>
               </button>
             </form>
-          </div><!-- /contactFormCard -->
+          </div>
 
-          <!-- ── Direct Channel Buttons ───────────────────────── -->
           <div class="cs-channels reveal">
             <p class="cs-channels-label">// OR REACH US DIRECTLY</p>
 
-            <!-- Email / mailto -->
             <a href="mailto:support@dthreads.com" class="cs-channel-btn cs-channel-btn--email" aria-label="Email support@dthreads.com">
               <span class="ch-icon" aria-hidden="true">
-                <!-- Gmail-inspired envelope SVG -->
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/>
                   <path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -393,10 +420,8 @@
               <span class="ch-arrow" aria-hidden="true">→</span>
             </a>
 
-            <!-- WhatsApp -->
             <a href="https://wa.me/2348000000000" target="_blank" rel="noopener noreferrer" class="cs-channel-btn cs-channel-btn--whatsapp" aria-label="Chat with us on WhatsApp">
               <span class="ch-icon" aria-hidden="true">
-                <!-- WhatsApp bubble SVG -->
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M20.52 3.48A11.93 11.93 0 0012.01 0C5.37 0 .02 5.35.02 11.99c0 2.11.55 4.17 1.6 5.98L0 24l6.19-1.62a11.97 11.97 0 005.82 1.49h.01c6.63 0 11.98-5.35 11.98-11.99 0-3.2-1.25-6.21-3.48-8.4zm-8.51 18.42a9.93 9.93 0 01-5.06-1.38l-.36-.22-3.74.98 1-3.65-.24-.38a9.93 9.93 0 01-1.52-5.28c0-5.49 4.47-9.96 9.97-9.96a9.91 9.91 0 017.05 2.92 9.91 9.91 0 012.92 7.04c0 5.49-4.47 9.93-9.96 9.93zm5.47-7.45c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.46 0 1.46 1.06 2.87 1.2 3.07.15.2 2.08 3.17 5.05 4.45.71.31 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z" fill="currentColor"/>
                 </svg>
@@ -407,17 +432,13 @@
               </span>
               <span class="ch-arrow" aria-hidden="true">→</span>
             </a>
-          </div><!-- /cs-channels -->
+          </div>
 
-        </div><!-- /cs-col--left -->
+        </div>
 
 
-        <!-- ══════════════════════════════════════════════════════
-             COLUMN 2 — Customer Care & Support Hub
-        ═══════════════════════════════════════════════════════ -->
         <div class="cs-col cs-col--right">
 
-          <!-- ── Order Tracking Helper ────────────────────────── -->
           <div class="cs-card cs-card--track reveal">
             <span class="card-corner card-corner--tl" aria-hidden="true"></span>
             <span class="card-corner card-corner--br" aria-hidden="true"></span>
@@ -429,19 +450,12 @@
               </div>
             </div>
             <div class="track-form-row">
-              <input
-                type="text"
-                id="trackOrderId"
-                class="form-input"
-                placeholder="Order ID (e.g. DT-00412)"
-                aria-label="Order ID"
-              />
+              <input type="text" id="trackOrderId" class="form-input" placeholder="Order ID (e.g. DT-00412)" aria-label="Order ID" />
               <button class="btn btn-ghost track-btn" id="trackOrderBtn" aria-label="Track order">Track →</button>
             </div>
             <div class="track-result" id="trackResult" aria-live="polite" hidden></div>
           </div>
 
-          <!-- ── FAQ Accordion ────────────────────────────────── -->
           <div class="cs-card cs-card--faq reveal" id="faq">
             <span class="card-corner card-corner--tl" aria-hidden="true"></span>
             <span class="card-corner card-corner--br" aria-hidden="true"></span>
@@ -504,10 +518,9 @@
                 </div>
               </div>
 
-            </div><!-- /faq-list -->
-          </div><!-- /cs-card--faq -->
+            </div>
+          </div>
 
-          <!-- ── Book a Styling Session (Calendly) ────────────── -->
           <div class="cs-card cs-card--calendly reveal">
             <span class="card-corner card-corner--tl" aria-hidden="true"></span>
             <span class="card-corner card-corner--br" aria-hidden="true"></span>
@@ -529,9 +542,8 @@
             <button class="btn btn-pink btn-full calendly-open-btn" id="calendlyOpenBtn" aria-haspopup="dialog">
               Book Your Session 🗓️
             </button>
-          </div><!-- /cs-card--calendly -->
+          </div>
 
-          <!-- ── Social Media Grid ─────────────────────────────── -->
           <div class="cs-card cs-card--social reveal">
             <span class="card-corner card-corner--tl" aria-hidden="true"></span>
             <span class="card-corner card-corner--br" aria-hidden="true"></span>
@@ -545,7 +557,6 @@
 
             <div class="social-grid" role="list" aria-label="Social media links">
 
-              <!-- Twitter / X -->
               <a href="https://x.com/dthreads" target="_blank" rel="noopener noreferrer"
                  class="social-chip" role="listitem" aria-label="D Threads on X / Twitter">
                 <span class="social-icon" aria-hidden="true">
@@ -557,7 +568,6 @@
                 <span class="social-handle">@dthreads</span>
               </a>
 
-              <!-- Instagram -->
               <a href="https://instagram.com/dthreads" target="_blank" rel="noopener noreferrer"
                  class="social-chip" role="listitem" aria-label="D Threads on Instagram">
                 <span class="social-icon" aria-hidden="true">
@@ -571,7 +581,6 @@
                 <span class="social-handle">@dthreads</span>
               </a>
 
-              <!-- TikTok -->
               <a href="https://tiktok.com/@dthreads" target="_blank" rel="noopener noreferrer"
                  class="social-chip" role="listitem" aria-label="D Threads on TikTok">
                 <span class="social-icon" aria-hidden="true">
@@ -583,7 +592,6 @@
                 <span class="social-handle">@dthreads</span>
               </a>
 
-              <!-- Discord -->
               <a href="https://discord.gg/dthreads" target="_blank" rel="noopener noreferrer"
                  class="social-chip" role="listitem" aria-label="D Threads on Discord">
                 <span class="social-icon" aria-hidden="true">
@@ -595,21 +603,18 @@
                 <span class="social-handle">dthreads</span>
               </a>
 
-            </div><!-- /social-grid -->
-          </div><!-- /cs-card--social -->
+            </div>
+          </div>
 
-        </div><!-- /cs-col--right -->
+        </div>
 
-      </div><!-- /cs-grid -->
+      </div>
 
-    </section><!-- /contact-support -->
+    </section>
 
-  </main><!-- /main-content -->
+  </main>
 
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
   <footer class="footer" role="contentinfo">
     <div class="footer-inner">
       <div class="footer-brand">
@@ -619,23 +624,23 @@
       <nav class="footer-links" aria-label="Footer navigation">
         <h3>Shop</h3>
         <ul>
-          <li><a href="#products">New Arrivals</a></li>
-          <li><a href="#products">Best Sellers</a></li>
-          <li><a href="#products">Sale</a></li>
+          <li><a href="index.html#products">New Arrivals</a></li>
+          <li><a href="index.html#products">Best Sellers</a></li>
+          <li><a href="index.html#products">Sale</a></li>
         </ul>
       </nav>
       <nav class="footer-links" aria-label="Company information">
         <h3>Company</h3>
         <ul>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="index.html#reviews">Reviews</a></li>
           <li><a href="#contact-support">Careers</a></li>
         </ul>
       </nav>
       <nav class="footer-links" aria-label="Support links">
         <h3>Support</h3>
         <ul>
-          <li><a href="#contact-support">FAQs</a></li>
+          <li><a href="#faq">FAQs</a></li>
           <li><a href="shipping.html">Shipping Policy</a></li>
           <li><a href="#contact-support">Contact Us</a></li>
         </ul>
@@ -648,14 +653,10 @@
   </footer>
 
 
-  <!-- ============================================================
-       CALENDLY BOOKING MODAL
-  ============================================================ -->
   <div class="modal-overlay calendly-overlay" id="calendlyOverlay" aria-hidden="true"></div>
 
   <div class="calendly-modal" id="calendlyModal" role="dialog" aria-label="Book a styling session" aria-modal="true" aria-hidden="true">
     <div class="calendly-modal-inner">
-      <!-- Header -->
       <div class="calendly-modal-header">
         <div>
           <h2 class="calendly-modal-title">Book a <span class="accent-pink">Styling Session</span></h2>
@@ -664,7 +665,6 @@
         <button class="close-btn calendly-close-btn" id="calendlyCloseBtn" aria-label="Close booking modal">✕</button>
       </div>
 
-      <!-- Embed placeholder — swap the src for your real Calendly URL -->
       <div class="calendly-embed-wrap">
         <iframe
           src="https://calendly.com/dthreads/styling-session"
@@ -674,7 +674,6 @@
           loading="lazy"
           aria-label="Calendly booking widget"
         ></iframe>
-        <!-- Fallback shown while iframe loads or if Calendly URL is not set -->
         <div class="calendly-fallback" id="calendlyFallback" aria-hidden="true">
           <span class="calendly-fallback-icon" aria-hidden="true">🗓️</span>
           <p class="calendly-fallback-title">Booking Widget</p>
@@ -689,9 +688,6 @@
   </div>
 
 
-  <!-- ============================================================
-       CART DRAWER (slide-in from right)
-  ============================================================ -->
   <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
 
   <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Shopping cart" aria-modal="true" aria-hidden="true">
@@ -699,13 +695,11 @@
       <h2>Your Cart 🛒</h2>
       <button class="close-btn" id="cartCloseBtn" aria-label="Close cart">✕</button>
     </div>
-    <div class="cart-items-list" id="cartItemsList" role="list">
-      <!-- Dynamically populated by JS -->
-    </div>
+    <div class="cart-items-list" id="cartItemsList" role="list"></div>
     <div class="cart-empty-state" id="cartEmpty">
       <div class="empty-icon" aria-hidden="true">🛒</div>
       <p>Your cart is empty.</p>
-      <a href="#products" class="btn btn-primary" id="cartShopLink">Start Shopping</a>
+      <a href="index.html#products" class="btn btn-primary" id="cartShopLink">Start Shopping</a>
     </div>
     <div class="cart-footer" id="cartFooter" style="display:none;">
       <div class="cart-total-row">
@@ -719,47 +713,112 @@
   </aside>
 
 
-  <!-- ============================================================
-       PRODUCT QUICK-VIEW MODAL
-  ============================================================ -->
-  <div class="modal-overlay" id="modalOverlay" aria-hidden="true"></div>
-
-  <div class="product-modal" id="productModal" role="dialog" aria-label="Product details" aria-modal="true" aria-hidden="true">
-    <button class="close-btn modal-close" id="modalCloseBtn" aria-label="Close product details">✕</button>
-    <div class="modal-inner">
-      <div class="modal-img-wrap">
-        <img src="" alt="" id="modalImg" class="modal-img" loading="lazy" />
-        <span class="modal-badge" id="modalBadge"></span>
-      </div>
-      <div class="modal-details">
-        <p class="modal-category" id="modalCategory"></p>
-        <h2 class="modal-title"   id="modalTitle"></h2>
-        <div class="modal-stars"  id="modalStars"></div>
-        <p class="modal-desc"     id="modalDesc"></p>
-        <div class="modal-meta">
-          <div class="modal-size-row">
-            <span class="meta-label">Size:</span>
-            <div class="size-options" id="modalSizes" role="group" aria-label="Select size"></div>
-          </div>
-        </div>
-        <div class="modal-price-row">
-          <span class="modal-price" id="modalPrice"></span>
-          <span class="modal-stock" id="modalStock"></span>
-        </div>
-        <button class="btn btn-primary btn-full modal-add-btn" id="modalAddToCart">
-          Add to Cart 🛒
-        </button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ============================================================
-       TOAST NOTIFICATION
-  ============================================================ -->
   <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
 
   <script src="script.js"></script>
+  <script>
+  /* ============================================================
+     SHIPPING PAGE — extra interactivity
+     (TOC scroll-spy, TOC collapse, table stacking)
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    /* ── TOC scroll-spy ───────────────────────────────────────── */
+    const tocLinks   = document.querySelectorAll('.policy-toc a[href^="#"]');
+    const articles   = document.querySelectorAll('.policy-article[id], .contact-support[id]');
+    const navH       = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navbar-h')) || 70;
+
+    function updateTocActive() {
+      let current = '';
+      articles.forEach(el => {
+        if (el.getBoundingClientRect().top <= navH + 40) current = el.id;
+      });
+      tocLinks.forEach(a => {
+        const href = a.getAttribute('href').replace('#', '');
+        a.classList.toggle('toc-active', href === current);
+      });
+    }
+
+    window.addEventListener('scroll', updateTocActive, { passive: true });
+    updateTocActive();
+
+    /* ── TOC collapse toggle (mobile ≤600px) ─────────────────── */
+    const tocToggle = document.getElementById('tocToggle');
+    const tocList   = document.getElementById('tocList');
+    const tocHeading = document.querySelector('.toc-heading');
+
+    /* The static h2 is for desktop; hide it when toggle is visible */
+    function syncTocHeadingVisibility() {
+      if (!tocHeading) return;
+      const toggleVisible = getComputedStyle(tocToggle).display !== 'none';
+      tocHeading.style.display = toggleVisible ? 'none' : '';
+    }
+
+    if (tocToggle && tocList) {
+      /* Start collapsed on mobile */
+      function applyInitialState() {
+        const isMobile = window.innerWidth <= 600;
+        if (isMobile) {
+          tocList.classList.add('toc-collapsed');
+          tocToggle.setAttribute('aria-expanded', 'false');
+        } else {
+          tocList.classList.remove('toc-collapsed');
+          tocToggle.setAttribute('aria-expanded', 'true');
+        }
+        syncTocHeadingVisibility();
+      }
+
+      applyInitialState();
+      window.addEventListener('resize', applyInitialState, { passive: true });
+
+      tocToggle.addEventListener('click', () => {
+        const isOpen = tocList.classList.toggle('toc-collapsed');
+        /* classList.toggle returns true when class WAS added (now collapsed) */
+        tocToggle.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      /* Close TOC after clicking a link on mobile */
+      tocList.addEventListener('click', (e) => {
+        if (e.target.matches('a') && window.innerWidth <= 600) {
+          tocList.classList.add('toc-collapsed');
+          tocToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    /* ── Table stacking (≤480px) ──────────────────────────────── */
+    function stackTables() {
+      document.querySelectorAll('.policy-table').forEach(table => {
+        const headers = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
+        if (window.innerWidth <= 480) {
+          table.classList.add('table-stacked');
+          table.querySelectorAll('tbody td').forEach((td, i) => {
+            const colIndex = i % headers.length;
+            td.setAttribute('data-label', headers[colIndex] || '');
+          });
+        } else {
+          table.classList.remove('table-stacked');
+        }
+      });
+    }
+
+    stackTables();
+    window.addEventListener('resize', stackTables, { passive: true });
+
+    /* ── Smooth scroll for TOC anchor links ───────────────────── */
+    document.querySelectorAll('.policy-toc a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        const offset = target.getBoundingClientRect().top + window.scrollY - navH - 12;
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+      });
+    });
+
+  }());
+  </script>
 </body>
 </html>
