@@ -11,6 +11,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: calc(var(--navbar-h) + 3.5rem) 2rem 6rem;
+  /* Contain any overflowing children within the page */
+  overflow-x: hidden;
 }
 
 /* Page hero header */
@@ -26,6 +28,8 @@
   letter-spacing: -0.01em;
   line-height: 1.1;
   margin: 0.4rem 0 0.75rem;
+  /* Prevent long single-word titles from overflowing on narrow screens */
+  overflow-wrap: break-word;
 }
 
 .page-sub {
@@ -41,6 +45,8 @@
   grid-template-columns: 280px 1fr;
   gap: 2rem;
   align-items: start;
+  /* min-width:0 on both tracks prevents grid blowout */
+  min-width: 0;
 }
 
 
@@ -51,6 +57,8 @@
   gap: 1.2rem;
   position: sticky;
   top: calc(var(--navbar-h) + 1.5rem);
+  /* Sidebar itself must not overflow its track */
+  min-width: 0;
 }
 
 /* Avatar card */
@@ -87,6 +95,7 @@
   position: relative;
   width: 96px;
   height: 96px;
+  flex-shrink: 0;
 }
 
 .avatar-ring {
@@ -153,7 +162,12 @@
   to   { box-shadow: 0 0 28px rgba(0,243,255,0.5); }
 }
 
-.avatar-info { text-align: center; }
+.avatar-info {
+  text-align: center;
+  /* Clip long email addresses instead of blowing layout */
+  min-width: 0;
+  max-width: 100%;
+}
 
 .avatar-name {
   font-family: var(--font-head);
@@ -162,12 +176,18 @@
   letter-spacing: 0.04em;
   color: var(--text);
   margin-bottom: 0.2rem;
+  overflow-wrap: break-word;
 }
 
 .avatar-email {
   font-size: 0.75rem;
   color: var(--text-muted);
   margin-bottom: 0.5rem;
+  /* Long email addresses truncate gracefully */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 .avatar-badge {
@@ -223,7 +243,7 @@
 }
 
 
-/* Sidebar navigation */
+/* ── Sidebar navigation ──────────────────────────────────────── */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -252,6 +272,7 @@
   transition: all var(--transition);
   border-left: 3px solid transparent;
   width: 100%;
+  white-space: nowrap;
 }
 
 .sidebar-nav-item + .sidebar-nav-item {
@@ -382,6 +403,7 @@
   background: rgba(255,255,255,0.08);
   border-radius: 2px;
   overflow: hidden;
+  min-width: 0;
 }
 
 .pw-strength-fill {
@@ -445,9 +467,7 @@
   transition: color var(--transition);
 }
 
-.tip-item.met {
-  color: #00ff88;
-}
+.tip-item.met { color: #00ff88; }
 
 .tip-dot {
   width: 7px;
@@ -464,7 +484,7 @@
 }
 
 
-/* 2FA card */
+/* ── 2FA card ────────────────────────────────────────────────── */
 .cs-card--tfa {
   border-color: rgba(255,170,0,0.3);
 }
@@ -635,7 +655,8 @@
   font-size: 0.78rem;
   color: var(--text-muted);
   line-height: 1.6;
-  max-width: 380px;
+  /* Use max-width but never exceed the container on tiny screens */
+  max-width: min(380px, 100%);
 }
 
 .danger-btn {
@@ -659,75 +680,73 @@
 }
 
 
-/* ── LOGOUT BUTTON ───────────────────────────────────────────── */
-.logout-icon-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 0, 85, 0.4);
-  color: var(--pink);
-  padding: 0.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 8px rgba(255, 0, 85, 0.2);
-  flex-shrink: 0;
-}
-
-.logout-icon-btn:hover {
-  background: var(--pink);
-  color: #000;
-  box-shadow: 0 0 15px var(--pink);
-  border-color: var(--pink);
-}
-
-
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
+
+/* ── 1000px: sidebar stacks above panels ─────────────────────── */
 @media (max-width: 1000px) {
   .profile-layout {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .profile-sidebar {
     position: static;
   }
 
+  /* Avatar card goes horizontal */
   .avatar-card {
     flex-direction: row;
-    flex-wrap: wrap;
     align-items: center;
     text-align: left;
     gap: 1.2rem;
+    padding: 1.5rem;
+    /* prevent ring from shrinking below its natural size */
+    flex-wrap: nowrap;
   }
 
-  .avatar-info { flex: 1; }
+  /* Info block takes remaining space but never bleeds */
+  .avatar-info {
+    flex: 1;
+    text-align: left;
+    min-width: 0;
+  }
 
+  /* Sidebar nav becomes a horizontal scrollable tab bar */
   .sidebar-nav {
     flex-direction: row;
-    flex-wrap: wrap;
+    /* Allow horizontal scroll instead of wrapping so items never
+       orphan or overflow the container                          */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;        /* Firefox */
   }
+  .sidebar-nav::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 
   .sidebar-nav-item {
-    flex: 1 1 auto;
+    flex: 0 0 auto;               /* items don't shrink — scroll instead */
     border-left: none !important;
+    border-top: none !important;
     border-bottom: 3px solid transparent;
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1.1rem;
     justify-content: center;
     text-align: center;
-    min-width: 120px;
-  }
-
-  .sidebar-nav-item.active {
-    border-bottom-color: var(--cyan);
+    white-space: nowrap;
   }
 
   .sidebar-nav-item + .sidebar-nav-item {
     border-top: none;
-    border-left: 1px solid var(--border);
+    border-left: 1px solid var(--border) !important;
+  }
+
+  .sidebar-nav-item.active {
+    border-bottom-color: var(--cyan);
+    border-left-color: transparent !important;
   }
 }
 
+
+/* ── 768px ───────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .profile-main {
     padding: calc(var(--navbar-h) + 2rem) 1.4rem 4rem;
@@ -746,33 +765,93 @@
   .danger-btn {
     width: 100%;
     justify-content: center;
+    text-align: center;
   }
 }
 
+
+/* ── 480px ───────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .profile-main {
     padding: calc(var(--navbar-h) + 1.5rem) 1rem 3rem;
   }
 
+  /* All form rows collapse to single column */
   .form-row,
   .form-row--3 {
     grid-template-columns: 1fr;
   }
 
+  /* Avatar card re-stacks vertically on phones */
   .avatar-card {
     flex-direction: column;
     align-items: center;
     text-align: center;
-  }
-
-  .pref-row {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 1.5rem 1.2rem;
     gap: 0.75rem;
   }
 
+  .avatar-info { text-align: center; }
+
+  /* Tighter sidebar tabs on phones */
   .sidebar-nav-item {
-    font-size: 0.78rem;
-    padding: 0.65rem 0.75rem;
+    font-size: 0.75rem;
+    padding: 0.65rem 0.85rem;
   }
+
+  /* Preferences: toggle sits on same row but pref-info wraps */
+  .pref-row {
+    gap: 0.75rem;
+  }
+
+  /* Tighten panel cards */
+  .profile-panels .cs-card {
+    padding: 1.2rem 1.1rem;
+  }
+}
+
+
+/* ── 380px ───────────────────────────────────────────────────── */
+@media (max-width: 380px) {
+  .profile-main {
+    padding: calc(var(--navbar-h) + 1.2rem) 0.85rem 2.5rem;
+  }
+
+  .page-hero {
+    margin-bottom: 2rem;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .avatar-card {
+    padding: 1.2rem 1rem;
+    border-radius: var(--radius);
+  }
+
+  .avatar-ring-wrap,
+  .avatar-ring {
+    width: 76px;
+    height: 76px;
+  }
+
+  .avatar-initials { font-size: 1.2rem; }
+
+  .sidebar-nav-item {
+    font-size: 0.7rem;
+    padding: 0.6rem 0.7rem;
+  }
+
+  .profile-panels .cs-card {
+    padding: 1rem 0.9rem;
+    border-radius: var(--radius);
+  }
+
+  /* Security tips: smaller text on tiny screens */
+  .tip-item { font-size: 0.72rem; }
+
+  /* Danger button full width */
+  .danger-inner { flex-direction: column; }
+  .danger-btn   { width: 100%; text-align: center; }
 }

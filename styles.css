@@ -35,6 +35,10 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  /* Belt-and-braces: prevents iOS Safari from horizontal-scrolling
+     past body overflow-x:hidden on some versions                   */
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -44,6 +48,8 @@ body {
   font-weight: 400;
   line-height: 1.65;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
   /* ensure body sits above background layers */
   position: relative;
   z-index: 0;
@@ -1001,7 +1007,10 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  /* Use auto-fill but cap min at 240px (not 260px) so 2 cols fit cleanly
+     down to ~500px before the explicit 2-col override kicks in at 768px.
+     At very narrow widths the explicit breakpoints take over.           */
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.5rem;
 }
 
@@ -1023,6 +1032,8 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  /* prevent card from blowing past its grid track when text is long */
+  min-width: 0;
 }
 
 .product-card:hover {
@@ -1246,7 +1257,9 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
 
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  /* Same fix as products — 240px min lets 2 cols sit comfortably
+     down to ~500px before explicit breakpoints take over           */
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.4rem;
 }
 
@@ -1261,6 +1274,7 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  min-width: 0;
 }
 
 .review-card:hover {
@@ -1331,7 +1345,13 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 3rem;
+  /* Prevent any column from blowing past its allocated width */
+  overflow: hidden;
 }
+
+/* All direct grid children get min-width:0 so long words can't
+   force the column wider than its track                        */
+.footer-inner > * { min-width: 0; }
 
 .footer-brand p {
   color: var(--text-muted);
@@ -1871,7 +1891,6 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
 
 /* ── Mobile: 768px ── */
 @media (max-width: 768px) {
-  body { overflow-x: hidden; }
 
   .hero {
     padding: calc(var(--navbar-h) + 2rem) 1.4rem 3.5rem;
@@ -1922,25 +1941,65 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
 
 /* ── Small mobile: 480px ── */
 @media (max-width: 480px) {
-  body { overflow-x: hidden; }
 
-  .nav-inner { padding: 0 1rem; gap: 0.5rem; }
-  .nav-actions { gap: 0.25rem; }
+  /* ── Navbar ── */
+  .nav-inner {
+    padding: 0 0.85rem;
+    gap: 0.4rem;
+  }
 
-  /* Hide Account + Help text labels — show icon only */
+  .nav-actions {
+    gap: 0.3rem;
+    /* prevent actions row from ever wrapping */
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  /* SVG mark scales down */
+  .nav-logo-svg-wrap { width: 34px; height: 34px; }
+
+  /* Hide text labels on Account + Help buttons, keep icons only */
   #accountBtn .btn-label,
   #helpBtn .btn-label { display: none; }
 
-  #accountBtn, #helpBtn {
-    padding: 8px 10px;
+  #accountBtn,
+  #helpBtn {
+    padding: 7px 9px;
+    min-width: 0;
   }
 
-  /* SVG mark scales down slightly */
-  .nav-logo-svg-wrap { width: 34px; height: 34px; }
+  /* Cart button: icon + badge only, no text  */
+  .cart-btn {
+    padding: 7px 9px;
+    font-size: 0;           /* hides "🛒 Cart" / "🛒 Shop" text */
+    letter-spacing: 0;
+    min-width: 32px;
+    line-height: 1;
+  }
 
-  /* Compact cart button — icon only on very small screens */
-  .cart-btn { padding: 8px 12px; font-size: 0.75rem; }
+  /* Restore emoji size (font-size: 0 would kill it without this) */
+  .cart-btn::before {
+    content: '🛒';
+    font-size: 1rem;
+  }
 
+  /* Hide the original emoji character that's in the HTML
+     (we injected one via ::before so remove the HTML text node visually) */
+  .cart-btn > .cart-badge {
+    /* badge stays visible — only the text is hidden via font-size: 0 */
+    font-size: 0.65rem;
+  }
+
+  /* Logout button stays icon-only (it already is) — just tighten sizing */
+  .logout-icon-btn {
+    padding: 6px;
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Hamburger stays the same */
+
+  /* ── Hero ── */
   .hero {
     padding: calc(var(--navbar-h) + 1.5rem) 1rem 2.5rem;
     gap: 2rem;
@@ -1963,52 +2022,54 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   }
 
   /* Scale the video logo down for small phones */
-  .video-logo-wrapper {
-    max-width: 280px;
-  }
+  .video-logo-wrapper { max-width: 280px; }
 
   /* Minimal floating bg on tiny screens */
   .float-img { opacity: 0.04; width: 50px; }
 
   .hero-cta-row { flex-direction: column; align-items: center; }
   .hero-cta-row .btn { width: 100%; max-width: 280px; padding: 12px 18px; font-size: 0.85rem; }
-
   .hero-stats { flex-direction: row; justify-content: center; gap: 1.2rem; }
 
+  /* ── Sections ── */
   .products,
   .about,
   .reviews { padding: 3rem 1rem; }
 
-  /* Single column on small phones */
+  /* Product grid: 2 columns on 480px */
   .products-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
   .reviews-grid  { grid-template-columns: 1fr; }
 
   /* Tighter card body */
-  .card-body { padding: 0.85rem 0.9rem 1.1rem; }
+  .card-body  { padding: 0.85rem 0.9rem 1.1rem; }
   .card-title { font-size: 0.78rem; }
   .card-price { font-size: 0.9rem; }
 
-  /* Modal */
-  .product-modal { width: 100vw; max-height: 100dvh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; top: auto; bottom: 0; left: 0; transform: translateY(100%); }
+  /* ── Modal: bottom-sheet ── */
+  .product-modal {
+    width: 100vw;
+    max-height: 100dvh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    top: auto; bottom: 0; left: 0;
+    transform: translateY(100%);
+  }
   .product-modal.open { transform: translateY(0); }
-  .modal-img { aspect-ratio: 16/9; }
+  .modal-img    { aspect-ratio: 16/9; }
   .modal-details { padding: 1.2rem 1rem 1.5rem; gap: 0.5rem; }
-  .modal-title { font-size: 1.1rem; }
+  .modal-title  { font-size: 1.1rem; }
 
-  /* Footer */
+  /* ── Footer ── */
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 2.5rem 1rem 2rem; }
   .footer-brand { grid-column: 1 / -1; }
 
-  /* Cart drawer full-width with safe area padding */
+  /* ── Cart drawer ── */
   .cart-drawer {
     width: 100vw;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-
-  /* Cart items less cramped */
   .cart-item-img { width: 52px; height: 65px; }
 
-  /* Toast doesn't overflow */
+  /* ── Toast ── */
   .toast {
     width: calc(100vw - 2rem);
     white-space: normal;
@@ -2021,16 +2082,36 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
 
 /* ── Very small: 380px ── */
 @media (max-width: 380px) {
-  .hero-headline { font-size: 1.5rem; line-height: 1.05; }
-  .hero-logo-card { width: min(180px, 78vw); }
+  /* ── Navbar: most compact possible ── */
+  .nav-inner    { padding: 0 0.6rem; gap: 0.25rem; }
+  .nav-actions  { gap: 0.2rem; }
+
+  /* Drop Account and Help buttons entirely — they're reachable via hamburger menu */
+  #accountDropdown,
+  #helpDropdown { display: none; }
+
+  /* Logout slightly smaller */
+  .logout-icon-btn { width: 28px; height: 28px; padding: 5px; }
+
+  /* Logo SVG only, no text (already hidden at 900px) */
+  .nav-logo-svg-wrap { width: 30px; height: 30px; }
   .logo { font-size: 1.2rem; }
 
-  /* Stack to single column on tiny phones */
-  .products-grid { grid-template-columns: 1fr; }
-  .footer-inner  { grid-template-columns: 1fr; }
-
+  /* ── Hero ── */
+  .hero-headline  { font-size: 1.5rem; line-height: 1.05; }
+  .hero-logo-card { width: min(180px, 78vw); }
   .hero-cta-row .btn { font-size: 0.8rem; }
-  .nav-inner { padding: 0 0.75rem; gap: 0.35rem; }
+
+  /* ── Grids ── */
+  .products-grid { grid-template-columns: 1fr; }
+
+  /* Footer: single column, tighter gap and padding */
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 0.85rem 1.5rem;
+  }
+  .footer-bottom { padding: 1rem 0.85rem; font-size: 0.72rem; }
 }
 
 
@@ -2867,10 +2948,10 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
 @media (max-width: 1000px) {
   .cs-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;          /* tighter gap when stacked */
   }
 
   .cs-col--right {
-    /* On tablet, put it under the left column */
     order: 1;
   }
 }
@@ -2880,6 +2961,10 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   .contact-support {
     padding: 4rem 1.4rem 5rem;
   }
+
+  /* Reduce column gap further on narrow tablets */
+  .cs-grid { gap: 1.25rem; }
+  .cs-col  { gap: 1.25rem; }
 
   .form-row {
     grid-template-columns: 1fr;
@@ -2894,6 +2979,10 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
     width: 100%;
     justify-content: center;
   }
+
+  /* Channel buttons: prevent text overflow on small widths */
+  .ch-text small { font-size: 0.68rem; }
+  .cs-channel-btn { padding: 0.85rem 1rem; }
 
   .social-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -2913,6 +3002,7 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
     height: 38px;
   }
 
+  /* Calendly: bottom-sheet on mobile */
   .calendly-modal {
     width: 100vw;
     max-height: 100dvh;
@@ -2928,24 +3018,44 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   }
 }
 
-/* Small mobile */
+/* Small mobile: 480px */
 @media (max-width: 480px) {
   .contact-support {
     padding: 3rem 1rem 4rem;
   }
 
+  .cs-grid { gap: 1rem; }
+  .cs-col  { gap: 1rem; }
+
   .cs-card {
-    padding: 1.3rem;
+    padding: 1.2rem 1.1rem;
   }
 
   .cs-card-header {
     gap: 0.75rem;
     margin-bottom: 1rem;
+    /* Prevent long sub-text from overflowing card */
+    flex-wrap: wrap;
   }
 
   .cs-card-icon {
     font-size: 1.35rem;
   }
+
+  /* FAQ answer text — ensure it wraps cleanly */
+  .faq-body p {
+    word-break: break-word;
+  }
+
+  /* Channel buttons: tighter on phones */
+  .cs-channel-btn {
+    padding: 0.75rem 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .ch-icon { width: 36px; height: 36px; }
+
+  /* Track input + button stay side-by-side (already column at 768px) */
 
   .social-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -2966,6 +3076,28 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
     width: 100%;
     max-width: 260px;
   }
+}
+
+/* Very small: 380px */
+@media (max-width: 380px) {
+  .contact-support {
+    padding: 2.5rem 0.85rem 3rem;
+  }
+
+  .cs-card {
+    padding: 1rem 0.9rem;
+    border-radius: var(--radius);
+  }
+
+  .cs-card-title  { font-size: 0.88rem; }
+  .cs-card-sub    { font-size: 0.72rem; }
+
+  /* Prevent channel button text clipping */
+  .ch-text strong { font-size: 0.82rem; }
+  .ch-text small  { font-size: 0.65rem; }
+
+  /* Filter track row stays stacked */
+  .track-form-row { gap: 0.5rem; }
 }
 
 

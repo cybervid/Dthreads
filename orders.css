@@ -11,6 +11,8 @@
   max-width: 960px;
   margin: 0 auto;
   padding: calc(var(--navbar-h) + 3.5rem) 2rem 6rem;
+  /* Contain any overflowing children */
+  overflow-x: hidden;
 }
 
 /* Page hero */
@@ -26,6 +28,7 @@
   letter-spacing: -0.01em;
   line-height: 1.1;
   margin: 0.4rem 0 0.75rem;
+  overflow-wrap: break-word;
 }
 
 .page-sub {
@@ -50,6 +53,8 @@
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
+  /* Prevent toolbar from ever causing horizontal scroll */
+  min-width: 0;
 }
 
 /* Stat chips */
@@ -81,12 +86,20 @@
   text-transform: uppercase;
 }
 
-/* Filter pills */
+/* Filter pills — horizontal scroll row so they never wrap
+   awkwardly on narrow screens                             */
 .orders-filters {
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  /* Allow scroll on very small screens */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* Negative margin trick: let pills touch the toolbar edge on mobile */
+  padding-bottom: 2px; /* prevent box-shadow clipping */
 }
+
+.orders-filters::-webkit-scrollbar { display: none; }
 
 .filter-pill {
   padding: 6px 14px;
@@ -101,7 +114,9 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all var(--transition);
+  /* Pills must never shrink — scroll instead */
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .filter-pill:hover {
@@ -135,7 +150,10 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition),
+              transform var(--transition);
+  /* Prevent card content from blowing past card width */
+  min-width: 0;
 }
 
 .order-card:hover {
@@ -158,11 +176,11 @@
   transition: background var(--transition);
 }
 
-.order-card[data-status="processing"]  { --card-accent: #ffaa00; }
-.order-card[data-status="dispatched"]  { --card-accent: var(--cyan); }
-.order-card[data-status="delivered"]   { --card-accent: #00ff88; }
-.order-card[data-status="cancelled"]   { --card-accent: var(--pink); }
-.order-card[data-status="returned"]    { --card-accent: #aa00ff; }
+.order-card[data-status="processing"] { --card-accent: #ffaa00; }
+.order-card[data-status="dispatched"] { --card-accent: var(--cyan); }
+.order-card[data-status="delivered"]  { --card-accent: #00ff88; }
+.order-card[data-status="cancelled"]  { --card-accent: var(--pink); }
+.order-card[data-status="returned"]   { --card-accent: #aa00ff; }
 
 
 /* ── Card header ─────────────────────────────────────────────── */
@@ -175,7 +193,7 @@
   flex-wrap: wrap;
 }
 
-.order-meta { display: flex; flex-direction: column; gap: 3px; }
+.order-meta { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 
 .order-id {
   font-family: var(--font-head);
@@ -183,6 +201,7 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--text);
+  overflow-wrap: break-word;
 }
 
 .order-date {
@@ -224,7 +243,9 @@
   box-shadow: 0 0 8px rgba(255,170,0,0.2);
 }
 
-.status-processing::before { animation: statusBlink 1.5s ease-in-out infinite alternate; }
+.status-processing::before {
+  animation: statusBlink 1.5s ease-in-out infinite alternate;
+}
 
 .status-dispatched {
   color: var(--cyan);
@@ -283,6 +304,8 @@
   gap: 1rem;
   padding: 0.85rem 0;
   border-bottom: 1px solid rgba(255,255,255,0.04);
+  /* Ensure row children can't push row wider than card */
+  min-width: 0;
 }
 
 .order-item-row:last-child { border-bottom: none; }
@@ -326,9 +349,10 @@
   font-weight: 700;
   color: var(--cyan);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* Collapsed item list (show only first 2, rest hidden) */
+/* Collapsed item list */
 .order-items.collapsed .order-item-row:nth-child(n+3) {
   display: none;
 }
@@ -367,6 +391,10 @@
   font-size: 0.72rem;
   color: var(--text-muted);
   line-height: 1.5;
+  min-width: 0;
+  /* Long addresses wrap instead of overflow */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .order-footer-info strong {
@@ -378,6 +406,8 @@
   display: flex;
   gap: 0.6rem;
   flex-wrap: wrap;
+  /* Align to the right when there's space */
+  margin-left: auto;
 }
 
 /* Track button */
@@ -397,6 +427,7 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all var(--transition);
+  white-space: nowrap;
 }
 
 .track-order-btn:hover {
@@ -420,6 +451,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition);
+  white-space: nowrap;
 }
 
 .reorder-btn:hover {
@@ -453,7 +485,7 @@
 .empty-sub {
   font-size: 0.88rem;
   color: var(--text-muted);
-  max-width: 320px;
+  max-width: min(320px, 100%);
   line-height: 1.6;
 }
 
@@ -530,6 +562,7 @@
   color: var(--text-muted);
   font-family: var(--font-head);
   letter-spacing: 0.08em;
+  overflow-wrap: break-word;
 }
 
 /* Timeline */
@@ -612,18 +645,14 @@
 }
 
 .timeline-step.complete .timeline-label,
-.timeline-step.active .timeline-label {
-  color: var(--text);
-}
-
-.timeline-step.active .timeline-label {
-  color: var(--cyan);
-}
+.timeline-step.active .timeline-label  { color: var(--text); }
+.timeline-step.active .timeline-label  { color: var(--cyan); }
 
 .timeline-desc {
   font-size: 0.78rem;
   color: var(--text-muted);
   line-height: 1.5;
+  word-break: break-word;
 }
 
 .timeline-time {
@@ -634,7 +663,7 @@
 }
 
 
-/* Carrier info table */
+/* Carrier info */
 .track-carrier {
   background: rgba(0,243,255,0.04);
   border: 1px solid var(--border-cyan);
@@ -650,6 +679,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .carrier-label {
@@ -658,6 +688,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
+  flex-shrink: 0;
 }
 
 .carrier-value {
@@ -665,62 +696,56 @@
   font-size: 0.78rem;
   color: var(--text);
   letter-spacing: 0.04em;
+  /* Long tracking numbers wrap instead of overflowing */
+  word-break: break-all;
+  text-align: right;
 }
 
-.track-modal-actions {
-  margin-top: 0.25rem;
-}
-
-
-/* ── LOGOUT BUTTON ───────────────────────────────────────────── */
-.logout-icon-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 0, 85, 0.4);
-  color: var(--pink);
-  padding: 0.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 8px rgba(255, 0, 85, 0.2);
-  flex-shrink: 0;
-}
-
-.logout-icon-btn:hover {
-  background: var(--pink);
-  color: #000;
-  box-shadow: 0 0 15px var(--pink);
-  border-color: var(--pink);
-}
+.track-modal-actions { margin-top: 0.25rem; }
 
 
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
+
+/* ── 768px ───────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .orders-main {
     padding: calc(var(--navbar-h) + 2rem) 1.4rem 4rem;
   }
 
+  /* Toolbar: stats above filters */
   .orders-toolbar {
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
   }
 
-  .order-card-header,
+  /* Stats: tighter gap */
+  .orders-stats { gap: 1.2rem; }
+
+  /* Card header: stack on phones */
+  .order-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  /* Footer: stack on phones */
   .order-card-footer {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
 
-  .order-total {
-    font-size: 1rem;
-  }
+  /* Actions: reset auto-margin so they left-align when stacked */
+  .order-actions { margin-left: 0; }
 
+  .order-total { font-size: 1rem; }
+
+  /* Track modal: bottom sheet */
   .track-modal {
     width: 100vw;
-    max-height: 100dvh;
+    max-height: 90dvh;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     top: auto;
     bottom: 0;
@@ -728,32 +753,117 @@
     transform: translateY(100%);
   }
 
-  .track-modal.open {
-    transform: translateY(0);
-  }
+  .track-modal.open { transform: translateY(0); }
 }
 
+
+/* ── 480px ───────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .orders-main {
     padding: calc(var(--navbar-h) + 1.5rem) 1rem 3rem;
   }
 
+  /* Reduce the accent-bar indentation */
   .order-card-header,
   .order-items,
   .order-card-footer {
-    padding-left: 1.2rem;
+    padding-left: 1.1rem;
   }
 
-  .orders-stats {
-    gap: 1rem;
-  }
+  .orders-stats { gap: 1rem; }
 
+  .ostat-chip strong { font-size: 1.15rem; }
+
+  /* Pills: smaller text */
   .filter-pill {
     font-size: 0.68rem;
     padding: 5px 10px;
   }
 
-  .track-modal-inner {
-    padding: 1.4rem 1.2rem;
+  /* Item row: smaller thumbnail */
+  .order-item-thumb {
+    width: 44px;
+    height: 54px;
   }
+
+  /* Track + Reorder buttons: each takes full width */
+  .order-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .track-order-btn,
+  .reorder-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .track-modal-inner { padding: 1.4rem 1.2rem; }
+  .track-modal-title { font-size: 1rem; }
+
+  /* Empty state: less top/bottom padding on small screens */
+  .orders-empty { padding: 3rem 1.5rem; }
+}
+
+
+/* ── 380px ───────────────────────────────────────────────────── */
+@media (max-width: 380px) {
+  .orders-main {
+    padding: calc(var(--navbar-h) + 1.2rem) 0.85rem 2.5rem;
+  }
+
+  .page-title { font-size: 1.75rem; }
+
+  /* Toolbar: tighter */
+  .orders-toolbar {
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius);
+    gap: 0.75rem;
+  }
+
+  .ostat-chip strong { font-size: 1rem; }
+  .ostat-chip span   { font-size: 0.62rem; }
+
+  /* Filter pills: smaller */
+  .filter-pill {
+    font-size: 0.62rem;
+    padding: 4px 8px;
+  }
+
+  /* Card: tighten the accent-bar indentation further */
+  .order-card-header,
+  .order-items,
+  .order-card-footer {
+    padding-left: 0.9rem;
+  }
+
+  .order-card-header { padding-right: 0.75rem; }
+  .order-card-footer { padding-right: 0.75rem; }
+
+  .order-id  { font-size: 0.8rem; }
+  .order-date { font-size: 0.67rem; }
+
+  /* Status badge: shorter padding */
+  .order-status-badge {
+    font-size: 0.6rem;
+    padding: 4px 9px;
+  }
+
+  .order-total { font-size: 0.95rem; }
+
+  /* Item row: icon even smaller */
+  .order-item-thumb { width: 38px; height: 46px; }
+  .order-item-name  { font-size: 0.72rem; }
+
+  /* Track modal */
+  .track-modal-inner { padding: 1.1rem 1rem; gap: 1.1rem; }
+  .track-modal-title { font-size: 0.92rem; }
+  .timeline-dot      { width: 26px; height: 26px; font-size: 0.72rem; }
+  .timeline-label    { font-size: 0.72rem; }
+  .timeline-desc     { font-size: 0.72rem; }
+
+  /* Empty state */
+  .orders-empty  { padding: 2.5rem 1rem; }
+  .empty-title   { font-size: 1rem; }
+  .empty-sub     { font-size: 0.82rem; }
 }
