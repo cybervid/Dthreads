@@ -258,6 +258,9 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border);
+  /* Safe area for notched devices */
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 .nav-inner {
@@ -270,7 +273,61 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   gap: 2rem;
 }
 
-/* Logo */
+/* ── Animated navbar logo ──────────────────────────────────── */
+.nav-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  /* reserve fixed width so nav links don't shift on animation */
+  min-width: 160px;
+}
+
+/* SVG wrapper — controls glow filter & pulse animation */
+.nav-logo-svg-wrap {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: navLogoPulse 3.2s ease-in-out infinite alternate;
+  will-change: transform, filter;
+}
+
+.nav-logo-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible; /* allow glow filters to bleed outside the box */
+}
+
+/* Logo text beside the SVG */
+.nav-logo-text {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  text-shadow:
+    0 0 4px  var(--cyan),
+    0 0 12px var(--cyan),
+    0 0 28px rgba(0,243,255,0.55),
+    0 0 50px rgba(0,243,255,0.25);
+  white-space: nowrap;
+  transition: text-shadow var(--transition);
+}
+
+.nav-logo-link:hover .nav-logo-text {
+  text-shadow:
+    0 0 6px  var(--cyan),
+    0 0 18px var(--cyan),
+    0 0 42px rgba(0,243,255,0.8),
+    0 0 75px rgba(0,243,255,0.4);
+}
+
+/* Keep the footer logo text using the old .logo class */
 .logo {
   font-family: var(--font-head);
   font-size: 1.5rem;
@@ -288,12 +345,94 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   transition: text-shadow var(--transition);
 }
 
-.logo:hover {
-  text-shadow:
-    0 0 6px  var(--cyan),
-    0 0 18px var(--cyan),
-    0 0 45px rgba(0,243,255,0.8),
-    0 0 80px rgba(0,243,255,0.4);
+/* ── Navbar SVG path animations ─────────────────────────────── */
+
+/* "D" curve draws on from offset=0 → offset=200 */
+.svg-d-curve {
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: svgDrawOn 2.4s cubic-bezier(0.4,0,0.2,1) forwards,
+             svgDPulse 3s ease-in-out 2.4s infinite alternate;
+}
+
+/* Inner "D" arc — slightly delayed */
+.svg-d-inner {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: svgDrawOn 2s cubic-bezier(0.4,0,0.2,1) 0.3s forwards;
+}
+
+/* Needle group — bobs vertically after draw completes */
+.svg-needle-group {
+  animation: svgNeedleBob 2.2s ease-in-out 1s infinite;
+}
+
+/* Needle eye — subtle cyan pulse */
+.svg-needle-eye {
+  animation: svgEyePulse 2.8s ease-in-out infinite alternate;
+}
+
+/* Thread loop draws on after needle appears */
+.svg-thread {
+  stroke-dasharray: 380;
+  stroke-dashoffset: 380;
+  animation: svgDrawOn 2.8s cubic-bezier(0.4,0,0.2,1) 0.7s forwards,
+             svgThreadPulse 3.5s ease-in-out 3.5s infinite alternate;
+}
+
+/* Orbit dot 1 — travels a circular path around the SVG */
+.svg-orbit-dot-1 {
+  animation: svgOrbit1 5s linear infinite;
+}
+.svg-orbit-dot-2 {
+  animation: svgOrbit2 7s linear infinite;
+}
+
+/* Overall logo wrapper pulse */
+@keyframes navLogoPulse {
+  0%   { filter: drop-shadow(0 0 4px var(--cyan));  transform: scale(1); }
+  100% { filter: drop-shadow(0 0 12px var(--pink)); transform: scale(1.06); }
+}
+
+@keyframes svgDrawOn {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes svgDPulse {
+  0%   { filter: drop-shadow(0 0 3px var(--cyan)); }
+  100% { filter: drop-shadow(0 0 9px var(--cyan)); }
+}
+
+@keyframes svgNeedleBob {
+  0%, 100% { transform: translateY(0px); }
+  45%       { transform: translateY(-3px); }
+  70%       { transform: translateY(-1.5px); }
+}
+
+@keyframes svgEyePulse {
+  from { stroke: var(--cyan);  stroke-width: 1.5; }
+  to   { stroke: var(--pink);  stroke-width: 2;   }
+}
+
+@keyframes svgThreadPulse {
+  from { opacity: 0.75; }
+  to   { opacity: 1; }
+}
+
+/* Orbit paths — circular motion using translate on the element
+   (no SMIL — pure CSS transform-origin trick via animation) */
+@keyframes svgOrbit1 {
+  0%   { transform: translate(40px, 40px); }
+  25%  { transform: translate(60px, 40px); }
+  50%  { transform: translate(40px, 60px); }
+  75%  { transform: translate(20px, 40px); }
+  100% { transform: translate(40px, 40px); }
+}
+@keyframes svgOrbit2 {
+  0%   { transform: translate(60px, 60px); }
+  33%  { transform: translate(20px, 50px); }
+  66%  { transform: translate(50px, 20px); }
+  100% { transform: translate(60px, 60px); }
 }
 
 /* Nav links */
@@ -491,9 +630,18 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* Text column gets more space (1.2fr) so headlines spread freely;
+     video column gets less (0.8fr) since the logo is self-contained */
+  grid-template-columns: 1.2fr 0.8fr;
   align-items: center;
-  gap: 4rem;
+  gap: 2rem;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: left;
 }
 
 .hero-eyebrow {
@@ -513,6 +661,13 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin-bottom: 1.5rem;
+}
+
+/* Each line of the headline sits on its own block,
+   so the text never depends on a <br> to break correctly */
+.headline-line,
+.headline-accent {
+  display: block;
 }
 
 .headline-accent {
@@ -566,36 +721,272 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   text-transform: uppercase;
 }
 
-/* Hero visual */
-.hero-visual { display: flex; justify-content: center; }
-
-.hero-img-wrap {
+/* ── Hero visual: logo card ─────────────────────────────────── */
+.hero-visual {
+  display: flex;
+  /* Push the logo to the right boundary of its column */
+  justify-content: flex-end;
+  align-items: center;
   position: relative;
-  width: min(420px, 100%);
+  z-index: 2;
+  /* Shift the video logo up slightly to align with top text baseline */
+  transform: translateY(-30px);
 }
 
-.hero-img {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
+/* Glassmorphic card frame */
+.hero-logo-card {
+  position: relative;
+  width: min(400px, 100%);
+  aspect-ratio: 3 / 4;
   border-radius: var(--radius-lg);
+  background: rgba(10, 10, 20, 0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--border-cyan);
-  position: relative;
-  z-index: 1;
+  box-shadow:
+    0 0 0 1px rgba(0,243,255,0.1),
+    0 0 40px rgba(0,243,255,0.12),
+    inset 0 0 60px rgba(0,243,255,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.hero-img-glow {
+/* Animated corner accent lines */
+.card-corner {
   position: absolute;
-  inset: -12px;
-  border-radius: calc(var(--radius-lg) + 12px);
-  background: radial-gradient(ellipse at center, rgba(0,243,255,0.18) 0%, transparent 70%);
-  z-index: 0;
-  animation: pulseGlow 3s ease-in-out infinite alternate;
+  width: 22px;
+  height: 22px;
+  z-index: 4;
+  pointer-events: none;
 }
 
-@keyframes pulseGlow {
-  from { opacity: 0.6; transform: scale(1); }
-  to   { opacity: 1;   transform: scale(1.03); }
+.card-corner--tl { top: 10px;    left: 10px;   border-top:  2px solid var(--cyan); border-left:  2px solid var(--cyan); border-radius: 4px 0 0 0; }
+.card-corner--tr { top: 10px;    right: 10px;  border-top:  2px solid var(--pink); border-right: 2px solid var(--pink); border-radius: 0 4px 0 0; }
+.card-corner--bl { bottom: 10px; left: 10px;   border-bottom: 2px solid var(--pink); border-left: 2px solid var(--pink); border-radius: 0 0 0 4px; }
+.card-corner--br { bottom: 10px; right: 10px;  border-bottom: 2px solid var(--cyan); border-right: 2px solid var(--cyan); border-radius: 0 0 4px 0; }
+
+/* ── Hero SVG logo animations ────────────────────────────────── */
+
+/* The SVG itself floats gently inside the card */
+.hero-logo-svg {
+  width: 82%;
+  height: 82%;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+  animation: logoFloat 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* "D" stroke — draw-on then breath-glow loop */
+.hero-svg-d-stroke {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation:
+    svgDrawOn 2.6s cubic-bezier(0.4,0,0.2,1) 0.2s forwards,
+    heroDBreathe 3s ease-in-out 3s infinite alternate;
+}
+
+/* Inner "D" arc — draws on slightly after */
+.hero-svg-d-inner {
+  stroke-dasharray: 280;
+  stroke-dashoffset: 280;
+  animation: svgDrawOn 2.2s cubic-bezier(0.4,0,0.2,1) 0.5s forwards;
+}
+
+/* Needle group bobs vertically */
+.hero-svg-needle-group {
+  animation: svgNeedleBob 2.6s ease-in-out 1.2s infinite;
+}
+
+/* Needle eye colour-shifts */
+.hero-svg-needle-eye {
+  animation: svgEyePulse 3s ease-in-out 1.5s infinite alternate;
+}
+
+/* Thread draws on after needle, then pulses */
+.hero-svg-thread {
+  stroke-dasharray: 680;
+  stroke-dashoffset: 680;
+  animation:
+    svgDrawOn 3s cubic-bezier(0.4,0,0.2,1) 0.9s forwards,
+    svgThreadPulse 4s ease-in-out 4s infinite alternate;
+}
+
+/* Thread highlight — draws on even later */
+.hero-svg-thread-hi {
+  stroke-dasharray: 180;
+  stroke-dashoffset: 180;
+  animation: svgDrawOn 1.8s cubic-bezier(0.4,0,0.2,1) 1.6s forwards;
+}
+
+/* Brand text fades in */
+.hero-svg-brand-text {
+  opacity: 0;
+  animation: heroTextFadeIn 1.2s ease 2.8s forwards;
+}
+
+/* Decorative rings rotate slowly in opposite directions */
+.hero-svg-ring-outer {
+  transform-origin: 100px 100px;
+  animation: heroRingRotate 18s linear infinite;
+}
+.hero-svg-ring-inner {
+  transform-origin: 100px 100px;
+  animation: heroRingRotate 12s linear infinite reverse;
+}
+
+/* Orbiting dots — travel elliptical paths around the D */
+.hero-svg-orbit-a {
+  animation: heroOrbitA 5.5s linear infinite;
+}
+.hero-svg-orbit-b {
+  animation: heroOrbitB 8s linear infinite;
+}
+.hero-svg-orbit-c {
+  animation: heroOrbitC 11s linear infinite;
+}
+
+/* ── Hero SVG keyframes ────────────────────────── */
+@keyframes heroDBreathe {
+  from { filter: drop-shadow(0 0 6px var(--cyan));  }
+  to   { filter: drop-shadow(0 0 18px var(--cyan)); }
+}
+
+@keyframes heroTextFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroRingRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Orbit A: large ellipse around the D letterform */
+@keyframes heroOrbitA {
+  0%   { transform: translate(100px, 32px); }
+  25%  { transform: translate(155px, 100px); }
+  50%  { transform: translate(100px, 168px); }
+  75%  { transform: translate(45px, 100px); }
+  100% { transform: translate(100px, 32px); }
+}
+
+/* Orbit B: tighter orbit, offset phase */
+@keyframes heroOrbitB {
+  0%   { transform: translate(148px, 68px); }
+  33%  { transform: translate(68px, 158px); }
+  66%  { transform: translate(52px, 52px); }
+  100% { transform: translate(148px, 68px); }
+}
+
+/* Orbit C: small fast loop near needle */
+@keyframes heroOrbitC {
+  0%   { transform: translate(138px, 30px); }
+  50%  { transform: translate(118px, 178px); }
+  100% { transform: translate(138px, 30px); }
+}
+
+/* Shared keyframes (also used by navbar SVG) */
+@keyframes logoFloat {
+  0%   { transform: translateY(0px)  scale(1);    }
+  40%  { transform: translateY(-8px) scale(1.02); }
+  70%  { transform: translateY(-4px) scale(1.01); }
+  100% { transform: translateY(0px)  scale(1);    }
+}
+
+
+/* ── NEW MINIMALIST LOGO (hero right-side card) ───────────────── */
+
+/*
+  SVG container — the CSS drop-shadow filter produces a natural
+  neon-blue glow against the dark card background.
+  No JS needed; runs purely in CSS.
+*/
+.new-logo-svg {
+  width: 54%;          /* narrower — needle form looks best slim   */
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 0 10px #00f3ff) drop-shadow(0 0 24px rgba(0,243,255,0.45));
+  animation: nlFloat 4.5s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+/* Gentle float identical to the rest of the hero logo card */
+@keyframes nlFloat {
+  0%   { transform: translateY(0px); }
+  45%  { transform: translateY(-9px); }
+  75%  { transform: translateY(-4px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ── Needle shaft: fades/draws in as a fast reveal ─────────── */
+.nl-needle-shaft {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: nlDrawLine 0.7s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
+}
+
+/* ── Needle tip: pops in after shaft ───────────────────────── */
+.nl-needle-tip {
+  opacity: 0;
+  animation: nlFadeIn 0.3s ease 0.75s forwards;
+}
+
+/* ── Needle eye: draws in as a tiny oval ───────────────────── */
+.nl-needle-eye {
+  stroke-dasharray: 32;
+  stroke-dashoffset: 32;
+  animation:
+    nlDrawLine 0.5s cubic-bezier(0.4,0,0.2,1) 0.8s forwards,
+    nlEyeGlow  2.8s ease-in-out 1.5s infinite alternate;
+}
+
+/* ── Thread: the hero animation — draws itself on-screen ────── */
+/*
+  Total approximate path length ≈ 580px at this viewBox scale.
+  The thread starts at the needle eye and sweeps out to form the
+  "D" bowl, crosses the needle base, then curls into the swoosh.
+  stroke-dashoffset animates from 580 → 0, making it look like
+  the thread is being pulled through the needle and stitched.
+*/
+.nl-thread {
+  stroke-dasharray: 580;
+  stroke-dashoffset: 580;
+  animation:
+    nlDrawThread 2.2s cubic-bezier(0.25,0.46,0.45,0.94) 1.0s forwards,
+    nlThreadBreath 3.5s ease-in-out 3.5s infinite alternate;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────── */
+
+/* Generic straight-line reveal (needle shaft + eye) */
+@keyframes nlDrawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Tip fade-in */
+@keyframes nlFadeIn {
+  to { opacity: 1; }
+}
+
+/* Thread draw — the key "stitch" animation */
+@keyframes nlDrawThread {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Subtle breathing after the thread is drawn */
+@keyframes nlThreadBreath {
+  0%   { filter: drop-shadow(0 0 6px #00f3ff);  opacity: 1;    }
+  100% { filter: drop-shadow(0 0 18px #00f3ff); opacity: 0.88; }
+}
+
+/* Eye glow pulse */
+@keyframes nlEyeGlow {
+  from { stroke: #00f3ff; stroke-width: 2.2; }
+  to   { stroke: rgba(0,243,255,0.5); stroke-width: 1.6; }
 }
 
 
@@ -1401,15 +1792,32 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
 
 /* ── 14. RESPONSIVE ─────────────────────────────────────────── */
 
-/* Tablet */
+/* ── Tablet: 1100px ── */
 @media (max-width: 1100px) {
-  .hero { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+    min-height: auto;
+    padding-top: calc(var(--navbar-h) + 3rem);
+    padding-bottom: 4rem;
+  }
+
+  /* Visual card above text on tablets */
   .hero-content { order: 1; }
-  .hero-visual { order: 0; }
+  .hero-visual  {
+    order: 0;
+    justify-content: center; /* Center the logo on single-column layout */
+    transform: translateY(0); /* Remove upward shift so it doesn't creep under the nav */
+  }
+
   .hero-cta-row { justify-content: center; }
-  .hero-stats { justify-content: center; }
-  .hero-sub { margin-left: auto; margin-right: auto; }
-  .br-desktop { display: none; }
+  .hero-stats   { justify-content: center; }
+  .hero-sub     { margin-left: auto; margin-right: auto; }
+  .br-desktop   { display: none; }
+
+  /* Slightly smaller logo card on tablet */
+  .hero-logo-card { width: min(320px, 90%); }
 
   .about-inner { grid-template-columns: 1fr; gap: 3rem; }
   .about-visual { order: -1; }
@@ -1417,9 +1825,13 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   .footer-inner { grid-template-columns: 1fr 1fr; }
 }
 
-/* Mobile nav: ≤900px */
+/* ── Mobile nav: 900px ── */
 @media (max-width: 900px) {
   .hamburger { display: flex; }
+
+  /* Hide nav-logo text label on small screens — keep only the SVG mark */
+  .nav-logo-text { display: none; }
+  .nav-logo-link { min-width: auto; }
 
   .nav-links {
     position: fixed;
@@ -1448,31 +1860,177 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   .nav-link { width: 100%; padding: 12px 8px; font-size: 0.9rem; }
   .nav-link::after { display: none; }
 
-  /* hide text labels, show only icons for action buttons on small screens */
   .action-btn { padding: 7px 10px; font-size: 0.75rem; }
+
+  /* Scale down floating background items so they don't clutter text */
+  .float-img {
+    width: clamp(50px, 7vw, 100px);
+    opacity: 0.07;
+  }
 }
 
-/* Small mobile */
-@media (max-width: 600px) {
-  .nav-actions { gap: 0.3rem; }
-  .action-btn span { display: none; } /* hide Account/Help text */
+/* ── Mobile: 768px ── */
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
 
+  .hero {
+    padding: calc(var(--navbar-h) + 2rem) 1.4rem 3.5rem;
+    gap: 2.5rem;
+  }
+
+  .hero-headline { font-size: clamp(1.9rem, 7vw, 2.8rem); line-height: 1.05; }
+  .hero-sub      { font-size: 0.92rem; }
+
+  /* Logo card: compact but still impactful */
+  .hero-logo-card {
+    width: min(260px, 85vw);
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius);
+  }
+
+  /* Tighten CTA row */
+  .hero-cta-row { gap: 0.75rem; }
+  .hero-stats   { gap: 1rem; }
+
+  .stat-chip strong { font-size: 0.95rem; }
+  .stat-chip span   { font-size: 0.65rem; }
+
+  /* Further reduce floating items on mobile */
+  .float-img {
+    width: clamp(40px, 6vw, 80px);
+    opacity: 0.06;
+  }
+
+  /* Sections padding */
+  .products,
+  .about,
+  .reviews { padding: 4rem 1.4rem; }
+
+  .section-title { font-size: clamp(1.5rem, 6vw, 2rem); }
+
+  /* Product + review grids: 2 columns on mid-mobile */
+  .products-grid  { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .reviews-grid   { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+
+  /* Modal: stack on tablet-portrait too */
   .modal-inner { grid-template-columns: 1fr; }
   .modal-img-wrap { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
   .modal-img { aspect-ratio: 4/3; }
   .modal-details { padding: 1.5rem 1.2rem; }
-
-  .hero { padding-left: 1.2rem; padding-right: 1.2rem; }
-  .products { padding-left: 1.2rem; padding-right: 1.2rem; }
-  .about { padding-left: 1.2rem; padding-right: 1.2rem; }
-  .reviews { padding-left: 1.2rem; padding-right: 1.2rem; }
-
-  .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .product-modal { width: 95vw; max-height: 90dvh; }
 }
 
-@media (max-width: 400px) {
-  .hero-headline { font-size: 2rem; }
+/* ── Small mobile: 480px ── */
+@media (max-width: 480px) {
+  body { overflow-x: hidden; }
+
+  .nav-inner { padding: 0 1rem; gap: 0.5rem; }
+  .nav-actions { gap: 0.25rem; }
+
+  /* Hide Account + Help text labels — show icon only */
+  #accountBtn .btn-label,
+  #helpBtn .btn-label { display: none; }
+
+  #accountBtn, #helpBtn {
+    padding: 8px 10px;
+  }
+
+  /* SVG mark scales down slightly */
+  .nav-logo-svg-wrap { width: 34px; height: 34px; }
+
+  /* Compact cart button — icon only on very small screens */
+  .cart-btn { padding: 8px 12px; font-size: 0.75rem; }
+
+  .hero {
+    padding: calc(var(--navbar-h) + 1.5rem) 1rem 2.5rem;
+    gap: 2rem;
+  }
+
+  .hero-headline { font-size: clamp(1.6rem, 8.5vw, 2.2rem); line-height: 1.05; }
+
+  /* Prevent accent span from overflowing on narrow screens */
+  .headline-accent {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Square card, fills ~80% viewport width */
+  .hero-logo-card {
+    width: min(220px, 80vw);
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius);
+  }
+
+  /* Scale the video logo down for small phones */
+  .video-logo-wrapper {
+    max-width: 280px;
+  }
+
+  /* Minimal floating bg on tiny screens */
+  .float-img { opacity: 0.04; width: 50px; }
+
+  .hero-cta-row { flex-direction: column; align-items: center; }
+  .hero-cta-row .btn { width: 100%; max-width: 280px; padding: 12px 18px; font-size: 0.85rem; }
+
+  .hero-stats { flex-direction: row; justify-content: center; gap: 1.2rem; }
+
+  .products,
+  .about,
+  .reviews { padding: 3rem 1rem; }
+
+  /* Single column on small phones */
+  .products-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .reviews-grid  { grid-template-columns: 1fr; }
+
+  /* Tighter card body */
+  .card-body { padding: 0.85rem 0.9rem 1.1rem; }
+  .card-title { font-size: 0.78rem; }
+  .card-price { font-size: 0.9rem; }
+
+  /* Modal */
+  .product-modal { width: 100vw; max-height: 100dvh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; top: auto; bottom: 0; left: 0; transform: translateY(100%); }
+  .product-modal.open { transform: translateY(0); }
+  .modal-img { aspect-ratio: 16/9; }
+  .modal-details { padding: 1.2rem 1rem 1.5rem; gap: 0.5rem; }
+  .modal-title { font-size: 1.1rem; }
+
+  /* Footer */
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 2.5rem 1rem 2rem; }
+  .footer-brand { grid-column: 1 / -1; }
+
+  /* Cart drawer full-width with safe area padding */
+  .cart-drawer {
+    width: 100vw;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Cart items less cramped */
+  .cart-item-img { width: 52px; height: 65px; }
+
+  /* Toast doesn't overflow */
+  .toast {
+    width: calc(100vw - 2rem);
+    white-space: normal;
+    text-align: center;
+    font-size: 0.82rem;
+    padding: 10px 16px;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ── Very small: 380px ── */
+@media (max-width: 380px) {
+  .hero-headline { font-size: 1.5rem; line-height: 1.05; }
+  .hero-logo-card { width: min(180px, 78vw); }
+  .logo { font-size: 1.2rem; }
+
+  /* Stack to single column on tiny phones */
   .products-grid { grid-template-columns: 1fr; }
+  .footer-inner  { grid-template-columns: 1fr; }
+
+  .hero-cta-row .btn { font-size: 0.8rem; }
+  .nav-inner { padding: 0 0.75rem; gap: 0.35rem; }
 }
 
 
@@ -1512,4 +2070,32 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
 @keyframes shimmer {
   from { background-position: 200% 0; }
   to   { background-position: -200% 0; }
+}
+
+
+/* ==========================================
+   VIDEO LOGO STYLES
+   ========================================== */
+.video-logo-wrapper {
+  /* The video source is 1088×1088 — let CSS control the rendered size */
+  width: 100%;
+  max-width: 450px; /* Caps the logo so it doesn't flood the column on desktop */
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Subtle neon glow behind the video frame */
+  filter: drop-shadow(0 0 12px var(--cyan));
+}
+
+.neon-video-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+
+  /* Seamless blending into the dark background */
+  mix-blend-mode: screen;
 }

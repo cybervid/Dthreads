@@ -262,12 +262,20 @@ function bumpBadge() {
 
 /* ── 5. NAVBAR ───────────────────────────────────────────────── */
 
-// Hamburger toggle
+// Hamburger toggle (existing button #hamburgerBtn → controls #navLinks)
 hamburgerBtn.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('open');
   hamburgerBtn.classList.toggle('open', isOpen);
   hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
 });
+
+/**
+ * toggleMobileMenu — alias wired to the hamburger for any inline onclick
+ * usage in future HTML additions; delegates to the existing hamburgerBtn handler.
+ */
+function toggleMobileMenu() {
+  hamburgerBtn.click();
+}
 
 // Highlight active nav link on scroll
 const sectionIds = ['home', 'products', 'about', 'reviews'];

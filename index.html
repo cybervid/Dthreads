@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>D Threads — Where Style Meets the Future</title>
 
   <!-- Google Fonts: Orbitron (headers/logo) + Poppins (body) -->
@@ -59,7 +59,7 @@
         <!-- Account dropdown -->
         <div class="dropdown" id="accountDropdown">
           <button class="action-btn" id="accountBtn" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
-            👤 Account
+            <span class="btn-icon" aria-hidden="true">👤</span><span class="btn-label"> Account</span>
           </button>
           <ul class="dropdown-menu" role="menu" aria-label="Account options">
             <li role="menuitem"><a href="#orders"><span>📦</span> My Orders</a></li>
@@ -70,7 +70,7 @@
         <!-- Help dropdown -->
         <div class="dropdown" id="helpDropdown">
           <button class="action-btn" id="helpBtn" aria-haspopup="true" aria-expanded="false" aria-label="Help menu">
-            ❓ Help
+            <span class="btn-icon" aria-hidden="true">❓</span><span class="btn-label"> Help</span>
           </button>
           <ul class="dropdown-menu" role="menu" aria-label="Help options">
             <li role="menuitem"><a href="#faq"><span>💬</span> FAQs</a></li>
@@ -107,7 +107,7 @@
       <div class="hero-content">
         <p class="hero-eyebrow">NEW COLLECTION 2026</p>
         <h1 class="hero-headline">
-          Where Style Meets<br />
+          <span class="headline-line"></span>Where Style Meets</span>
           <span class="headline-accent">the Future.</span>
         </h1>
         <p class="hero-sub">
@@ -125,10 +125,33 @@
           <div class="stat-chip"><strong>Free</strong><span>Returns Always</span></div>
         </div>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="hero-img-wrap">
-          <img src="source/clothes/11.jpg" alt="Featured D Threads outfit" class="hero-img" loading="eager" />
-          <div class="hero-img-glow"></div>
+
+      <!-- ── RIGHT SIDE: Animated video logo ── -->
+      <div class="hero-visual">
+        <div class="hero-logo-card" aria-label="D Threads brand logo">
+          <!-- Corner accent lines -->
+          <span class="card-corner card-corner--tl" aria-hidden="true"></span>
+          <span class="card-corner card-corner--tr" aria-hidden="true"></span>
+          <span class="card-corner card-corner--bl" aria-hidden="true"></span>
+          <span class="card-corner card-corner--br" aria-hidden="true"></span>
+
+          <!-- ANIMATED VIDEO LOGO -->
+          <div class="video-logo-wrapper">
+            <video
+              src="source/DThreads_dark_neon_6s.mp4"
+              class="neon-video-logo"
+              width="1088"
+              height="1088"
+              autoplay
+              loop
+              muted
+              playsinline
+              aria-label="D Threads Animated Logo">
+            </video>
+          </div>
+
+          <!-- Ambient glow behind the card -->
+          <div class="hero-logo-glow" aria-hidden="true"></div>
         </div>
       </div>
     </section><!-- /hero -->
@@ -279,7 +302,8 @@
       </nav>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 D Threads. All rights reserved. Built for the future.</p>
+      <p>© 2026 D Threads. All rights reserved. </p>
+      <p>powered by CYBERVID</p>
     </div>
   </footer>
 
