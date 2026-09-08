@@ -108,9 +108,9 @@ const ORDERS = [
     eta: 'Sep 6, 2026',
     address: '45 Neon Ave, Lagos, NG',
     items: [
-      { name: 'Neon Street Hoodie',  size: 'L',  qty: 1, price: 89,  image: 'source/clothes/1.jpg' },
-      { name: 'Plasma Cargo Pants',  size: 'M',  qty: 1, price: 115, image: 'source/clothes/5.jpg' },
-      { name: 'Signal Tee',          size: 'L',  qty: 1, price: 42,  image: 'source/clothes/6.jpg' },
+      { name: 'Neon Street Hoodie',  size: 'L',  qty: 1, price: 89,  image: '/source/clothes/1.jpg' },
+      { name: 'Plasma Cargo Pants',  size: 'M',  qty: 1, price: 115, image: '/source/clothes/5.jpg' },
+      { name: 'Signal Tee',          size: 'L',  qty: 1, price: 42,  image: '/source/clothes/6.jpg' },
     ],
     timeline: [
       { label: 'Order Placed',       desc: 'Your order was confirmed and payment received.',      time: 'Sep 1, 10:24 AM',  status: 'complete' },
@@ -131,7 +131,7 @@ const ORDERS = [
     eta: 'Delivered Aug 31, 2026',
     address: '45 Neon Ave, Lagos, NG',
     items: [
-      { name: 'LED Runner Sneakers', size: '42', qty: 1, price: 145, image: 'source/clothes/2.jpg' },
+      { name: 'LED Runner Sneakers', size: '42', qty: 1, price: 145, image: '/source/clothes/2.jpg' },
     ],
     timeline: [
       { label: 'Order Placed',       desc: 'Order confirmed.',                                    time: 'Aug 26, 11:00 AM', status: 'complete' },
@@ -152,8 +152,8 @@ const ORDERS = [
     eta: 'Sep 8–10, 2026',
     address: '45 Neon Ave, Lagos, NG',
     items: [
-      { name: 'Tech Armor Jacket',   size: 'M',  qty: 1, price: 220, image: 'source/clothes/3.jpg' },
-      { name: 'Cyber Gloves',        size: 'L/XL', qty: 1, price: 48, image: 'source/clothes/4.jpg' },
+      { name: 'Tech Armor Jacket',   size: 'M',  qty: 1, price: 220, image: '/source/clothes/3.jpg' },
+      { name: 'Cyber Gloves',        size: 'L/XL', qty: 1, price: 48, image: '/source/clothes/4.jpg' },
     ],
     timeline: [
       { label: 'Order Placed',       desc: 'Order confirmed and payment received.',               time: 'Sep 4, 8:05 PM',   status: 'complete' },
@@ -174,8 +174,8 @@ const ORDERS = [
     eta: 'Delivered Jul 20, 2026',
     address: '45 Neon Ave, Lagos, NG',
     items: [
-      { name: 'Void Runner Cap',     size: 'One Size', qty: 1, price: 35, image: 'source/clothes/7.jpg' },
-      { name: 'Signal Tee',          size: 'M',  qty: 2, price: 42, image: 'source/clothes/6.jpg' },
+      { name: 'Void Runner Cap',     size: 'One Size', qty: 1, price: 35, image: '/source/clothes/7.jpg' },
+      { name: 'Signal Tee',          size: 'M',  qty: 2, price: 42, image: '/source/clothes/6.jpg' },
     ],
     timeline: [
       { label: 'Order Placed',       desc: 'Order confirmed.',                                    time: 'Jul 14, 9:12 AM',  status: 'complete' },
@@ -196,7 +196,7 @@ const ORDERS = [
     eta: '—',
     address: '45 Neon Ave, Lagos, NG',
     items: [
-      { name: 'Neural Mesh Vest',    size: 'S',  qty: 1, price: 78, image: 'source/clothes/8.jpg' },
+      { name: 'Neural Mesh Vest',    size: 'S',  qty: 1, price: 78, image: '/source/clothes/8.jpg' },
     ],
     timeline: [
       { label: 'Order Placed',       desc: 'Order placed.',                                       time: 'Jun 3, 3:00 PM',   status: 'complete' },
@@ -488,7 +488,7 @@ const logoutBtn = $('#logoutBtn');
 if (logoutBtn) {
   logoutBtn.addEventListener('click', () => {
     showToast('👋 Logged out successfully.', 'cyan');
-    setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+    setTimeout(() => { window.location.href = '/'; }, 1500);
   });
 }
 

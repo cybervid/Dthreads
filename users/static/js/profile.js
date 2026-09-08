@@ -505,7 +505,7 @@ if (deleteBtn) {
     localStorage.removeItem(PROFILE_KEY);
     localStorage.removeItem('dthreads_cart');
     showToast('🗑️ Account deleted. Redirecting…', 'pink');
-    setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+    setTimeout(() => { window.location.href = '/'; }, 2000);
   });
 }
 
@@ -516,7 +516,7 @@ const logoutBtn = $('#logoutBtn');
 if (logoutBtn) {
   logoutBtn.addEventListener('click', () => {
     showToast('👋 Logged out successfully.', 'cyan');
-    setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+    setTimeout(() => { window.location.href = '/'; }, 1500);
   });
 }
 

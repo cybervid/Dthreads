@@ -1,3 +1,6 @@
-from django.contrib import admin
+"""
+Admin configuration for the D THREADS users app.
+Extend this file when custom models are added.
+"""
 
-# Register your models here.
+from django.contrib import admin  # noqa: F401

@@ -1,0 +1,6 @@
+# D THREADS — Python dependencies
+# Install with: pip install -r requirements.txt
+
+Django==5.1.4
+psycopg2-binary==2.9.10    # PostgreSQL adapter (includes SSL support)
+python-dotenv==1.0.1       # Loads .env into os.environ
