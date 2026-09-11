@@ -77,13 +77,20 @@
 
         <a href="{% url 'users:index' %}" class="cart-btn" aria-label="Go to shop">🛒 Shop</a>
 
-        <button class="logout-icon-btn" id="logoutBtn" title="Logout" aria-label="Logout">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-        </button>
+        <!-- Auth button -->
+        {% if user.is_authenticated %}
+          <a href="{% url 'users:logout' %}" class="logout-icon-btn" id="logoutBtn" title="Sign Out ({{ user.email|default:user.username }})" aria-label="Sign out">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </a>
+        {% else %}
+          <a href="{% url 'users:login' %}" class="action-btn nav-login-btn" aria-label="Sign in to your account">
+            <span class="btn-icon" aria-hidden="true">🔑</span><span class="btn-label"> Login</span>
+          </a>
+        {% endif %}
 
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="navLinks">
           <span class="ham-line"></span>
@@ -121,7 +128,7 @@
           <div class="avatar-ring-wrap" aria-hidden="true">
             <div class="avatar-ring">
               <div class="avatar-inner">
-                <span class="avatar-initials" id="avatarInitials">DT</span>
+                <span class="avatar-initials" id="avatarInitials">{% if user.is_authenticated %}{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}{% if not user.first_name and not user.last_name %}{{ user.email|first|upper }}{% endif %}{% else %}DT{% endif %}</span>
                 <img class="avatar-photo" id="avatarPhoto" src="" alt="Profile photo" hidden />
               </div>
             </div>
@@ -129,10 +136,10 @@
           </div>
 
           <div class="avatar-info">
-            <p class="avatar-name" id="avatarName">D Threads User</p>
-            <p class="avatar-email" id="avatarEmail">user@dthreads.com</p>
+            <p class="avatar-name" id="avatarName">{% if user.is_authenticated %}{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}{% else %}D Threads User{% endif %}</p>
+            <p class="avatar-email" id="avatarEmail">{% if user.is_authenticated %}{{ user.email }}{% else %}user@dthreads.com{% endif %}</p>
             <span class="avatar-badge">
-              <span class="badge-dot" aria-hidden="true"></span>Active Member
+              <span class="badge-dot" aria-hidden="true"></span>{% if user.is_authenticated %}Active Member{% else %}Guest{% endif %}
             </span>
           </div>
 
@@ -181,68 +188,111 @@
               </div>
             </div>
 
-            <form class="contact-form" id="accountForm" novalidate aria-label="Account details form">
+            {# Real POST — email excluded from form fields entirely (server-side safety) #}
+            <form class="contact-form" id="accountForm"
+                  method="post" action="{% url 'users:profile' %}"
+                  novalidate autocomplete="off"
+                  aria-label="Account details form">
+              {% csrf_token %}
+
+              {# ── Server-side form errors banner ── #}
+              {% if user_form.errors or profile_form.errors %}
+              <div class="profile-error-banner" role="alert">
+                <span>⚠️</span>
+                <div>
+                  <strong>Please fix the errors below and try again.</strong>
+                </div>
+              </div>
+              {% endif %}
+
+              {# ── Name fields (user_form) ── #}
               <div class="form-row">
                 <div class="form-group">
                   <label for="pf-firstname" class="form-label">First Name <span class="form-required" aria-hidden="true">*</span></label>
-                  <input type="text" id="pf-firstname" name="firstname" class="form-input" placeholder="First name" autocomplete="given-name" required aria-required="true" />
-                  <span class="form-error" id="pf-firstname-err" role="alert" aria-live="polite"></span>
+                  {{ user_form.first_name }}
+                  {% if user_form.first_name.errors %}
+                    <span class="form-error" role="alert">{{ user_form.first_name.errors.0 }}</span>
+                  {% else %}
+                    <span class="form-error" id="pf-firstname-err" role="alert" aria-live="polite"></span>
+                  {% endif %}
                 </div>
                 <div class="form-group">
                   <label for="pf-lastname" class="form-label">Last Name <span class="form-required" aria-hidden="true">*</span></label>
-                  <input type="text" id="pf-lastname" name="lastname" class="form-input" placeholder="Last name" autocomplete="family-name" required aria-required="true" />
-                  <span class="form-error" id="pf-lastname-err" role="alert" aria-live="polite"></span>
+                  {{ user_form.last_name }}
+                  {% if user_form.last_name.errors %}
+                    <span class="form-error" role="alert">{{ user_form.last_name.errors.0 }}</span>
+                  {% else %}
+                    <span class="form-error" id="pf-lastname-err" role="alert" aria-live="polite"></span>
+                  {% endif %}
                 </div>
               </div>
 
+              {# ── Email: display-only, not a form field, cannot be saved ── #}
               <div class="form-group">
-                <label for="pf-email" class="form-label">Email Address <span class="form-required" aria-hidden="true">*</span></label>
-                <input type="email" id="pf-email" name="email" class="form-input" placeholder="you@example.com" autocomplete="email" required aria-required="true" />
-                <span class="form-error" id="pf-email-err" role="alert" aria-live="polite"></span>
+                <label for="pf-email" class="form-label">
+                  Email Address
+                  <span class="form-label-hint">(cannot be changed)</span>
+                </label>
+                <input type="email" id="pf-email" class="form-input form-input--readonly"
+                       value="{{ user.email }}"
+                       readonly disabled
+                       aria-describedby="pf-email-hint"
+                       autocomplete="off" />
+                <span class="form-hint" id="pf-email-hint">
+                  Your email is your login key. Contact support to change it.
+                </span>
               </div>
 
+              {# ── Phone (profile_form) ── #}
               <div class="form-group">
                 <label for="pf-phone" class="form-label">Phone Number</label>
-                <input type="tel" id="pf-phone" name="phone" class="form-input" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+                {{ profile_form.phone }}
+                {% if profile_form.phone.errors %}
+                  <span class="form-error" role="alert">{{ profile_form.phone.errors.0 }}</span>
+                {% endif %}
               </div>
 
               <div class="pf-divider"><span>// Shipping Address</span></div>
 
+              {# ── Address fields (profile_form) ── #}
               <div class="form-group">
                 <label for="pf-address" class="form-label">Street Address</label>
-                <input type="text" id="pf-address" name="address" class="form-input" placeholder="123 Neon Street" autocomplete="street-address" />
+                {{ profile_form.address }}
+                {% if profile_form.address.errors %}
+                  <span class="form-error" role="alert">{{ profile_form.address.errors.0 }}</span>
+                {% endif %}
               </div>
 
               <div class="form-row form-row--3">
                 <div class="form-group">
                   <label for="pf-city" class="form-label">City</label>
-                  <input type="text" id="pf-city" name="city" class="form-input" placeholder="Lagos" autocomplete="address-level2" />
+                  {{ profile_form.city }}
+                  {% if profile_form.city.errors %}
+                    <span class="form-error" role="alert">{{ profile_form.city.errors.0 }}</span>
+                  {% endif %}
                 </div>
                 <div class="form-group">
                   <label for="pf-state" class="form-label">State / Region</label>
-                  <input type="text" id="pf-state" name="state" class="form-input" placeholder="NG" autocomplete="address-level1" />
+                  {{ profile_form.state }}
+                  {% if profile_form.state.errors %}
+                    <span class="form-error" role="alert">{{ profile_form.state.errors.0 }}</span>
+                  {% endif %}
                 </div>
                 <div class="form-group">
                   <label for="pf-zip" class="form-label">ZIP / Postal Code</label>
-                  <input type="text" id="pf-zip" name="zip" class="form-input" placeholder="100001" autocomplete="postal-code" />
+                  {{ profile_form.zip_code }}
+                  {% if profile_form.zip_code.errors %}
+                    <span class="form-error" role="alert">{{ profile_form.zip_code.errors.0 }}</span>
+                  {% endif %}
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="pf-country" class="form-label">Country</label>
-                <select id="pf-country" name="country" class="form-input form-select" autocomplete="country">
-                  <option value="" disabled selected>Select country…</option>
-                  <option value="NG">Nigeria</option>
-                  <option value="GH">Ghana</option>
-                  <option value="ZA">South Africa</option>
-                  <option value="KE">Kenya</option>
-                  <option value="GB">United Kingdom</option>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="DE">Germany</option>
-                  <option value="FR">France</option>
-                  <option value="other">Other</option>
-                </select>
+                {{ profile_form.country }}
+                {% if profile_form.country.errors %}
+                  <span class="form-error" role="alert">{{ profile_form.country.errors.0 }}</span>
+                {% endif %}
               </div>
 
               <button type="submit" class="btn btn-primary btn-full pf-save-btn" id="accountSaveBtn">
@@ -266,11 +316,18 @@
               </div>
             </div>
 
-            <form class="contact-form" id="securityForm" novalidate aria-label="Password update form">
+            {# Real POST to /password-change/ — Django's PasswordChangeForm handles validation #}
+            <form class="contact-form" id="securityForm"
+                  method="post" action="{% url 'users:password_change' %}"
+                  novalidate aria-label="Password update form">
+              {% csrf_token %}
+
               <div class="form-group">
                 <label for="pf-current-pw" class="form-label">Current Password <span class="form-required" aria-hidden="true">*</span></label>
                 <div class="pw-wrap">
-                  <input type="password" id="pf-current-pw" name="currentPassword" class="form-input" placeholder="Enter current password" required aria-required="true" autocomplete="current-password" />
+                  <input type="password" id="pf-current-pw" name="old_password"
+                         class="form-input" placeholder="Enter current password"
+                         required aria-required="true" autocomplete="current-password" />
                   <button type="button" class="pw-toggle" data-target="pf-current-pw" aria-label="Toggle password visibility">
                     <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>
@@ -281,7 +338,9 @@
               <div class="form-group">
                 <label for="pf-new-pw" class="form-label">New Password <span class="form-required" aria-hidden="true">*</span></label>
                 <div class="pw-wrap">
-                  <input type="password" id="pf-new-pw" name="newPassword" class="form-input" placeholder="Minimum 8 characters" required aria-required="true" autocomplete="new-password" />
+                  <input type="password" id="pf-new-pw" name="new_password1"
+                         class="form-input" placeholder="Minimum 8 characters"
+                         required aria-required="true" autocomplete="new-password" />
                   <button type="button" class="pw-toggle" data-target="pf-new-pw" aria-label="Toggle password visibility">
                     <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>
@@ -296,7 +355,9 @@
               <div class="form-group">
                 <label for="pf-confirm-pw" class="form-label">Confirm New Password <span class="form-required" aria-hidden="true">*</span></label>
                 <div class="pw-wrap">
-                  <input type="password" id="pf-confirm-pw" name="confirmPassword" class="form-input" placeholder="Repeat new password" required aria-required="true" autocomplete="new-password" />
+                  <input type="password" id="pf-confirm-pw" name="new_password2"
+                         class="form-input" placeholder="Repeat new password"
+                         required aria-required="true" autocomplete="new-password" />
                   <button type="button" class="pw-toggle" data-target="pf-confirm-pw" aria-label="Toggle password visibility">
                     <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>
@@ -455,5 +516,30 @@
   <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
   <script src="{% static 'js/profile.js' %}"></script>
+
+  {# Server-side user data island — read by profile.js to pre-fill #}
+  <script id="serverUserData" type="application/json">
+    {% if user.is_authenticated %}
+    {
+      "isAuthenticated": true,
+      "firstName": "{{ user.first_name|escapejs }}",
+      "lastName":  "{{ user.last_name|escapejs }}",
+      "email":     "{{ user.email|escapejs }}"
+    }
+    {% else %}
+    { "isAuthenticated": false }
+    {% endif %}
+  </script>
+
+  {# Page-level flags — read by profile.js to show toasts and open the right panel #}
+  <script id="pageFlags" type="application/json">
+  {
+    "profileSaved":  {% if request.GET.profile_saved %}"1"{% else %}""{% endif %},
+    "pwChanged":     {% if request.GET.pw_changed %}"1"{% else %}""{% endif %},
+    "pwError":       {% if request.GET.pw_error %}"1"{% else %}""{% endif %},
+    "profileErrors": {% if user_form.errors or profile_form.errors %}true{% else %}false{% endif %},
+    "djangoMessages": [{% for msg in messages %}{"level":"{{ msg.tags }}","text":"{{ msg|escapejs }}"}{% if not forloop.last %},{% endif %}{% endfor %}]
+  }
+  </script>
 </body>
 </html>

@@ -127,3 +127,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ── Email (console backend for development) ───────────────────────────────────
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# ── Authentication redirects ──────────────────────────────────────────────
+# Where @login_required sends unauthenticated visitors
+LOGIN_URL = '/login/'
+
+# Where Django redirects after a successful login (if no ?next= param)
+LOGIN_REDIRECT_URL = '/'
+
+# Where Django redirects after calling LogoutView / logout()
+LOGOUT_REDIRECT_URL = '/'

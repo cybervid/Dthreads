@@ -311,6 +311,55 @@
 
 /* ── FORM EXTRAS ─────────────────────────────────────────────── */
 
+/* Readonly / locked email field */
+.form-input--readonly,
+.form-input[readonly],
+.form-input[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--border) !important;
+  color: var(--text-muted);
+  /* Remove focus ring — clicking this field should feel inert */
+  pointer-events: none;
+}
+
+.form-label-hint {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-left: 0.4rem;
+  opacity: 0.75;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  opacity: 0.8;
+}
+
+/* Error banner (server-side validation failure) */
+.profile-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(255, 0, 128, 0.06);
+  border: 1px solid rgba(255, 0, 128, 0.3);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: var(--pink);
+}
+
+.profile-error-banner strong {
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
 /* Three-column row */
 .form-row--3 {
   grid-template-columns: 1fr 1fr 1fr;
@@ -854,4 +903,71 @@
   /* Danger button full width */
   .danger-inner { flex-direction: column; }
   .danger-btn   { width: 100%; text-align: center; }
+}
+
+
+/* ── AUTH-AWARE ADDITIONS ────────────────────────────────────── */
+
+/* Guest banner shown inside the account form when not logged in */
+.profile-guest-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 8px;
+  background: rgba(255, 0, 85, 0.07);
+  border: 1px solid rgba(255, 0, 85, 0.3);
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.profile-guest-banner > span {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.profile-guest-banner strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.profile-guest-banner p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Read-only email input (shown when logged in — email managed by Django) */
+.form-input[readonly] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: var(--border) !important;
+  box-shadow: none !important;
+  background: rgba(255,255,255,0.02) !important;
+}
+
+/* Nav login button — matches .action-btn but with a cyan tint */
+.nav-login-btn {
+  border: 1px solid var(--border-cyan) !important;
+  color: var(--cyan) !important;
+  background: var(--cyan-dim) !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 7px 16px;
+  border-radius: 6px;
+  transition: all var(--transition);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.nav-login-btn:hover {
+  background: rgba(0, 243, 255, 0.18) !important;
+  box-shadow: var(--cyan-glow);
+  transform: translateY(-1px);
 }

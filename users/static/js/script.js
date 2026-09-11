@@ -1132,10 +1132,5 @@ updateActiveNav();
 
 
 /* ── LOGOUT BUTTON ────────────────────────────────────────────── */
-const logoutBtn = $('#logoutBtn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', () => {
-    showToast('👋 Logged out successfully.', 'cyan');
-    /* In a real app you would clear session/token here */
-  });
-}
+// Logout is now an <a href="/logout/"> link — Django handles the session
+// teardown server-side. No JS interception needed.

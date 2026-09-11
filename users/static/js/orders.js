@@ -483,14 +483,8 @@ if (trackCopyBtn) {
 
 
 /* ── Logout ──────────────────────────────────────────────────── */
-const logoutBtn = $('#logoutBtn');
-
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', () => {
-    showToast('👋 Logged out successfully.', 'cyan');
-    setTimeout(() => { window.location.href = '/'; }, 1500);
-  });
-}
+// Logout is now an <a href="/logout/"> link — Django handles the session
+// teardown server-side. No JS interception needed.
 
 
 /* ── Navbar scroll glow ──────────────────────────────────────── */

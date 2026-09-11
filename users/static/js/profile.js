@@ -118,7 +118,13 @@ sidebarItems.forEach(btn => {
 });
 
 
-/* ── Profile data (localStorage) ────────────────────────────── */
+/* ── Profile data (localStorage — guest/preferences only) ───── */
+// NOTE: For authenticated users, ALL form fields are pre-filled server-side
+// by Django's form widgets from the database. localStorage is only used for:
+//   1. Guest users (no session) filling in fields before signing up
+//   2. The Preferences toggles (which have no server-side model yet)
+// localStorage must NOT overwrite server-rendered values for logged-in users.
+
 function loadProfile() {
   try {
     return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {};
@@ -132,16 +138,34 @@ function saveProfile(data) {
   localStorage.setItem(PROFILE_KEY, JSON.stringify({ ...existing, ...data }));
 }
 
+function getServerUser() {
+  try {
+    const el = document.getElementById('serverUserData');
+    return el ? JSON.parse(el.textContent) : { isAuthenticated: false };
+  } catch {
+    return { isAuthenticated: false };
+  }
+}
+
 /**
- * Populate the form with any saved profile data, and sync the avatar info.
+ * Only runs for GUEST (unauthenticated) users.
+ * Authenticated users have their fields filled by Django — we must not
+ * touch them or we'll overwrite the correct DB values with stale
+ * localStorage data from a previous session or a different user.
  */
 function populateForm() {
+  const server = getServerUser();
+
+  // Authenticated: server already filled every form field correctly.
+  // The sidebar avatar is also rendered server-side. Nothing to do.
+  if (server.isAuthenticated) return;
+
+  // Guest only — fill from localStorage so a returning guest's draft is restored.
   const p = loadProfile();
 
   const fields = {
     'pf-firstname': p.firstname || '',
     'pf-lastname':  p.lastname  || '',
-    'pf-email':     p.email     || '',
     'pf-phone':     p.phone     || '',
     'pf-address':   p.address   || '',
     'pf-city':      p.city      || '',
@@ -155,43 +179,86 @@ function populateForm() {
     if (el) el.value = val;
   });
 
-  // Sync sidebar avatar display
-  const fullName = [p.firstname, p.lastname].filter(Boolean).join(' ');
-  const avatarName = $('#avatarName');
-  const avatarEmail = $('#avatarEmail');
+  // Update sidebar avatar for guest
+  const firstname = p.firstname || '';
+  const lastname  = p.lastname  || '';
+  const email     = p.email     || '';
+  const fullName  = [firstname, lastname].filter(Boolean).join(' ');
+
+  const avatarName     = $('#avatarName');
+  const avatarEmail    = $('#avatarEmail');
   const avatarInitials = $('#avatarInitials');
 
-  if (avatarName)    avatarName.textContent    = fullName  || 'D Threads User';
-  if (avatarEmail)   avatarEmail.textContent   = p.email   || 'user@dthreads.com';
+  if (avatarName)     avatarName.textContent  = fullName || 'D Threads User';
+  if (avatarEmail)    avatarEmail.textContent = email    || 'user@dthreads.com';
   if (avatarInitials) {
-    const initials = [p.firstname?.[0], p.lastname?.[0]].filter(Boolean).join('').toUpperCase();
-    avatarInitials.textContent = initials || 'DT';
+    const init = [firstname[0], lastname[0]].filter(Boolean).join('').toUpperCase();
+    avatarInitials.textContent = init || 'DT';
   }
 }
 
 populateForm();
 
+/* ── Anti-autofill guard ─────────────────────────────────────── */
+// Chrome's "Addresses and more" autofill fires after DOMContentLoaded,
+// overwriting server-rendered values even when autocomplete="new-password".
+// This guard captures the server-correct values immediately on script load
+// (before Chrome touches them), then restores them after a short delay.
+(function antiAutofill() {
+  const server = getServerUser();
+  if (!server.isAuthenticated) return; // guests have no server values to protect
+
+  // Snapshot each field's server-rendered value right now, before autofill fires
+  const fieldIds = [
+    'pf-firstname', 'pf-lastname', 'pf-phone',
+    'pf-address', 'pf-city', 'pf-state', 'pf-zip',
+  ];
+
+  const serverValues = {};
+  fieldIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) serverValues[id] = el.value;
+  });
+
+  // Also snapshot the country <select>
+  const countryEl = document.getElementById('pf-country');
+  if (countryEl) serverValues['pf-country'] = countryEl.value;
+
+  // Restore server values after autofill has had a chance to run
+  // 300ms covers Chrome's typical autofill delay window
+  setTimeout(() => {
+    Object.entries(serverValues).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el && el.value !== val) {
+        el.value = val;
+      }
+    });
+  }, 300);
+})();
+
 
 /* ── Account form ────────────────────────────────────────────── */
-const accountForm   = $('#accountForm');
+const accountForm    = $('#accountForm');
 const accountSaveBtn = $('#accountSaveBtn');
 const submitBtnText  = accountSaveBtn?.querySelector('.submit-btn-text');
+
+// The account form now does a real server POST — no e.preventDefault().
+// We keep live client-side validation as a UX aid, but the server is
+// the authoritative validator.
 
 function validateField(input, errEl) {
   const val = input.value.trim();
   let msg = '';
   if (input.required && !val) msg = 'This field is required.';
-  else if (input.type === 'email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
-    msg = 'Please enter a valid email address.';
-  }
   if (errEl) errEl.textContent = msg;
   input.classList.toggle('invalid', !!msg);
   return !msg;
 }
 
 if (accountForm) {
-  // Live validation
+  // Live validation on blur / re-check after first invalid
   accountForm.querySelectorAll('.form-input').forEach(input => {
+    if (input.readOnly || input.disabled) return; // skip email
     const errEl = $(`#${input.id}-err`);
     if (!errEl) return;
     input.addEventListener('blur', () => validateField(input, errEl));
@@ -200,10 +267,9 @@ if (accountForm) {
     });
   });
 
-  // Also update avatar preview in real-time
+  // Real-time avatar preview when user types their name
   const fnInput = $('#pf-firstname');
   const lnInput = $('#pf-lastname');
-  const emInput = $('#pf-email');
 
   [fnInput, lnInput].forEach(inp => {
     if (!inp) return;
@@ -211,9 +277,9 @@ if (accountForm) {
       const fn = fnInput?.value.trim() || '';
       const ln = lnInput?.value.trim() || '';
       const fullName = [fn, ln].filter(Boolean).join(' ');
-      const avatarName = $('#avatarName');
+      const avatarName     = $('#avatarName');
       const avatarInitials = $('#avatarInitials');
-      if (avatarName) avatarName.textContent = fullName || 'D Threads User';
+      if (avatarName)     avatarName.textContent = fullName || 'D Threads User';
       if (avatarInitials) {
         const init = [fn[0], ln[0]].filter(Boolean).join('').toUpperCase();
         avatarInitials.textContent = init || 'DT';
@@ -221,57 +287,12 @@ if (accountForm) {
     });
   });
 
-  if (emInput) {
-    emInput.addEventListener('input', () => {
-      const avatarEmail = $('#avatarEmail');
-      if (avatarEmail) avatarEmail.textContent = emInput.value.trim() || 'user@dthreads.com';
-    });
-  }
-
-  accountForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const fieldsToValidate = [
-      { input: $('#pf-firstname'), err: $('#pf-firstname-err') },
-      { input: $('#pf-lastname'),  err: $('#pf-lastname-err') },
-      { input: $('#pf-email'),     err: $('#pf-email-err') },
-    ];
-
-    const allValid = fieldsToValidate.every(({ input, err }) => validateField(input, err));
-    if (!allValid) {
-      const first = accountForm.querySelector('.form-input.invalid');
-      if (first) first.focus();
-      return;
+  // Show saving state on submit (visual feedback before page reloads)
+  accountForm.addEventListener('submit', () => {
+    if (accountSaveBtn) {
+      accountSaveBtn.classList.add('saving');
+      if (submitBtnText) submitBtnText.textContent = 'Saving…';
     }
-
-    // Saving state
-    accountSaveBtn.classList.add('saving');
-    if (submitBtnText) submitBtnText.textContent = 'Saving…';
-
-    setTimeout(() => {
-      // Persist to localStorage
-      saveProfile({
-        firstname: $('#pf-firstname').value.trim(),
-        lastname:  $('#pf-lastname').value.trim(),
-        email:     $('#pf-email').value.trim(),
-        phone:     $('#pf-phone').value.trim(),
-        address:   $('#pf-address').value.trim(),
-        city:      $('#pf-city').value.trim(),
-        state:     $('#pf-state').value.trim(),
-        zip:       $('#pf-zip').value.trim(),
-        country:   $('#pf-country').value,
-      });
-
-      accountSaveBtn.classList.remove('saving');
-      accountSaveBtn.classList.add('saved');
-      if (submitBtnText) submitBtnText.textContent = '✅ Settings Updated!';
-      showToast('✅ Settings updated successfully!', 'cyan');
-
-      setTimeout(() => {
-        accountSaveBtn.classList.remove('saved');
-        if (submitBtnText) submitBtnText.textContent = 'Save Changes ✦';
-      }, 3000);
-    }, 900);
   });
 }
 
@@ -371,10 +392,11 @@ const securityForm    = $('#securityForm');
 const securitySaveBtn = $('#securitySaveBtn');
 const secBtnText      = securitySaveBtn?.querySelector('.submit-btn-text');
 
+// The security form POSTs to /password-change/ — Django's PasswordChangeForm
+// handles all server-side validation.  We keep lightweight client-side checks
+// as a UX guard before the form is even submitted.
 if (securityForm) {
   securityForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
     const currentPw  = $('#pf-current-pw');
     const newPw      = $('#pf-new-pw');
     const confirmPw  = $('#pf-confirm-pw');
@@ -384,7 +406,6 @@ if (securityForm) {
 
     let valid = true;
 
-    // Current password required
     if (!currentPw.value.trim()) {
       if (currentErr) currentErr.textContent = 'Please enter your current password.';
       currentPw.classList.add('invalid');
@@ -394,7 +415,6 @@ if (securityForm) {
       currentPw.classList.remove('invalid');
     }
 
-    // New password: check rules
     const rules = checkStrength(newPw.value);
     if (!newPw.value || !rules.length) {
       if (newPwErr) newPwErr.textContent = 'Password must be at least 8 characters.';
@@ -405,7 +425,6 @@ if (securityForm) {
       newPw.classList.remove('invalid');
     }
 
-    // Confirm must match
     if (confirmPw.value !== newPw.value) {
       if (confirmErr) confirmErr.textContent = 'Passwords do not match.';
       confirmPw.classList.add('invalid');
@@ -415,23 +434,82 @@ if (securityForm) {
       confirmPw.classList.remove('invalid');
     }
 
-    if (!valid) return;
+    if (!valid) {
+      e.preventDefault(); // block submission only when local checks fail
+      const first = securityForm.querySelector('.form-input.invalid');
+      if (first) first.focus();
+      return;
+    }
 
-    securitySaveBtn.disabled = true;
-    if (secBtnText) secBtnText.textContent = 'Updating…';
-
-    setTimeout(() => {
-      securityForm.reset();
-      checkStrength(''); // reset bar
-      securitySaveBtn.disabled = false;
-      if (secBtnText) secBtnText.textContent = '✅ Password Updated!';
-      showToast('🔐 Password updated successfully!', 'cyan');
-      setTimeout(() => {
-        if (secBtnText) secBtnText.textContent = 'Update Password 🔐';
-      }, 3000);
-    }, 1000);
+    // Local checks passed — show loading state and let the real POST fire
+    if (securitySaveBtn) {
+      securitySaveBtn.disabled = true;
+      if (secBtnText) secBtnText.textContent = 'Updating…';
+    }
+    // Do NOT call e.preventDefault() — the browser POST proceeds normally
   });
 }
+
+
+/* ── Page-load flags (toasts + panel routing) ────────────────── */
+// Read the JSON island injected by the template to decide what to show
+// on arrival, including post-redirect success/error states.
+(function handlePageFlags() {
+  let flags = {};
+  try {
+    const el = document.getElementById('pageFlags');
+    if (el) flags = JSON.parse(el.textContent);
+  } catch { /* ignore parse errors */ }
+
+  const openPanel = (targetId) => {
+    sidebarItems.forEach(b => {
+      const active = b.dataset.target === targetId;
+      b.classList.toggle('active', active);
+      if (active) b.setAttribute('aria-current', 'true');
+      else b.removeAttribute('aria-current');
+    });
+    $$('.profile-panel').forEach(panel => {
+      panel.hidden = panel.id !== targetId;
+    });
+  };
+
+  if (flags.profileSaved) {
+    showToast('✅ Profile updated successfully!', 'cyan');
+    // Stay on account section (already default)
+  }
+
+  if (flags.pwChanged) {
+    openPanel('security-section');
+    showToast('🔐 Password updated successfully!', 'cyan');
+    // Also visually mark the button as success briefly
+    if (securitySaveBtn && secBtnText) {
+      securitySaveBtn.classList.add('saved');
+      secBtnText.textContent = '✅ Password Updated!';
+      setTimeout(() => {
+        securitySaveBtn.classList.remove('saved');
+        secBtnText.textContent = 'Update Password 🔐';
+      }, 3000);
+    }
+  }
+
+  if (flags.pwError) {
+    openPanel('security-section');
+    // Show each error message from Django as a toast (there's usually just one)
+    const msgs = flags.djangoMessages || [];
+    if (msgs.length) {
+      msgs.forEach((m, i) => {
+        setTimeout(() => showToast(`❌ ${m.text}`, 'pink'), i * 400);
+      });
+    } else {
+      showToast('❌ Password update failed. Please try again.', 'pink');
+    }
+  }
+
+  if (flags.profileErrors) {
+    // Stay on account section and show a toast so it's obvious
+    showToast('⚠️ Please fix the errors and try again.', 'pink');
+  }
+})();
 
 
 /* ── 2FA toggle ──────────────────────────────────────────────── */
@@ -511,14 +589,8 @@ if (deleteBtn) {
 
 
 /* ── Logout ──────────────────────────────────────────────────── */
-const logoutBtn = $('#logoutBtn');
-
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', () => {
-    showToast('👋 Logged out successfully.', 'cyan');
-    setTimeout(() => { window.location.href = '/'; }, 1500);
-  });
-}
+// Logout is now handled by the <a href="/logout/"> link in the navbar template.
+// No JS handler needed.
 
 
 /* ── Navbar scroll glow ──────────────────────────────────────── */

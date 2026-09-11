@@ -3662,3 +3662,54 @@ button { cursor: pointer; font-family: var(--font-body); border: none; backgroun
   box-shadow: 0 0 15px var(--pink);
   border-color: var(--pink);
 }
+
+
+/* ── AUTH-AWARE NAVBAR ────────────────────────────────────────── */
+
+/* Login button — shown in navbar when user is not authenticated.
+   Matches .action-btn shape but uses a cyan tint to stand out. */
+.nav-login-btn {
+  border: 1px solid var(--border-cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 7px 16px;
+  border-radius: 6px;
+  transition: all var(--transition);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.nav-login-btn:hover {
+  background: rgba(0, 243, 255, 0.18);
+  box-shadow: var(--cyan-glow);
+  transform: translateY(-1px);
+}
+
+/* Logout icon link — same look as the old logout-icon-btn button,
+   now rendered as an <a> tag so it navigates to /logout/           */
+a.logout-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  transition: all var(--transition);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+a.logout-icon-btn:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+  background: var(--pink-dim);
+  box-shadow: var(--pink-glow);
+}
